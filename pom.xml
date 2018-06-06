@@ -6,7 +6,7 @@
 	<artifactId>kepler-tcm</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
-<!-- 	<packaging>war</packaging> -->
+	<!-- <packaging>war</packaging> -->
 	<name>kepler-tcm</name>
 
 	<parent>
@@ -14,100 +14,86 @@
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<!-- <version>1.4.1.BUILD-SNAPSHOT</version> -->
 		<version>1.4.0.RELEASE</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-<!-- 		<java.version>1.8</java.version> -->
+		<!-- <java.version>1.8</java.version> -->
 		<java.version>1.7</java.version>
 		<spring-cloud.version>Dalston.RELEASE</spring-cloud.version>
 	</properties>
-	
-	
-	
+
+
+
 	<dependencies>
 		<dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-        </dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.16</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+		</dependency>
 		<!--spring boot start web -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 			<exclusions>
-			  <!-- 剔除内置tomcat -->
-			  <exclusion>
-		      	<artifactId>log4j-over-slf4j</artifactId>
-		      	<groupId>org.slf4j</groupId>
-		      </exclusion>
-		      <exclusion>
-		        <groupId>org.springframework.boot</groupId>
-		        <artifactId>spring-boot-starter-tomcat</artifactId>
-		      </exclusion>
-		    </exclusions>
+				<!-- 剔除内置tomcat -->
+				<exclusion>
+					<artifactId>log4j-over-slf4j</artifactId>
+					<groupId>org.slf4j</groupId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-tomcat</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
-		
+
 		<dependency>
-	        <groupId>org.springframework.boot</groupId>
-	        <artifactId>spring-boot-starter-tomcat</artifactId>
-	        <scope>provided</scope>
-	    </dependency>
-	    <dependency>
-           <groupId>org.apache.tomcat.embed</groupId>
-           <artifactId>tomcat-embed-jasper</artifactId>
-           <scope>provided</scope>
-       </dependency> 
-	   
-		
-		<!-- 使用  jetty 容器-->
-		<!-- <dependency>
-		    <groupId>org.springframework.boot</groupId>
-		    <artifactId>spring-boot-starter-jetty</artifactId>
-		</dependency> -->
-		<!-- spring boot aop  -->
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-jasper</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+
+		<!-- 使用 jetty 容器 -->
+		<!-- <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-jetty</artifactId> 
+			</dependency> -->
+		<!-- spring boot aop -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-aop</artifactId>
 		</dependency>
-		<!-- Spring boot  start 模板引擎(注意：同时使用多个模板冲突问题) -->
-		<!-- <dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-thymeleaf</artifactId>
-		</dependency>
-		
+		<!-- Spring boot start 模板引擎(注意：同时使用多个模板冲突问题) -->
+		<!-- <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-thymeleaf</artifactId> 
+			</dependency> <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-freemarker</artifactId> 
+			</dependency> -->
+
+		<!-- <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-velocity</artifactId> 
+			</dependency> <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-groovy-templates</artifactId> 
+			</dependency> -->
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-freemarker</artifactId>
-		</dependency> -->
-		
-		<!-- <dependency>
-		     <groupId>org.springframework.boot</groupId>
-		     <artifactId>spring-boot-starter-velocity</artifactId>
+			<artifactId>spring-boot-starter-cache</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-groovy-templates</artifactId>
-		</dependency> -->
-		
-		<dependency>
-		    <groupId>org.springframework.boot</groupId>
-		    <artifactId>spring-boot-starter-cache</artifactId>
-		</dependency>
- 		<!-- <dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa</artifactId>
-		</dependency> -->
-		<!-- <dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-jdbc</artifactId>
-		</dependency> -->
-		<!-- <dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-mongodb</artifactId>
-		</dependency> -->
-		
+		<!-- <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-data-jpa</artifactId> 
+			</dependency> -->
+		<!-- <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-jdbc</artifactId> 
+			</dependency> -->
+		<!-- <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-data-mongodb</artifactId> 
+			</dependency> -->
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-redis</artifactId>
@@ -118,44 +104,40 @@
 		</dependency>
 		<!-- 如果不使用redis做缓存，需要注释掉，并且，注释代码 -->
 		<dependency>
-		    <groupId>org.springframework.session</groupId>
-		    <artifactId>spring-session-data-redis</artifactId>
+			<groupId>org.springframework.session</groupId>
+			<artifactId>spring-session-data-redis</artifactId>
 		</dependency>
-		<!-- <dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-solr</artifactId>
-		</dependency> -->
+		<!-- <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-data-solr</artifactId> 
+			</dependency> -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<scope>runtime</scope>
 		</dependency>
-		
-		<!-- oracle  -->
+
+		<!-- oracle -->
 		<!-- https://mvnrepository.com/artifact/com.oracle/ojdbc14 -->
 		<dependency>
 			<groupId>com.oracle</groupId>
 			<artifactId>ojdbc14</artifactId>
 			<version>10.2.0.1.0</version>
-			<!--<scope>runtime</scope>-->
+			<!--<scope>runtime</scope> -->
 		</dependency>
-		
+
 		<!-- SECURITY 引入改权限管理包后，就可以做简单的登陆 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
-		
+
 		<!-- security 对CAS支持 -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-cas</artifactId>
 		</dependency>
 		<!-- security taglibs -->
-		<!-- <dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-taglibs</artifactId>
-		</dependency> -->
+		<!-- <dependency> <groupId>org.springframework.security</groupId> <artifactId>spring-security-taglibs</artifactId> 
+			</dependency> -->
 		<!-- Spring boot 热加载 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -167,166 +149,133 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-websocket</artifactId>
 		</dependency>
-		
+
 		<!-- Spring boot 监控器依赖 -->
 		<dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-  		<!--<dependency>
-		    <groupId>org.springframework.boot</groupId>
-		    <artifactId>spring-boot-sample-actuator-ui</artifactId>
-		    <version>1.0.0.RC5</version>
-		</dependency> -->
-        <!--Spring boot RabbitMQ   -->
-        <dependency>
-		    <groupId>org.springframework.boot</groupId>
-		    <artifactId>spring-boot-starter-amqp</artifactId>
-		 </dependency>
-		 
-        <!-- spring boot admin client -->
-		<!-- <dependency>
-		    <groupId>de.codecentric</groupId>
-		    <artifactId>spring-boot-admin-starter-client</artifactId>
-		    <version>1.4.1</version>
-		</dependency> -->
-		
-		
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<!--<dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-sample-actuator-ui</artifactId> 
+			<version>1.0.0.RC5</version> </dependency> -->
+		<!--Spring boot RabbitMQ -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-amqp</artifactId>
+		</dependency>
+
+		<!-- spring boot admin client -->
+		<!-- <dependency> <groupId>de.codecentric</groupId> <artifactId>spring-boot-admin-starter-client</artifactId> 
+			<version>1.4.1</version> </dependency> -->
+
+
 		<!-- Spring boot test -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-				
+
 		<dependency>
-		    <groupId>org.mybatis.spring.boot</groupId>
-		    <artifactId>mybatis-spring-boot-starter</artifactId>
-		    <version>1.1.1</version>
+			<groupId>org.mybatis.spring.boot</groupId>
+			<artifactId>mybatis-spring-boot-starter</artifactId>
+			<version>1.1.1</version>
 		</dependency>
 		<dependency>
-		    <groupId>com.alibaba</groupId>
-		    <artifactId>fastjson</artifactId>
-		    <version>1.2.30</version>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>1.2.30</version>
 		</dependency>
-		<!-- 数据库连接池 -->  
-        <dependency>  
-            <groupId>com.alibaba</groupId>  
-            <artifactId>druid</artifactId>  
-            <version>1.0.5</version>  
-        </dependency>
-        
-        <dependency>
-		    <groupId>com.github.pagehelper</groupId>
-		    <artifactId>pagehelper</artifactId>
-		    <version>4.1.6</version>
+		<!-- 数据库连接池 -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+			<version>1.0.5</version>
 		</dependency>
 
 		<dependency>
-		    <groupId>org.flywaydb</groupId>
-		    <artifactId>flyway-core</artifactId>
-		    <version>4.1.2</version>
+			<groupId>com.github.pagehelper</groupId>
+			<artifactId>pagehelper</artifactId>
+			<version>4.1.6</version>
 		</dependency>
-		<!-- <dependency>
-			<groupId>org.scala-lang</groupId>
-			<artifactId>scala-library</artifactId>
-			<version>2.11.0</version>
-		</dependency> -->
-	    
-	    <!-- swagger2 maven -->
-	    <dependency>
-		    <groupId>io.springfox</groupId>
-		    <artifactId>springfox-swagger2</artifactId>
-		    <version>2.6.1</version>
+
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+			<version>4.1.2</version>
+		</dependency>
+		<!-- <dependency> <groupId>org.scala-lang</groupId> <artifactId>scala-library</artifactId> 
+			<version>2.11.0</version> </dependency> -->
+
+		<!-- swagger2 maven -->
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>2.6.1</version>
 		</dependency>
 		<dependency>
-		    <groupId>io.springfox</groupId>
-		    <artifactId>springfox-swagger-ui</artifactId>
-		    <version>2.6.1</version>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>2.6.1</version>
 		</dependency>
-		
+
 		<!-- servlet 依赖. -->
 
-       <dependency>
-           <groupId>javax.servlet</groupId>
-           <artifactId>javax.servlet-api</artifactId>
-           <scope>provided</scope>
-       </dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
 
 		<dependency>
-		    <groupId>commons-dbutils</groupId>
-		    <artifactId>commons-dbutils</artifactId>
-		    <version>1.6</version>
+			<groupId>commons-dbutils</groupId>
+			<artifactId>commons-dbutils</artifactId>
+			<version>1.6</version>
 		</dependency>
-		
+
 		<dependency>
-		    <groupId>commons-beanutils</groupId>
-		    <artifactId>commons-beanutils</artifactId>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
 		</dependency>
 		<dependency>
-		    <groupId>org.apache.commons</groupId>
-		    <artifactId>commons-lang3</artifactId>
-		    <version>3.5</version>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.5</version>
 		</dependency>
-		
+
 		<dependency>
-		    <groupId>com.github.xsonorg</groupId>
-		    <artifactId>xson-core</artifactId>
-		    <version>1.0.1</version>
+			<groupId>com.github.xsonorg</groupId>
+			<artifactId>xson-core</artifactId>
+			<version>1.0.1</version>
 		</dependency>
-		
-		
+
+
 		<!-- 文档处理 -->
-		<!-- <dependency>
-		    <groupId>org.apache.poi</groupId>
-		    <artifactId>poi</artifactId>
-		    <version>3.9</version>
-		</dependency>
+		<!-- <dependency> <groupId>org.apache.poi</groupId> <artifactId>poi</artifactId> 
+			<version>3.9</version> </dependency> <dependency> <groupId>org.apache.poi</groupId> 
+			<artifactId>poi-scratchpad</artifactId> <version>3.9</version> </dependency> 
+			<dependency> <groupId>org.apache.poi</groupId> <artifactId>poi-ooxml</artifactId> 
+			<version>3.9</version> </dependency> <dependency> <groupId>org.apache.poi</groupId> 
+			<artifactId>poi-ooxml-schemas</artifactId> <version>3.9</version> </dependency> 
+			<dependency> <groupId>org.apache.xmlgraphics</groupId> <artifactId>batik-transcoder</artifactId> 
+			<version>1.7</version> </dependency> <dependency> <groupId>net.arnx</groupId> 
+			<artifactId>wmf2svg</artifactId> <version>0.9.8</version> </dependency> -->
+
+		<!-- 本地缓存 -->
 		<dependency>
-		    <groupId>org.apache.poi</groupId>
-		    <artifactId>poi-scratchpad</artifactId>
-		    <version>3.9</version>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache</artifactId>
 		</dependency>
-		<dependency>
-		  <groupId>org.apache.poi</groupId>
-		  <artifactId>poi-ooxml</artifactId>
-		  <version>3.9</version>
-		</dependency>
-		<dependency>
-		  <groupId>org.apache.poi</groupId>
-		  <artifactId>poi-ooxml-schemas</artifactId>
-		  <version>3.9</version>
-		</dependency>
-		<dependency>
-		    <groupId>org.apache.xmlgraphics</groupId>
-		    <artifactId>batik-transcoder</artifactId>
-		    <version>1.7</version>
-		</dependency>
-		<dependency>
-		    <groupId>net.arnx</groupId>
-		    <artifactId>wmf2svg</artifactId>
-		    <version>0.9.8</version>
-		</dependency> -->
-		
-				<!-- 本地缓存 -->
-		<dependency>
-		    <groupId>net.sf.ehcache</groupId>
-		    <artifactId>ehcache</artifactId>
-		</dependency>
-		
+
 		<dependency>
 			<groupId>dom4j</groupId>
 			<artifactId>dom4j</artifactId>
 			<version>1.6.1</version>
 		</dependency>
 
-		<!-- xml 处理工具  -->
-		<!-- <dependency>
-		    <groupId>com.thoughtworks.xstream</groupId>
-		    <artifactId>xstream</artifactId>
-		    <version>1.4.9</version>
-		</dependency>  -->
-		
+		<!-- xml 处理工具 -->
+		<!-- <dependency> <groupId>com.thoughtworks.xstream</groupId> <artifactId>xstream</artifactId> 
+			<version>1.4.9</version> </dependency> -->
+
 		<!-- quartz 定时任务调度 -->
 		<dependency>
 			<groupId>org.quartz-scheduler</groupId>
@@ -334,40 +283,38 @@
 			<version>2.3.0</version>
 			<exclusions>
 				<exclusion>
-					 <groupId>com.mchange</groupId>
-					<artifactId>c3p0</artifactId> 
+					<groupId>com.mchange</groupId>
+					<artifactId>c3p0</artifactId>
 				</exclusion>
 			</exclusions>
-	    </dependency>
-	    <dependency>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context-support</artifactId>
-	    </dependency>
-	    
-	    <!-- 验证码 -->
-	   <dependency>  
-	        <groupId>com.github.penggle</groupId>  
-	        <artifactId>kaptcha</artifactId>  
-	        <version>2.3.2</version>  
-	    </dependency>
-	   <dependency>
-	   	<groupId>org.springframework.boot</groupId>
-	   	<artifactId>spring-boot-starter-websocket</artifactId>
-	   </dependency>
-	   <dependency>
-		    <groupId>org.springframework.cloud</groupId>
-		    <artifactId>spring-cloud-starter-eureka</artifactId>
 		</dependency>
-		
-		<!-- 配管中心客户端依赖  ,默认会自动读取配管中心，要使用本地配置，请注释-->
-	   <!--  <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-config-client</artifactId>
-        </dependency> -->
-		
-		
+
+		<!-- 验证码 -->
+		<dependency>
+			<groupId>com.github.penggle</groupId>
+			<artifactId>kaptcha</artifactId>
+			<version>2.3.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-websocket</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-eureka</artifactId>
+		</dependency>
+
+		<!-- 配管中心客户端依赖 ,默认会自动读取配管中心，要使用本地配置，请注释 -->
+		<!-- <dependency> <groupId>org.springframework.cloud</groupId> <artifactId>spring-cloud-config-client</artifactId> 
+			</dependency> -->
+
+
 	</dependencies>
-	
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -379,7 +326,7 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-	
+
 	<build>
 		<plugins>
 			<!-- 编译插件 -->
@@ -390,28 +337,28 @@
 					<target>${java.version}</target>
 				</configuration>
 			</plugin>
-			
-			<!--  测试插件  mvn test -->
+
+			<!-- 测试插件 mvn test -->
 			<plugin>
-          		<artifactId>maven-surefire-plugin</artifactId>
-          		<configuration>
-            		<skip>true</skip>
-          		</configuration>
-        	</plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
 			<!-- 运行插件：mvn spring-boot:run -->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<dependencies>
-                       <!-- 热部署 -->
-                       <dependency>
-                           <groupId>org.springframework</groupId>
-                           <artifactId>springloaded</artifactId>
-                           <version>1.2.6.RELEASE</version>
-                       </dependency>
-                   </dependencies>
+					<!-- 热部署 -->
+					<dependency>
+						<groupId>org.springframework</groupId>
+						<artifactId>springloaded</artifactId>
+						<version>1.2.6.RELEASE</version>
+					</dependency>
+				</dependencies>
 				<configuration>
-				     <finalName>${profiles.finalName}</finalName>
+					<finalName>${profiles.finalName}</finalName>
 					<mainClass>com.kepler.SpringBootTcmApplication</mainClass>
 				</configuration>
 			</plugin>
@@ -423,47 +370,35 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<!-- <addClasspath>true</addClasspath>
-							<classpathPrefix>lib/</classpathPrefix> -->
+							<!-- <addClasspath>true</addClasspath> <classpathPrefix>lib/</classpathPrefix> -->
 							<mainClass>com.kepler.SpringBootTcmApplication</mainClass>
 						</manifest>
 					</archive>
-					
+
 				</configuration>
 			</plugin>
-			
-			<!-- 生成javadoc文档包的插件 -->  
-            <!-- <plugin>  
-                <groupId>org.apache.maven.plugins</groupId>  
-                <artifactId>maven-javadoc-plugin</artifactId>  
-                <configuration>  
-                    <aggregate>true</aggregate>  
-                </configuration>  
-                <executions>  
-                    <execution>  
-                        <id>attach-javadocs</id>  
-                        <goals>  
-                            <goal>jar</goal>  
-                        </goals>  
-                    </execution>  
-                </executions>  
-            </plugin> --> 
-			<!--打包源码  -->
-			<plugin>  
-		        <groupId>org.apache.maven.plugins</groupId>  
-		        <artifactId>maven-source-plugin</artifactId>  
-		        <executions>  
-		          <execution>  
-		            <id>attach-sources</id>  
-		            <phase>verify</phase><!--  要绑定到的生命周期的阶段 在verify之后，install之前执行下面指定的goal -->  
-		            <goals>  
-		              <goal>jar-no-fork</goal><!-- 类似执行mvn source:jar -->  
-		            </goals>  
-		          </execution>  
-		        </executions>  
-      		</plugin>
-			
-			<!-- 运行插件： mybatis-generator:generate   -->
+
+			<!-- 生成javadoc文档包的插件 -->
+			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-javadoc-plugin</artifactId> 
+				<configuration> <aggregate>true</aggregate> </configuration> <executions> 
+				<execution> <id>attach-javadocs</id> <goals> <goal>jar</goal> </goals> </execution> 
+				</executions> </plugin> -->
+			<!--打包源码 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<phase>verify</phase><!-- 要绑定到的生命周期的阶段 在verify之后，install之前执行下面指定的goal -->
+						<goals>
+							<goal>jar-no-fork</goal><!-- 类似执行mvn source:jar -->
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- 运行插件： mybatis-generator:generate -->
 			<plugin>
 				<groupId>org.mybatis.generator</groupId>
 				<artifactId>mybatis-generator-maven-plugin</artifactId>
@@ -473,62 +408,62 @@
 					<overwrite>true</overwrite>
 				</configuration>
 			</plugin>
-			
+
 			<plugin>
-			    <groupId>org.flywaydb</groupId>
-			    <artifactId>flyway-maven-plugin</artifactId>
-			   <version>4.1.2</version>
+				<groupId>org.flywaydb</groupId>
+				<artifactId>flyway-maven-plugin</artifactId>
+				<version>4.1.2</version>
 			</plugin>
-			
+
 			<!-- sonar 质量管控插件 运行命令： sonar:sonar -->
 			<plugin>
 				<groupId>org.sonarsource.scanner.maven</groupId>
 				<artifactId>sonar-maven-plugin</artifactId>
 				<version>3.0.1</version>
 				<executions>
-	                <execution>
-	                    <id>sonar</id>
-	                    <phase>site</phase>
-	                    <goals>
-	                    <goal>sonar</goal>
-	                    </goals>
-	                </execution>
-           		 </executions>
+					<execution>
+						<id>sonar</id>
+						<phase>site</phase>
+						<goals>
+							<goal>sonar</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
-		
-				<!-- 资源配置 -->
-		<resources>  
-		    <!-- 基本配置 -->
-	        <resource>  
-	            <directory>src/main/resources</directory>  
-	        </resource> 
-	    </resources> 
+
+		<!-- 资源配置 -->
+		<resources>
+			<!-- 基本配置 -->
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+		</resources>
 	</build>
-		<profiles>
-		<!-- 本地开发环境  执行命令： clean package -Pdev  -->
+	<profiles>
+		<!-- 本地开发环境 执行命令： clean package -Pdev -->
 		<profile>
-			<id>dev</id>  
-            <properties>
-                <profiles.active>dev</profiles.active>
-                <profiles.finalName>kepler-tcom</profiles.finalName>
-            </properties>
-            <!--  默认触发 -->
-            <activation>  
-                <activeByDefault>true</activeByDefault>  
-            </activation>
+			<id>dev</id>
+			<properties>
+				<profiles.active>dev</profiles.active>
+				<profiles.finalName>kepler-tcom</profiles.finalName>
+			</properties>
+			<!-- 默认触发 -->
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
 		</profile>
-		
-		<!-- 生产环境  执行命令： clean package -Pprd  -->
+
+		<!-- 生产环境 执行命令： clean package -Pprd -->
 		<profile>
 			<id>prd</id>
-            <properties>
-                <profiles.active>prd</profiles.active>
-                <profiles.finalName>kepler-tcm</profiles.finalName>
-            </properties>
-		</profile>  
+			<properties>
+				<profiles.active>prd</profiles.active>
+				<profiles.finalName>kepler-tcm</profiles.finalName>
+			</properties>
+		</profile>
 	</profiles>
-	
+
 	<pluginRepositories>
 		<pluginRepository>
 			<id>spring-snapshots</id>

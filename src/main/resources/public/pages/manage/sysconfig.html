@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="keywords" content="" />
+		<meta name="description" content="" />
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link class="bootselect" href="../base/bootstrap/bootstrap-skin/bootstrap-flatly.css" rel="stylesheet" type="text/css" />
+		<link href="../base/layer/skin/default/layer.css" rel="stylesheet" />
+		<link href="../css/baseall.css" rel="stylesheet" />
+		<link href="../css/remotesource.css" rel="stylesheet" />
+		<title>系统配置</title>
+		
+		<style type="text/css">
+		   html,body{height: 100%;}
+		   body{font-size: 13px;}
+		   .content {padding: 30px 15px;height: 100%;}
+		   
+		   .table>thead>tr>th {border-bottom: 0;}
+		   
+		   .tab-own {border: 1px solid #ccc;}
+		   .tab-own tbody tr>td {border-top: 1px solid #ccc;}
+		   .tab-own th,.tab-own tr:hover{background-color: #eee!important;}
+		   .tab-own th, .tab-own td {text-align: left;padding-left: 30px!important;}		   
+		   .tab-own th input, .tab-own td input{margin-right: 10px;}
+		   
+		   .inputown input, .inputown select{height: 24px;line-height: 24px;}
+		   .form-control{border-radius: 2px;}
+		   .btn{font-size: 12px;border-radius: 2px;}
+		   .inputown button {height: 24px;padding: 1px 6px;}
+		   
+		   .btn-sm, .btn-group-sm>.btn{padding: 3px 15px;}
+		   .modal-footer .btn+.btn {margin-left: 10px;}
+		   
+		   .table tr.active>td{background-color: #fce6a2!important;}
+		   
+		   .tab-own th input, .tab-own td input{cursor: pointer}
+		   
+		   .delete-modal .modal-body,.onclose-modal-all .modal-body{text-align: right}
+		   .modal-content{border-radius: 0px;}
+		   .modal-header {padding: 12px 15px;background: #f8fafe;}
+		   .inputNewData{padding: 35px 70px 25px 0px;}
+		   .inputNewData input, .inputNewData select,.new-modal textarea {width: calc(100% - 120px - 15px)!important;}
+		   .form-control{border: 1px solid #ccc;background: #fff!important}
+		   .form-control:focus{border: 1px solid #4D90FE;box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(77,144,254,.6);}
+		   /* #app {padding-bottom: 55px;} */
+		   #app .table{margin-bottom: 0px}
+		</style>
+		
+	</head>
+
+	<body>
+		<div class="loading">
+					<span></span>
+					<span></span>
+					<span></span>
+					<span></span>
+					<span></span>
+				</div>
+		<div class="content">
+			<form class="form-inline inputown">
+				<div class="form-group">
+					<label>key值</label>
+					<input type="text" class="form-control" />
+				</div>
+				<div class="form-group">
+					<button type="button" class="btn btn-success filterData query"><span class="glyphicon glyphicon-search"></span> 查询</button>
+				</div>
+				<div class="form-group" style="float:right;margin-top: 30px;margin-bottom: 15px!important;"><!-- <div class="form-group col-lg-12"> -->
+					<button type="button" class="btn btn-success tabRefresh"><span class="glyphicon glyphicon-refresh"></span> 刷新</button>
+					<button type="button" class="btn btn-success newSource" data-toggle="modal" data-target=".new-modal"><span class="glyphicon glyphicon-plus"></span> 新增</button>
+					<button type="button" class="btn btn-success batchDelete"  data-toggle="modal" ><span class="glyphicon glyphicon-remove"></span> 批量删除</button>
+				</div>
+				<div class="clearfix"></div>
+			</form>
+
+			<div id="app">
+				<table class="table table-hover  tab-own sysTable" cellpadding="0" cellspacing="0" v-cloak>
+					<thead>
+						<tr>
+							<th><input  type="checkbox"  id="checkid"  @click="checkBoxAll()" />全选</th>
+							<th>站点名称</th>
+							<!--<th>数据类型</th>-->
+							<th>key值</th>
+							<th>value值</th>
+							<th>创建时间</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr v-for="(tabtr,index) in tabData">
+						   <td><input type="checkbox"  :value="tabtr.id" v-model="checkModel" v-if="tabtr.configName=='系统全局'" disabled/>{{index+1}}
+						       <input type="checkbox"  :value="tabtr.id" v-model="checkModel" v-else/>{{index+1}}
+						   </td>
+							<td>{{tabtr.configName}}</td>
+							<!--<td>{{tabtr.configType == 0?"静态配置":"动态配置"}}</td>-->
+							<td>{{tabtr.configKey}}</td>
+							<td>{{tabtr.configValue}}</td>
+							<td>{{util.dateymdhms(tabtr.createTime)}}</td>
+							<td>
+								<span class="glyphicon glyphicon-pencil dataChange" @click="dataChange(index)" title="修改" data-toggle="modal" data-target=".new-modal"></span>
+								<!-- <span class="glyphicon glyphicon-trash tabDelete" @click="conDelete(tabtr.id)" title="删除" data-toggle="modal" data-target=".delete-modal"></span> -->
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="pagleft" v-cloak>
+					共{{totalNum}}条数据 每页显示&nbsp;<input type="text" value="12" class="form-control" />&nbsp;条数据 第{{current}}/{{allpage}}页
+				</div>
+				<ul class="pagination pagination-sm" v-cloak>
+					<li @click="current <= 1 ? '' : (current-- && goto(current))">
+						<a href="#"><</a>
+					</li>
+					<li v-for="index in pages" @click="goto(index)" :class="{'active':current == index}" :key="index">
+						<a href="#">{{index}}</a>
+					</li>
+					<li @click="(allpage != current && allpage != 0) ? (current++ && goto(current++)) : ''">
+						<a href="#">></a>
+					</li>
+					<li>
+						<a href="#">共{{allpage}}页</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="modal fade new-modal" id="addChange" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="close">
+							<span>×</span>
+						</button>
+						<h4 class="modal-title">系统配置 - 新增</h4>
+					</div>
+					<!-- <form class="form-inline inputNewData"> -->
+						<div class="modal-body form-inline inputNewData">
+						    <div class="form-group col-lg-12 input-group-sm">
+								<label>站点名称：</label>
+								<input type="text" class="form-control" v-model="modelData.name" value = "系统全局" readonly="readonly"/>
+							</div>
+							<div class="form-group col-lg-12 input-group-sm">
+								<label>数据类型：</label>
+								<select class="form-control">
+									<option value="1">静态配置</option>
+									<option value="2">动态配置</option>
+								</select>
+							</div>
+
+							<div class="form-group col-lg-12 input-group-sm">
+								<label>key值：</label>
+								<input type="text" class="form-control" v-model="modelData.name" />
+							</div>
+							<div class="form-group col-lg-12 input-group-sm">
+								<label>value值：</label>
+								<textarea class ="form-control" ></textarea>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+						<div class="modal-footer">
+							<button type="reset" class="btn btn-default btn-sm" data-dismiss="modal">取消</button>
+							<button type="submit" class="btn btn-success btn-sm" >确定</button>
+						</div>
+					<!-- </form> -->
+				</div>
+			</div>
+		</div>
+		<!--删除-->
+		<div class="modal fade delete-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+			<div class="modal-dialog modal-sm" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="close">
+							<span>×</span>
+						</button>
+						<h4 class="modal-title"></h4>
+					</div>
+					<div class="modal-body">
+						<button type="reset" class="btn btn-default btn-sm" data-dismiss="modal">取消</button>
+						<button type="submit" class="btn btn-success btn-sm" data-dismiss="modal">确定</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--批量删除-->
+		<div class="modal fade onclose-modal-all" tabindex="-1" role="dialog" id="myModel" aria-labelledby="mySmallModalLabel">
+			<div class="modal-dialog modal-sm" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="close">
+							<span>×</span>
+						</button>
+						<h4 class="modal-title">确定要删除？</h4>
+					</div>
+					<div class="modal-body">
+						<button type="reset" class="btn btn-default btn-sm" data-dismiss="modal">取消</button>
+						<button type="submit" class="btn btn-success btn-sm" data-dismiss="modal">确定</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="../base/jquery/jquery-1.11.0.js"></script>
+	<script src="../base/vue/vue.min.js"></script>
+	<script src="../base/bootstrap/js/bootstrap.min.js"></script>
+	<script src="../base/layer/layer.js"></script>
+	<script src="../base/bootstrap-datetimepicker-master/bootstrap-datetimepicker.min.js"></script>
+	<script src="../base/bootstrap-datetimepicker-master/bootstrap-datetimepicker.zh-CN.js"></script>
+	<script src="../js/util.js"></script>
+	<script src="../js/common.js"></script>
+	<script src="../js/sysconfig.vue.js"></script>
+
+</html>

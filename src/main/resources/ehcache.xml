@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
+  updateCheck="false">
+    <diskStore path="java.io.tmpdir/tmp_EhCache" />
+    
+    <defaultCache eternal="false" maxElementsInMemory="1000" overflowToDisk="false" diskPersistent="false"
+    timeToIdleSeconds="0" timeToLiveSeconds="600" memoryStoreEvictionPolicy="LRU" />
+
+    <cache name="demo" 
+    	eternal="false" 
+    	maxElementsInMemory="100" 
+    	overflowToDisk="false" 
+    	diskPersistent="false"
+    	timeToIdleSeconds="0" 
+    	timeToLiveSeconds="300" 
+    	memoryStoreEvictionPolicy="LRU" />
+	<cache name="data-minute"
+           maxEntriesLocalHeap="0"
+           eternal="false"
+           timeToIdleSeconds="0"
+           timeToLiveSeconds="60"
+           overflowToDisk="false"
+           statistics="true">
+    </cache>
+    
+    <cache name="data-hour"
+           maxEntriesLocalHeap="0"
+           eternal="false"
+           timeToIdleSeconds="0"
+           timeToLiveSeconds="3600"
+           overflowToDisk="false"
+           statistics="true">
+    </cache>
+    
+    <cache name="data-day"
+           maxEntriesLocalHeap="0"
+           eternal="false"
+           timeToIdleSeconds="0"
+           timeToLiveSeconds="86400"
+           overflowToDisk="false"
+           statistics="true">
+    </cache>
+    
+    <cache name="accesstoken"
+           maxEntriesLocalHeap="0"
+           eternal="false"
+           timeToIdleSeconds="0"
+           timeToLiveSeconds="17200"
+           overflowToDisk="false"
+           statistics="true">
+    </cache>
+    
+    <!--接口信息缓存 -->
+    <cache name="interface"
+           maxEntriesLocalHeap="0"
+           eternal="false"
+           timeToIdleSeconds="0"
+           timeToLiveSeconds="86400"
+           overflowToDisk="false"
+           statistics="true">
+    </cache>
+    
+     <!--接口节点缓存 -->
+    <cache name="interfacesql"
+           maxEntriesLocalHeap="0"
+           eternal="false"
+           timeToIdleSeconds="0"
+           timeToLiveSeconds="86400"
+           overflowToDisk="false"
+           statistics="true">
+    </cache>
+</ehcache>

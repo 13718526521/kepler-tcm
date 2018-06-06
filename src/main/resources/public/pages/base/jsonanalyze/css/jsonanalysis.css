@@ -1,0 +1,99 @@
+.ObjectBrace {
+	color: #00AA00;
+	font-weight: bold;
+}
+
+.ArrayBrace {
+	color: #0033FF;
+	font-weight: bold;
+}
+
+.PropertyName {
+	color: #CC0000;
+}
+
+.String {
+	color: #007777;
+}
+
+.Number {
+	color: #AA00AA;
+}
+
+.Boolean {
+	color: #0000FF;
+}
+
+.Function {
+	color: #AA6633;
+	text-decoration: italic;
+}
+
+.Null {
+	color: #0000FF;
+}
+
+.Comma {
+	color: #000000;
+	font-weight: bold;
+}
+
+PRE.CodeContainer {
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+PRE.CodeContainer img {
+	cursor: pointer;
+	border: none;
+	margin-bottom: -1px;
+}
+
+#CollapsibleViewDetail a {
+	padding-left: 10px;
+}
+
+#ControlsRow {
+	white-space: nowrap;
+	font-size: 14px;
+	height: 40px;
+	line-height: 40px;
+}
+
+#ControlsRow input[type=button] {
+	color: #FFFFFF;
+	background-color: #128f76;
+	border: 1px solid #11866f;
+	border-radius: 3px;
+	padding: 5px 10px;
+}
+
+#ControlsRow a{
+	text-decoration: none;
+	color: #18bc9c;
+}
+
+#ControlsRow a:hover {
+	text-decoration: underline;
+}
+
+#TabSizeHolder {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+#HeaderTitle {
+	text-align: right;
+	font-size: 11px;
+}
+
+#HeaderSubTitle {
+	margin-bottom: 2px;
+	margin-top: 0px
+}
+
+#RawJson {
+	width: 99%;
+	height: 120px;
+}
+

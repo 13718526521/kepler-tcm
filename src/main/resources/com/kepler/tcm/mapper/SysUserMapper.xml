@@ -1,0 +1,788 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kepler.tcm.dao.SysUserMapper" >
+  <resultMap id="BaseResultMap" type="com.kepler.tcm.domain.SysUser" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="LOGIN_NAME" property="loginName" jdbcType="VARCHAR" />
+    <result column="PASSWORD" property="password" jdbcType="VARCHAR" />
+    <result column="REAL_NAME" property="realName" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+    <result column="SEX" property="sex" jdbcType="DECIMAL" />
+    <result column="EMAIL" property="email" jdbcType="VARCHAR" />
+    <result column="BIRTHDAY" property="birthday" jdbcType="VARCHAR" />
+    <result column="AGE" property="age" jdbcType="DECIMAL" />
+    <result column="DEPT_ID" property="deptId" jdbcType="VARCHAR" />
+    <result column="POSTAL_CODE" property="postalCode" jdbcType="VARCHAR" />
+    <result column="COUNTRY" property="country" jdbcType="VARCHAR" />
+    <result column="PROVINCE" property="province" jdbcType="VARCHAR" />
+    <result column="CITY" property="city" jdbcType="VARCHAR" />
+    <result column="MOBILE" property="mobile" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="DECIMAL" />
+    <result column="IS_DELETED" property="isDeleted" jdbcType="DECIMAL" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+    <result column="IS_ADMIN" property="isAdmin" jdbcType="VARCHAR" />
+    <result column="IS_USABLE" property="isUsable" jdbcType="DECIMAL" />
+    <result column="PASSWORD_HINT" property="passwordHint" jdbcType="VARCHAR" />
+    <result column="PASSWORD_ERROR_TIMES" property="passwordErrorTimes" jdbcType="VARCHAR" />
+    <result column="LAST_LOGIN_TIME" property="lastLoginTime" jdbcType="VARCHAR" />
+    <result column="PASSWORD_ERROR_LOCK" property="passwordErrorLock" jdbcType="VARCHAR" />
+    <result column="PASSWORD_ERROR_COUNT" property="passwordErrorCount" jdbcType="DECIMAL" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="LAST_LOGIN_FAIL_TIME" property="lastLoginFailTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, LOGIN_NAME, PASSWORD, REAL_NAME, ORG_ID, SEX, EMAIL, BIRTHDAY, AGE, DEPT_ID, 
+    POSTAL_CODE, COUNTRY, PROVINCE, CITY, MOBILE, CREATE_USER, CREATE_DATE, STATUS, IS_DELETED, 
+    UPDATE_BY, IS_ADMIN, IS_USABLE, PASSWORD_HINT, PASSWORD_ERROR_TIMES, LAST_LOGIN_TIME, 
+    PASSWORD_ERROR_LOCK, PASSWORD_ERROR_COUNT, REMARK,LAST_LOGIN_FAIL_TIME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.kepler.tcm.domain.SysUserExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from #DB_SEA#.SYS_USER
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from #DB_SEA#.SYS_USER
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from #DB_SEA#.SYS_USER
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.kepler.tcm.domain.SysUserExample" >
+    delete from #DB_SEA#.SYS_USER
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.kepler.tcm.domain.SysUser" >
+    insert into #DB_SEA#.SYS_USER (ID, LOGIN_NAME, PASSWORD, 
+      REAL_NAME, ORG_ID, SEX, 
+      EMAIL, BIRTHDAY, AGE, 
+      DEPT_ID, POSTAL_CODE, COUNTRY, 
+      PROVINCE, CITY, MOBILE, 
+      CREATE_USER, CREATE_DATE, STATUS, 
+      IS_DELETED, UPDATE_BY, IS_ADMIN, 
+      IS_USABLE, PASSWORD_HINT, PASSWORD_ERROR_TIMES, 
+      LAST_LOGIN_TIME, PASSWORD_ERROR_LOCK, PASSWORD_ERROR_COUNT, 
+      REMARK)
+    values (#{id,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{realName,jdbcType=VARCHAR}, #{orgId,jdbcType=VARCHAR}, #{sex,jdbcType=DECIMAL}, 
+      #{email,jdbcType=VARCHAR}, #{birthday,jdbcType=VARCHAR}, #{age,jdbcType=DECIMAL}, 
+      #{deptId,jdbcType=VARCHAR}, #{postalCode,jdbcType=VARCHAR}, #{country,jdbcType=VARCHAR}, 
+      #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
+      #{createUser,jdbcType=VARCHAR}, #{createDate,jdbcType=VARCHAR}, #{status,jdbcType=DECIMAL}, 
+      #{isDeleted,jdbcType=DECIMAL}, #{updateBy,jdbcType=VARCHAR}, #{isAdmin,jdbcType=VARCHAR}, 
+      #{isUsable,jdbcType=DECIMAL}, #{passwordHint,jdbcType=VARCHAR}, #{passwordErrorTimes,jdbcType=VARCHAR}, 
+      #{lastLoginTime,jdbcType=VARCHAR}, #{passwordErrorLock,jdbcType=VARCHAR}, #{passwordErrorCount,jdbcType=DECIMAL}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kepler.tcm.domain.SysUser" >
+    insert into #DB_SEA#.SYS_USER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="loginName != null" >
+        LOGIN_NAME,
+      </if>
+      <if test="password != null" >
+        PASSWORD,
+      </if>
+      <if test="realName != null" >
+        REAL_NAME,
+      </if>
+      <if test="orgId != null" >
+        ORG_ID,
+      </if>
+      <if test="sex != null" >
+        SEX,
+      </if>
+      <if test="email != null" >
+        EMAIL,
+      </if>
+      <if test="birthday != null" >
+        BIRTHDAY,
+      </if>
+      <if test="age != null" >
+        AGE,
+      </if>
+      <if test="deptId != null" >
+        DEPT_ID,
+      </if>
+      <if test="postalCode != null" >
+        POSTAL_CODE,
+      </if>
+      <if test="country != null" >
+        COUNTRY,
+      </if>
+      <if test="province != null" >
+        PROVINCE,
+      </if>
+      <if test="city != null" >
+        CITY,
+      </if>
+      <if test="mobile != null" >
+        MOBILE,
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER,
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="isDeleted != null" >
+        IS_DELETED,
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY,
+      </if>
+      <if test="isAdmin != null" >
+        IS_ADMIN,
+      </if>
+      <if test="isUsable != null" >
+        IS_USABLE,
+      </if>
+      <if test="passwordHint != null" >
+        PASSWORD_HINT,
+      </if>
+      <if test="passwordErrorTimes != null" >
+        PASSWORD_ERROR_TIMES,
+      </if>
+      <if test="lastLoginTime != null" >
+        LAST_LOGIN_TIME,
+      </if>
+      <if test="passwordErrorLock != null" >
+        PASSWORD_ERROR_LOCK,
+      </if>
+      <if test="passwordErrorCount != null" >
+        PASSWORD_ERROR_COUNT,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="loginName != null" >
+        #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="realName != null" >
+        #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null" >
+        #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=DECIMAL},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        #{birthday,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        #{age,jdbcType=DECIMAL},
+      </if>
+      <if test="deptId != null" >
+        #{deptId,jdbcType=VARCHAR},
+      </if>
+      <if test="postalCode != null" >
+        #{postalCode,jdbcType=VARCHAR},
+      </if>
+      <if test="country != null" >
+        #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=DECIMAL},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="isAdmin != null" >
+        #{isAdmin,jdbcType=VARCHAR},
+      </if>
+      <if test="isUsable != null" >
+        #{isUsable,jdbcType=DECIMAL},
+      </if>
+      <if test="passwordHint != null" >
+        #{passwordHint,jdbcType=VARCHAR},
+      </if>
+      <if test="passwordErrorTimes != null" >
+        #{passwordErrorTimes,jdbcType=VARCHAR},
+      </if>
+      <if test="lastLoginTime != null" >
+        #{lastLoginTime,jdbcType=VARCHAR},
+      </if>
+      <if test="passwordErrorLock != null" >
+        #{passwordErrorLock,jdbcType=VARCHAR},
+      </if>
+      <if test="passwordErrorCount != null" >
+        #{passwordErrorCount,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.kepler.tcm.domain.SysUserExample" resultType="java.lang.Integer" >
+    select count(*) from #DB_SEA#.SYS_USER
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update #DB_SEA#.SYS_USER
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.loginName != null" >
+        LOGIN_NAME = #{record.loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.password != null" >
+        PASSWORD = #{record.password,jdbcType=VARCHAR},
+      </if>
+      <if test="record.realName != null" >
+        REAL_NAME = #{record.realName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orgId != null" >
+        ORG_ID = #{record.orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sex != null" >
+        SEX = #{record.sex,jdbcType=DECIMAL},
+      </if>
+      <if test="record.email != null" >
+        EMAIL = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.birthday != null" >
+        BIRTHDAY = #{record.birthday,jdbcType=VARCHAR},
+      </if>
+      <if test="record.age != null" >
+        AGE = #{record.age,jdbcType=DECIMAL},
+      </if>
+      <if test="record.deptId != null" >
+        DEPT_ID = #{record.deptId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.postalCode != null" >
+        POSTAL_CODE = #{record.postalCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.country != null" >
+        COUNTRY = #{record.country,jdbcType=VARCHAR},
+      </if>
+      <if test="record.province != null" >
+        PROVINCE = #{record.province,jdbcType=VARCHAR},
+      </if>
+      <if test="record.city != null" >
+        CITY = #{record.city,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobile != null" >
+        MOBILE = #{record.mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUser != null" >
+        CREATE_USER = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null" >
+        CREATE_DATE = #{record.createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        STATUS = #{record.status,jdbcType=DECIMAL},
+      </if>
+      <if test="record.isDeleted != null" >
+        IS_DELETED = #{record.isDeleted,jdbcType=DECIMAL},
+      </if>
+      <if test="record.updateBy != null" >
+        UPDATE_BY = #{record.updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isAdmin != null" >
+        IS_ADMIN = #{record.isAdmin,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isUsable != null" >
+        IS_USABLE = #{record.isUsable,jdbcType=DECIMAL},
+      </if>
+      <if test="record.passwordHint != null" >
+        PASSWORD_HINT = #{record.passwordHint,jdbcType=VARCHAR},
+      </if>
+      <if test="record.passwordErrorTimes != null" >
+        PASSWORD_ERROR_TIMES = #{record.passwordErrorTimes,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastLoginTime != null" >
+        LAST_LOGIN_TIME = #{record.lastLoginTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.passwordErrorLock != null" >
+        PASSWORD_ERROR_LOCK = #{record.passwordErrorLock,jdbcType=VARCHAR},
+      </if>
+      <if test="record.passwordErrorCount != null" >
+        PASSWORD_ERROR_COUNT = #{record.passwordErrorCount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.remark != null" >
+        REMARK = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update #DB_SEA#.SYS_USER
+    set ID = #{record.id,jdbcType=VARCHAR},
+      LOGIN_NAME = #{record.loginName,jdbcType=VARCHAR},
+      PASSWORD = #{record.password,jdbcType=VARCHAR},
+      REAL_NAME = #{record.realName,jdbcType=VARCHAR},
+      ORG_ID = #{record.orgId,jdbcType=VARCHAR},
+      SEX = #{record.sex,jdbcType=DECIMAL},
+      EMAIL = #{record.email,jdbcType=VARCHAR},
+      BIRTHDAY = #{record.birthday,jdbcType=VARCHAR},
+      AGE = #{record.age,jdbcType=DECIMAL},
+      DEPT_ID = #{record.deptId,jdbcType=VARCHAR},
+      POSTAL_CODE = #{record.postalCode,jdbcType=VARCHAR},
+      COUNTRY = #{record.country,jdbcType=VARCHAR},
+      PROVINCE = #{record.province,jdbcType=VARCHAR},
+      CITY = #{record.city,jdbcType=VARCHAR},
+      MOBILE = #{record.mobile,jdbcType=VARCHAR},
+      CREATE_USER = #{record.createUser,jdbcType=VARCHAR},
+      CREATE_DATE = #{record.createDate,jdbcType=VARCHAR},
+      STATUS = #{record.status,jdbcType=DECIMAL},
+      IS_DELETED = #{record.isDeleted,jdbcType=DECIMAL},
+      UPDATE_BY = #{record.updateBy,jdbcType=VARCHAR},
+      IS_ADMIN = #{record.isAdmin,jdbcType=VARCHAR},
+      IS_USABLE = #{record.isUsable,jdbcType=DECIMAL},
+      PASSWORD_HINT = #{record.passwordHint,jdbcType=VARCHAR},
+      PASSWORD_ERROR_TIMES = #{record.passwordErrorTimes,jdbcType=VARCHAR},
+      LAST_LOGIN_TIME = #{record.lastLoginTime,jdbcType=VARCHAR},
+      PASSWORD_ERROR_LOCK = #{record.passwordErrorLock,jdbcType=VARCHAR},
+      PASSWORD_ERROR_COUNT = #{record.passwordErrorCount,jdbcType=DECIMAL},
+      REMARK = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kepler.tcm.domain.SysUser" >
+    update #DB_SEA#.SYS_USER
+    <set >
+      <if test="loginName != null" >
+        LOGIN_NAME = #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        PASSWORD = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="realName != null" >
+        REAL_NAME = #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null" >
+        ORG_ID = #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        SEX = #{sex,jdbcType=DECIMAL},
+      </if>
+      <if test="email != null" >
+        EMAIL = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        BIRTHDAY = #{birthday,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        AGE = #{age,jdbcType=DECIMAL},
+      </if>
+      <if test="deptId != null" >
+        DEPT_ID = #{deptId,jdbcType=VARCHAR},
+      </if>
+      <if test="postalCode != null" >
+        POSTAL_CODE = #{postalCode,jdbcType=VARCHAR},
+      </if>
+      <if test="country != null" >
+        COUNTRY = #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        PROVINCE = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        CITY = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        MOBILE = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="isDeleted != null" >
+        IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="isAdmin != null" >
+        IS_ADMIN = #{isAdmin,jdbcType=VARCHAR},
+      </if>
+      <if test="isUsable != null" >
+        IS_USABLE = #{isUsable,jdbcType=DECIMAL},
+      </if>
+      <if test="passwordHint != null" >
+        PASSWORD_HINT = #{passwordHint,jdbcType=VARCHAR},
+      </if>
+      <if test="passwordErrorTimes != null" >
+        PASSWORD_ERROR_TIMES = #{passwordErrorTimes,jdbcType=VARCHAR},
+      </if>
+      <if test="lastLoginTime != null" >
+        LAST_LOGIN_TIME = #{lastLoginTime,jdbcType=VARCHAR},
+      </if>
+      <if test="passwordErrorLock != null" >
+        PASSWORD_ERROR_LOCK = #{passwordErrorLock,jdbcType=VARCHAR},
+      </if>
+      <if test="passwordErrorCount != null" >
+        PASSWORD_ERROR_COUNT = #{passwordErrorCount,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kepler.tcm.domain.SysUser" >
+    update #DB_SEA#.SYS_USER
+    set LOGIN_NAME = #{loginName,jdbcType=VARCHAR},
+      PASSWORD = #{password,jdbcType=VARCHAR},
+      REAL_NAME = #{realName,jdbcType=VARCHAR},
+      ORG_ID = #{orgId,jdbcType=VARCHAR},
+      SEX = #{sex,jdbcType=DECIMAL},
+      EMAIL = #{email,jdbcType=VARCHAR},
+      BIRTHDAY = #{birthday,jdbcType=VARCHAR},
+      AGE = #{age,jdbcType=DECIMAL},
+      DEPT_ID = #{deptId,jdbcType=VARCHAR},
+      POSTAL_CODE = #{postalCode,jdbcType=VARCHAR},
+      COUNTRY = #{country,jdbcType=VARCHAR},
+      PROVINCE = #{province,jdbcType=VARCHAR},
+      CITY = #{city,jdbcType=VARCHAR},
+      MOBILE = #{mobile,jdbcType=VARCHAR},
+      CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=DECIMAL},
+      IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      IS_ADMIN = #{isAdmin,jdbcType=VARCHAR},
+      IS_USABLE = #{isUsable,jdbcType=DECIMAL},
+      PASSWORD_HINT = #{passwordHint,jdbcType=VARCHAR},
+      PASSWORD_ERROR_TIMES = #{passwordErrorTimes,jdbcType=VARCHAR},
+      LAST_LOGIN_TIME = #{lastLoginTime,jdbcType=VARCHAR},
+      PASSWORD_ERROR_LOCK = #{passwordErrorLock,jdbcType=VARCHAR},
+      PASSWORD_ERROR_COUNT = #{passwordErrorCount,jdbcType=DECIMAL},
+      REMARK = #{remark,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="queryPage" resultMap="BaseResultMap" parameterType="com.kepler.tcm.domain.SysUser"  >
+  	select
+      <include refid="Base_Column_List" />
+    from #DB_SEA#.SYS_USER where 1=1 
+      <if test="loginName != null" >
+       and LOGIN_NAME like '%${loginName}%'
+      </if>
+      <if test="password != null" >
+       and PASSWORD = #{password,jdbcType=VARCHAR}
+      </if>
+      <if test="realName != null" >
+       and REAL_NAME = #{realName,jdbcType=VARCHAR}
+      </if>
+      <if test="orgId != null" >
+       and ORG_ID = #{orgId,jdbcType=VARCHAR}
+      </if>
+      <if test="sex != null" >
+       and SEX = #{sex,jdbcType=DECIMAL}
+      </if>
+      <if test="email != null" >
+       and EMAIL = #{email,jdbcType=VARCHAR}
+      </if>
+      <if test="birthday != null" >
+       and BIRTHDAY = #{birthday,jdbcType=VARCHAR}
+      </if>
+      <if test="age != null" >
+       and AGE = #{age,jdbcType=DECIMAL},
+      </if>
+      <if test="deptId != null" >
+       and DEPT_ID = #{deptId,jdbcType=VARCHAR}
+      </if>
+      <if test="postalCode != null" >
+       and POSTAL_CODE = #{postalCode,jdbcType=VARCHAR}
+      </if>
+      <if test="country != null" >
+       and COUNTRY = #{country,jdbcType=VARCHAR}
+      </if>
+      <if test="province != null" >
+        PROVINCE = #{province,jdbcType=VARCHAR}
+      </if>
+      <if test="city != null" >
+       and CITY = #{city,jdbcType=VARCHAR}
+      </if>
+      <if test="mobile != null" >
+       and MOBILE = #{mobile,jdbcType=VARCHAR}
+      </if>
+      <if test="createUser != null" >
+       and CREATE_USER = #{createUser,jdbcType=VARCHAR}
+      </if>
+      <if test="createDate != null" >
+       and CREATE_DATE = #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+       and STATUS = #{status,jdbcType=DECIMAL}
+      </if>
+      <if test="isDeleted != null" >
+       and IS_DELETED = #{isDeleted,jdbcType=DECIMAL}
+      </if>
+      <if test="updateBy != null" >
+       and UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+      </if>
+      <if test="isAdmin != null" >
+       and IS_ADMIN = #{isAdmin,jdbcType=VARCHAR}
+      </if>
+      <if test="isUsable != null" >
+       and IS_USABLE = #{isUsable,jdbcType=DECIMAL}
+      </if>
+      <if test="passwordHint != null" >
+       and PASSWORD_HINT = #{passwordHint,jdbcType=VARCHAR}
+      </if>
+      <if test="passwordErrorTimes != null" >
+       and PASSWORD_ERROR_TIMES = #{passwordErrorTimes,jdbcType=VARCHAR}
+      </if>
+      <if test="lastLoginTime != null" >
+       and LAST_LOGIN_TIME = #{lastLoginTime,jdbcType=VARCHAR}
+      </if>
+      <if test="passwordErrorLock != null" >
+       and PASSWORD_ERROR_LOCK = #{passwordErrorLock,jdbcType=VARCHAR}
+      </if>
+      <if test="passwordErrorCount != null" >
+       and PASSWORD_ERROR_COUNT = #{passwordErrorCount,jdbcType=DECIMAL}
+      </if>
+      <if test="remark != null" >
+       and REMARK = #{remark,jdbcType=VARCHAR}
+      </if>
+      order by CREATE_DATE DESC
+  </select>
+  
+  <!-- 登陆认证 -->
+  <select id="findOne" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  	select
+      <include refid="Base_Column_List" />
+    from #DB_SEA#.SYS_USER where  LOGIN_NAME = #{userName,jdbcType=VARCHAR}  
+  </select>
+  <!-- 批量删除 -->
+  <delete id="deleteByIds" parameterType="list">
+        <![CDATA[
+            delete from #DB_SEA#.SYS_USER where ID in
+        ]]>
+        <foreach collection="list" item="ids"  open="(" separator="," close=")">  
+            #{ids}
+         </foreach>
+    </delete>
+    
+     <update id="updatePasswordErrorLockAndCountByLoginName"  >
+        update #DB_SEA#.SYS_USER set PASSWORD_ERROR_LOCK = #{passwordErrorLock,jdbcType=VARCHAR},
+                                 PASSWORD_ERROR_COUNT = #{passwordErrorCount,jdbcType=DECIMAL} 
+                                 where   LOGIN_NAME = #{loginName,jdbcType=VARCHAR} 
+     </update>
+    
+     <update id="updatePasswordErrorLockAndCountAll"  >
+        update #DB_SEA#.SYS_USER set PASSWORD_ERROR_LOCK = #{passwordErrorLock,jdbcType=VARCHAR},
+                                 PASSWORD_ERROR_COUNT = #{passwordErrorCount,jdbcType=DECIMAL}  
+     </update>
+     
+     <update id="updatePasswordErrorCountByLoginName"  >
+        update #DB_SEA#.SYS_USER set PASSWORD_ERROR_COUNT = #{passwordErrorCount,jdbcType=DECIMAL} 
+                                 where   LOGIN_NAME = #{loginName,jdbcType=VARCHAR} 
+     </update>
+    
+    <update id="updateByLoginNameSelective" parameterType="com.kepler.tcm.domain.SysUser" >
+    update #DB_SEA#.SYS_USER
+    <set >
+      <if test="loginName != null" >
+        LOGIN_NAME = #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        PASSWORD = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="realName != null" >
+        REAL_NAME = #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null" >
+        ORG_ID = #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        SEX = #{sex,jdbcType=DECIMAL},
+      </if>
+      <if test="email != null" >
+        EMAIL = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        BIRTHDAY = #{birthday,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        AGE = #{age,jdbcType=DECIMAL},
+      </if>
+      <if test="deptId != null" >
+        DEPT_ID = #{deptId,jdbcType=VARCHAR},
+      </if>
+      <if test="postalCode != null" >
+        POSTAL_CODE = #{postalCode,jdbcType=VARCHAR},
+      </if>
+      <if test="country != null" >
+        COUNTRY = #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        PROVINCE = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        CITY = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        MOBILE = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="isDeleted != null" >
+        IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="isAdmin != null" >
+        IS_ADMIN = #{isAdmin,jdbcType=VARCHAR},
+      </if>
+      <if test="isUsable != null" >
+        IS_USABLE = #{isUsable,jdbcType=DECIMAL},
+      </if>
+      <if test="passwordHint != null" >
+        PASSWORD_HINT = #{passwordHint,jdbcType=VARCHAR},
+      </if>
+      <if test="passwordErrorTimes != null" >
+        PASSWORD_ERROR_TIMES = #{passwordErrorTimes,jdbcType=VARCHAR},
+      </if>
+      <if test="lastLoginTime != null" >
+        LAST_LOGIN_TIME = #{lastLoginTime,jdbcType=VARCHAR},
+      </if>
+      <if test="passwordErrorLock != null" >
+        PASSWORD_ERROR_LOCK = #{passwordErrorLock,jdbcType=VARCHAR},
+      </if>
+      <if test="passwordErrorCount != null" >
+        PASSWORD_ERROR_COUNT = #{passwordErrorCount,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="lastLoginFailTime != null" >
+        LAST_LOGIN_FAIL_TIME = #{lastLoginFailTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where LOGIN_NAME = #{loginName,jdbcType=VARCHAR}
+  </update>
+    
+</mapper>

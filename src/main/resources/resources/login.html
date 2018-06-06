@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+			
+		<!--引入样式文件-->
+		<link rel="stylesheet" href="./base/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="./base/css/common.css" />
+		<link rel="stylesheet" href="./base/css/login.css" />
+		<title>登录</title>
+		<style>
+		   .nav-tabs>li {width: 50%;}
+		   .nav-tabs>li>a {font-size: 18px;}
+		   .nav-tabs {border-bottom: none;}
+		   .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus{
+			    border: none!important;
+			    background-color: #fff;
+                color: rgba(0,0,0,1);
+			}
+			.nav-tabs>li>a{			    
+			    color: #555;
+			    background-color: rgba(0,0,0,.1);
+                color: rgba(0,0,0,.8);
+                border-bottom: 1px solid rgba(0,0,0,.2);
+                border-radius: 0; 
+			    margin-right: 0px;	
+			}
+			.nav-tabs>li:nth-child(1)>a{		    
+			    border-right: 1px solid rgba(0,0,0,.2);
+			}
+			.nav-tabs>li:nth-child(2)>a{
+			    border-left: 1px solid rgba(0,0,0,.2);	
+			}
+			.nav-tabs>li:nth-child(1)>a{margin-right: 1px;} 
+			.login-box {padding-top: 0}
+			.nav-tabs>li {margin-bottom: 0px;}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<div class="row header">
+				<span class="logo-cont"></span>
+			</div>
+			<div class="row content">
+				<div class="content-box">
+					<!-- <div class="intro-box">
+						<a href="javascript:;" target="" style="text-decoration: none !important;">
+						    <h1>让数据改变工作与生活</h1>
+						    <ul>
+						      <li> 最优产品</li>
+						      <li> 最佳服务</li>
+						      <li> 打造大数据领域民族品牌</li>
+						      <li> 专注&nbsp;.&nbsp;智慧&nbsp;.&nbsp;自省&nbsp;.&nbsp;包容</li>
+						    </ul>
+						</a>						
+					</div> -->
+					<div class="login-box">
+			            
+			            <!-- 登录切换 -->
+			            <ul id="submitTab" class="nav nav-tabs">
+							<li class="active"><a href="#user" data-toggle="tab">客户登录</a></li>
+							<li><a href="#admin" data-toggle="tab">管理员登录</a></li>
+						</ul>
+						<div id="submitTabContent" class="tab-content">
+							<div class="tab-pane fade in active" id="user"></div>
+							<div class="tab-pane fade" id="admin"></div>	
+						</div>
+			            
+					</div>
+				</div>
+			</div>
+			<div class="row footer">Copyright &copy; 2017-2020  All Rights Reserved. BONC</div>
+		</div>
+	</body>
+	<script src="./base/js/jquery-3.2.0.min.js"></script>
+	<script src="./base/js/bootstrap.min.js"></script>
+	<script src="./base/js/util.js"></script>
+	<script src="./base/crypto/crypto-js.js"></script>
+    <script src="./base/crypto/aes.js"></script>
+    <script src="./base/crypto/mode-ecb.js"></script>
+    
+	<script type="text/javascript">
+	    var login = (function(global){
+	    	var isEncrypt=true;
+	    	//获取加密key
+            var getKey=function(){
+                $.ajax({
+                    type: 'get',
+                    async:false,
+                    url: util.agent().baseUrl+'/sysLogin/getKey?t='+Math.random(),
+                    data: "",
+                    success: function(data) {
+                        $('#keyid').val(data.pwdKeyId);
+                        $('#pwdKeyid').val(data.pwdKey);
+                        isEncrypt=data.pwdEncryptEnabled;
+                    }
+                });
+            }
+            
+            //对密码加密
+            var encryptPwd=function(){
+                var pwdKey=$('#pwdKeyid').val();
+                var key  = CryptoJS.enc.Utf8.parse(pwdKey);
+                var pwd=$('#password').val();
+                $('#password').val(Encrypt(pwd,key));
+            }
+	    	
+	    	var init =  function(){
+	    		console.log(isCustom)
+				$("#imageF").on("click",function(){
+					 $(this).attr("src","./base/images/kaptcha.jpg?t=" + Math.random());
+				});
+				
+			}
+	    	
+	    	
+			
+			var submit =  function(){
+				$.ajax({
+				    type: 'post',
+				    url: util.agent().baseUrl+'/login',
+				    data: $("form").serialize(),
+				    success: function(data) {
+				        
+				    }
+				});
+			}
+			
+			var initErrorMsg=function(){
+				$(".msg-error").addClass("hide");
+				$(".msg-error").html("");
+				var url=location.href;
+				var index=url.indexOf("?");
+				if(index>0&&index+1<url.length){
+					var paramPairs=url.substring(index+1).split("&");
+					var code="-1";
+					for(var i=0;i<paramPairs.length;i++){
+						var paramPairArr=paramPairs[i].split("=");
+						if(paramPairArr[0]=="code"){
+							if(paramPairArr.length==2){
+								code=paramPairArr[1];
+							}
+							break;
+						}
+					}
+					if(code=="0"){
+						$(".msg-error").removeClass("hide");
+						$(".msg-error").html("验证码错误");
+					}else if(code=="1"){
+						$(".msg-error").removeClass("hide");
+						$(".msg-error").html("用户名或者密码错误");
+					}else if(code=="2"){
+						$(".msg-error").removeClass("hide");
+						$(".msg-error").html("账户已锁定");
+					}else if(code=="3"){
+						$(".msg-error").removeClass("hide");
+						$(".msg-error").html("用户已禁用");
+					}else if(code=="4"){
+						$(".msg-error").removeClass("hide");
+						$(".msg-error").html("系统错误，请稍后重试！");
+					}
+				}
+			}
+			
+			return {
+				init : init,
+				getKey: getKey,
+				encryptPwd: encryptPwd,
+				submit : submit,
+				initErrorMsg:initErrorMsg
+			}
+	})(window);
+	$(function(){
+		login.getKey();
+		login.init();
+		login.initErrorMsg();
+		//清除用户信息
+		localStorage.removeItem('user');
+	})
+	
+	//加密方法
+	function Encrypt(word,key){  
+		 var srcs = CryptoJS.enc.Utf8.parse(word);  
+		 var encrypted = CryptoJS.AES.encrypt(srcs, key, {mode:CryptoJS.mode.ECB,padding: CryptoJS.pad.Pkcs7});  
+		 return encrypted.toString();  
+	}
+      var isCustom = true; 
+      $(function(){    	   
+    	   var loginType = '客户登录';    	   
+    	   loginToggle('user',loginType);
+    	   
+    	   $("#submitTab>li").click(function(){
+    		   var eleId = $(this).find("a").attr("href").slice(1);
+    		   if(eleId == "admin"){
+    			   isCustom = false;
+    			   loginType = '管理员登录';
+    		   }else if(eleId == "user"){
+    			   isCustom = true;
+    			   loginType = '客户登录';
+    		   }
+    		   loginToggle(eleId,loginType);
+    		   localStorage.setItem("isCustom",isCustom);
+    		   console.log(isCustom);
+    	   });
+       });  
+       function loginToggle(eleId,loginType){
+    	   var loginType = loginType;
+    	   var html = '';
+    	   html = '<input type="hidden" id="pwdKeyid" name="pwdKey" value="" />'+
+				  '<form role="form" method="post" action="login">'+
+				    '<input type="hidden" id="keyid" name="pwdKeyId" value="" />'+
+				    loginType+
+					'<div class="password-box">'+
+						'<div class="col-xs-12 msg-wrap">'+
+					      '<div class="msg-error hide">aaaaaaaa</div>'+
+						'</div>'+
+			            '<div class="col-xs-12">'+
+		           	  '<span class="icon-box icon-user"></span>'+
+					      '<input title="用户名" type="text" id="username" name="username" class="username" placeholder="输入用户名">'+
+						'</div>'+
+						'<div class="col-xs-12">'+
+						  '<span class="icon-box icon-password"></span>'+
+					     ' <input title="用户密码" type="password" id="password" name="password" class="password" placeholder="输入密码">'+
+					    '</div>'+
+						'<div class="col-xs-6">'+
+						  '<span class="icon-box icon-captcha"></span>'+
+					      '<input type="text" id="captcha" name="j_captcha" placeholder="输入验证码" class="Captcha">'+
+					     ' <br/>'+
+					     ' <p style="color:red;padding-left:10px;"></p>'+
+					    '</div>'+
+					    '<div class="col-xs-6">'+
+					      '<div class="code-box"><a href="javascript:;" id="flashImage"><img id="imageF" src="./base/images/kaptcha.jpg" class="code-image"></a> </div>'+ 
+					    '</div>'+
+						'<div class="col-xs-12">'+
+					      '<button type="submit" class="btn submit_button">登录</button>'+
+					    '</div>'+
+					'</div>'+
+		       '</form>';
+		   $("#submitTabContent").find(".tab-pane").empty();
+    	   $("#"+eleId).html(html);
+    	   
+    	   login.getKey();
+    	   var num=0;
+    	   var isEncrypt=true;
+    		$(":submit").bind("click",function(){
+				//防止重复提交
+				if(num==0){	
+					if(isCustom){//客户登录
+						$("form").attr("action",util.agent().baseUrl+'/login?isEncryption=false&isCustom='+isCustom+'&j_targetUrl='
+								+util.agent().baseUrl+'/view/portals/index.html');
+					}else{
+						//密码加密标识isEncryption=fasle不加密,登录成功跳转到j_targetUrl地址
+						$("form").attr("action",util.agent().baseUrl+'/login?isEncryption=true&isCustom='+isCustom+'&j_targetUrl='
+								+util.agent().baseUrl+'/view/manage/home.html'); 
+					}
+					//对密码加密
+					if(isEncrypt==true){
+						login.encryptPwd();
+					}
+					//对密码加密
+					num=1;
+					setTimeout(function () { num = 0 }, 2000);
+					$("form")[0].submit();
+				}
+			});
+       }
+    </script>
+</html>

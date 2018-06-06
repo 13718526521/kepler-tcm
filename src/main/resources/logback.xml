@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false" >
+
+	<!-- log 监控 -->
+	<!-- <include resource="org/springframework/boot/logging/logback/base.xml"/>
+	
+    <jmxConfigurator/> -->
+
+	<!-- 日志等级：TRACE, DEBUG, INFO, WARN, ERROR, ALL 和 OFF -->
+	
+	<!-- 日志路径： 尽量别用绝对路径，如果带参数不同容器路径解释可能不同 -->  
+    <property name="LOG_HOME" value="/var/kepler/logs/sea"/> 
+    
+    <property name="ENCODER_PATTERN" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"/>
+    
+    <!-- 日志通用等级level   日志等级：TRACE, DEBUG, INFO, WARN, ERROR, ALL 和 OFF  -->
+	<property name="LOG_LEVEL" value="INFO"/>
+	
+	<!-- 控制台输出日志 -->
+	<appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+	 <!-- encoder 默认配置为PatternLayoutEncoder -->   
+		<encoder>
+			<pattern>
+				<!--%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n 时间处不能使用逗号 -->
+				${ENCODER_PATTERN}
+			</pattern>
+		</encoder>
+	</appender>
+	
+	<!-- 文件输出日志 (文件大小策略进行文件输出，超过指定大小对文件备份) -->
+	<appender name="file—all" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${LOG_HOME}/kepler.%d{yyyy-MM-dd}.log</FileNamePattern>
+			<MaxHistory>30</MaxHistory>
+		</rollingPolicy>
+		
+		<encoder>
+			<pattern>${ENCODER_PATTERN}</pattern>
+		</encoder>
+	</appender>
+	
+	<!-- 文件输出日志 (文件大小策略进行文件输出，超过指定大小对文件备份) -->
+	<appender name="file—debug" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>DEBUG</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY </onMismatch>
+		</filter>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${LOG_HOME}/debug.%d{yyyy-MM-dd}.log</FileNamePattern>
+			<MaxHistory>30</MaxHistory>
+		</rollingPolicy>
+		
+		<encoder>
+			<pattern>${ENCODER_PATTERN}</pattern>
+		</encoder>
+	</appender>
+	
+		<!-- 文件输出日志 (文件大小策略进行文件输出，超过指定大小对文件备份) -->
+	<appender name="file—info" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>INFO</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY </onMismatch>
+		</filter>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${LOG_HOME}/info.%d{yyyy-MM-dd}.log</FileNamePattern>
+			<MaxHistory>30</MaxHistory>
+		</rollingPolicy>
+		
+		<encoder>
+			<pattern>${ENCODER_PATTERN}</pattern>
+		</encoder>
+	</appender>
+	
+	<!-- 特定过滤含有某字符串的日志 -->
+	<!-- <appender name="file-str" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.core.filter.EvaluatorFilter">
+ 			<evaluator>
+				<expression>message.contains("str")</expression>
+			</evaluator>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${LOG_HOME}/contains.%d{yyyy-MM-dd}.log</FileNamePattern>
+ 			<MaxHistory>30</MaxHistory>
+ 		</rollingPolicy>
+		<encoder>
+			<pattern>${ENCODER_PATTERN}</pattern>
+		</encoder>
+	</appender> -->
+	
+	<!-- 时间滚动输出 level为 ERROR 日志 -->
+	<appender name="file—error"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY </onMismatch>
+         </filter>
+         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${LOG_HOME}/error.%d{yyyy-MM-dd}.log</FileNamePattern>
+              <MaxHistory>30</MaxHistory>
+          </rollingPolicy>
+          <encoder>
+             <pattern>${ENCODER_PATTERN}</pattern>
+          </encoder>
+	</appender>
+	
+	<!-- 数据库输出 -->
+<!-- 	<appender name="db" class="ch.qos.logback.classic.db.DBAppender">
+		<connectionSource class="ch.qos.logback.core.db.DriverManagerConnectionSource">	
+			<driverClass>com.mysql.jdbc.Driver</driverClass>
+			<url>jdbc:mysql://host_name:3306/datebase_name</url>
+			<user>username</user>
+			<password>password</password>
+		</connectionSource>
+	</appender> -->
+
+	<!-- spring applicationContext beans 输出 -->
+	<appender name="file-spring" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>DEBUG</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY </onMismatch>
+         </filter>
+		<!-- 日志保存路径 -->
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- daily rollover -->
+			<fileNamePattern>${LOG_HOME}/spring.%d{yyyy-MM-dd}.log</fileNamePattern>
+
+			<!-- keep 30 days' worth of history -->
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>
+				<!-- %date %-4relative [%thread] %-5level %logger{36} - %msg%n
+				%date [%thread] %-5level %logger{36} - %msg%n -->
+				${ENCODER_PATTERN}
+			</pattern>
+		</encoder>
+	</appender>
+
+	<!-- 用来设置某一个包或者具体的某一个类的日志打印级别，包名要与实际项目一致 -->
+ 	<logger name="org.springframework" level="${LOG_LEVEL}"/> 
+	<logger name="org.apache.ibatis" level="${LOG_LEVEL}" />
+	<logger name="org.mybatis.spring" level="${LOG_LEVEL}"/>
+	<logger name="com.kepler" level="${LOG_LEVEL}"/>   <!-- 将级别为“DEBUG”及大于“DEBUG”的日志信息传递给root处理，本身并不打印 -->
+	<!-- <logger name="com.kepler.wechat.quartz.DemoTimerServer" level="DEBUG" /> -->
+	<!--打印sql-->
+	<logger name="com.alibaba.druid.sql" level="${LOG_LEVEL}" />
+	<logger name="java.sql" level="${LOG_LEVEL}" additivity="false" />
+    <logger name="java.sql.Connection" level="${LOG_LEVEL}" additivity="false" />
+	<logger name="java.sql.Statement" level="${LOG_LEVEL}" additivity="false" />
+	<logger name="java.sql.PreparedStatement" level="${LOG_LEVEL}" additivity="false" />
+	<logger name="java.sql.ResultSet" level="${LOG_LEVEL}" additivity="false" />
+	
+	<!--  spring context beans output  DEBUG 级别可以输出 -->
+	<logger name="com.kepler.core.config.DefaultBeanPostProcessor" level="${LOG_LEVEL}" additivity="false" >
+		<appender-ref ref="file-spring"/>
+	</logger>
+	
+<!-- 	 <logger name="com.kepler.wechat.quartz.DemoTimerServer" level="TRACE" >
+		<appender-ref ref="file-event"/>
+	</logger> -->
+
+	<root>
+		<!-- root将级别为“INFO”及大于“INFO”的日志信息交给已经配置好的名为“Console”的appender处理，“Console”appender将信息打印到Console； -->
+		<level value="${LOG_LEVEL}" />
+		<appender-ref ref="Console" /> <!-- 标识这个appender将会添加到这个logger -->
+		<appender-ref ref="file—debug" />
+		<appender-ref ref="file—info" />
+		<appender-ref ref="file—error" />
+		<appender-ref ref="file—all" />
+	</root>
+</configuration>

@@ -20,7 +20,7 @@ import java.util.jar.JarInputStream;
  * @version V1.0
  */
 public class TCMClassLoader extends ClassLoader {
-	
+
 	private String[][] paths = new String[0][0];
 
 	private File[] jarFiles = null;
@@ -67,8 +67,7 @@ public class TCMClassLoader extends ClassLoader {
 			String fileStub = name.replace('.', File.separatorChar);
 			String classFilename = fileStub + ".class";
 			try {
-				File classFile = new File(f.getCanonicalPath()
-						+ File.separatorChar + classFilename);
+				File classFile = new File(f.getCanonicalPath() + File.separatorChar + classFilename);
 
 				if (classFile.isFile())
 					c = tryToLoadClass(classFile, name);
@@ -119,8 +118,7 @@ public class TCMClassLoader extends ClassLoader {
 						BufferedInputStream bis = new BufferedInputStream(jar);
 						convert(bis, baos);
 						jar.closeEntry();
-						c = defineClass(name, baos.toByteArray(), 0,
-								baos.size());
+						c = defineClass(name, baos.toByteArray(), 0, baos.size());
 						baos.close();
 						if (Bootstrap.bStarted)
 							break;
@@ -178,8 +176,7 @@ public class TCMClassLoader extends ClassLoader {
 		if (f.isDirectory()) {
 			String resourceName = name.replace('\\', '/');
 			try {
-				File resourceFile = new File(contactPath(f.getCanonicalPath(),
-						resourceName));
+				File resourceFile = new File(contactPath(f.getCanonicalPath(), resourceName));
 
 				if (resourceFile.isFile()) {
 					c = resourceFile.toURI().toURL();
@@ -225,8 +222,7 @@ public class TCMClassLoader extends ClassLoader {
 				JarEntry entry;
 				while ((entry = jar.getNextJarEntry()) != null) {
 					if (entry.getName().equals(resourceName)) {
-						c = new URL(contact("jar:file:" + f.getCanonicalPath()
-								+ "!", '/', resourceName));
+						c = new URL(contact("jar:file:" + f.getCanonicalPath() + "!", '/', resourceName));
 					}
 
 				}
@@ -278,14 +274,12 @@ public class TCMClassLoader extends ClassLoader {
 			return path1 + path2;
 		}
 
-		if ((path2.length() == 0) || (path2.startsWith("\\"))
-				|| (path2.startsWith("/")))
+		if ((path2.length() == 0) || (path2.startsWith("\\")) || (path2.startsWith("/")))
 			return path1 + path2;
 		return path1 + File.separator + path2;
 	}
 
-	public OutputStream convert(InputStream is, OutputStream os)
-			throws IOException {
+	public OutputStream convert(InputStream is, OutputStream os) throws IOException {
 		byte[] bs = new byte[512];
 		int length = -1;
 
@@ -298,16 +292,15 @@ public class TCMClassLoader extends ClassLoader {
 
 	public static void main(String[] args) throws Exception {
 		TCMClassLoader loader = new TCMClassLoader();
-		loader.setPath(new String[][] { { "c:/a", "classes" },
-				{ "c:/a/", "lib" } });
+		loader.setPath(new String[][] { { "c:/a", "classes" }, { "c:/a/", "lib" } });
 		URL u = loader.getResource("com/people/xinhua/plugin/config.properties");
 		byte[] bs = new byte[100];
 		u.openStream().read(bs);
 		System.out.println(new String(bs));
 
-		/*URL u = loader.getResource("cpnn/downloadversion.ini");
-		byte[] bs = new byte[100];
-		u.openStream().read(bs);
-		System.out.println(new String(bs));*/
+		/*
+		 * URL u = loader.getResource("cpnn/downloadversion.ini"); byte[] bs = new
+		 * byte[100]; u.openStream().read(bs); System.out.println(new String(bs));
+		 */
 	}
 }

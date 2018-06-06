@@ -9,7 +9,7 @@
 	<!-- 日志等级：TRACE, DEBUG, INFO, WARN, ERROR, ALL 和 OFF -->
 	
 	<!-- 日志路径： 尽量别用绝对路径，如果带参数不同容器路径解释可能不同 -->  
-    <property name="LOG_HOME" value="/var/kepler/logs/sea"/> 
+    <property name="LOG_HOME" value="/var/kepler/logs/tcm"/> 
     
     <property name="ENCODER_PATTERN" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"/>
     

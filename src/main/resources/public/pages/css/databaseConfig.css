@@ -1,0 +1,272 @@
+html,body{height: 100%;}
+body{font-size: 12px;font-family: "Microsoft YaHei";background: #F1F3FA;}
+.content {
+	padding: 30px 45px;
+	height: 100%;
+	min-width: 1115px;
+	
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+	box-sizing: border-box;
+	font-weight: normal;
+}
+p,h4{margin: 0px;font-weight: normal;}
+.content-title{
+    /*height: 70px;*/
+    /* padding: 20px; */
+    color: #fff;
+    position: relative;
+    /* margin-bottom: 20px; */
+}
+
+.btn-oran,.btn-initial{
+    background-color: #fab732;
+    font-size: 12px;
+    width: 74px;
+    height: 24px;
+    padding: 0px;
+    border-radius: 12px;
+    margin-left: 15px;
+    outline: none!important;
+    border: none;
+}
+.btn-oran:hover,.btn-oran:focus,.btn-oran:active,.btn-oran.active{background-color: #F0AA1C;border: 1px solid rgba(255,255,255,.5);}
+.btn-blue{
+    background-color: #489ef2;
+	width: 100px;
+	height: 30px;
+	padding: 0px;
+	color: #fff;
+	line-height: 28px;
+	text-align: center;
+	display: block;
+}
+.btn-oran:hover,.btn-oran:focus,.btn-oran:active,
+.btn-blue:hover,.btn-blue:focus,.btn-blue:active,
+.btn-initial:hover,.btn-initial:focus,.btn-initial:active{
+    color: #fff;
+}
+
+.control-label{
+    min-width: 90px;
+    height: 30px;
+    padding: 5px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    float: left;
+    text-align: left;
+    color: #666;
+    font-family: MicrosoftYaHei;
+    font-weight: normal;
+}
+span.form-control{
+  height: 30px;
+  border: none;
+  background-color: transparent;
+  box-shadow: none;
+  text-align: center;
+}
+.form-control{
+  height: 30px;
+  border: 1px solid #cccccc;
+  box-shadow: none;
+  color: #333;
+     padding: 0px 12px;
+}
+.form-group-3{
+     width: 26.5%;
+    position: relative;
+    /*margin-left: 10%;*/
+    margin-right: 5%;
+}
+.form-group input[type='text'],
+.form-group select,.form-group input[type='number'],
+.form-group textarea,
+.spinner{
+     width: calc(100% - 90px)!important;
+     background: transparent;
+}
+.txt-cont{
+  height: 38px;
+  padding: 8px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  text-align: center;
+  display: inline;
+}
+.call-recode{
+	display: inline-block;
+    border: 1px solid #67adf1;
+    border-radius: 10px;
+    font-size: 12px;
+    padding: 2px 8px;
+    color: #67adf1;
+        float: left;
+    margin-top: 6px;
+}
+.sum-con{text-align: right;margin-right: 47px;}
+
+/** 自定义下拉框样式 **/
+select {			 
+     border: solid 1px #000;/*Chrome和Firefox里面的边框是不一样的，所以复写了一下*/
+     appearance:none;/*很关键：将默认的select选择框样式清除*/
+	 -moz-appearance:none;
+	 -webkit-appearance:none;
+     background: url(../../icons/减号.png) no-repeat scroll right center transparent;/*在选择框的最右侧中间显示小箭头图片*/
+     padding-right: 14px;/*为下拉小箭头留出一点位置，避免被文字覆盖*/
+}
+/*清除ie的默认选择框样式清除，隐藏下拉箭头*/
+select::-ms-expand { display: none; }
+.trangle{
+    width: 0;
+    height: 0;
+    margin-top: 5px;
+    margin-left: 1px;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 8px solid rgba(0,0,0,.5);
+    position: absolute;
+    display: inline;
+    right: 14px;
+    top: 6px;
+}
+
+/* 内容 */
+.content-body{
+	height: calc(100% - 70px - 20px - 50px);
+}
+.list-box{
+	height: calc(50% - 26px);
+    margin-bottom: 26px;
+    position: relative;
+}
+.list-title {
+    display: table;
+    margin: 0px;
+    font-size: 16px;
+    color: #333;
+}
+.list-ico{
+	width: 10px;
+    height: 10px;
+    display: inline-block;
+    background: #67adf1;
+    border-radius: 50%;
+}
+.list-title span:last-child {
+    margin-left: 10px;
+}
+.list-content{
+	height: calc(100% - 20px);
+    margin-bottom: 0px;
+    padding-top: 10px;
+    clear: both;
+}
+.list-content li{
+    float: left;
+    height: 100%;
+}
+.list-content li:nth-child(1){
+        width: 18%;
+}
+.list-content li:nth-child(2){
+    width: 28%;
+    margin: 0 3%;
+}
+.list-content li:nth-child(3){
+    width: 48%;
+}
+.list-content li>a{
+	height: 100%;
+    width: 100%;
+    display: inline-block;
+    margin-left: 0px;
+    text-align: center;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    background-color: #fff;
+    padding-top: 12px;
+}
+.seat-img{
+	display: inline-block;
+	width: 70px;
+	height: 70px;	
+    background-repeat:  no-repeat;
+    background-size: 95%;
+    background-position: center;
+    background-image: url(../images/icon_fp.png);
+    margin-bottom: 20px;
+    margin-top: 30px;
+}
+.seat-name{
+	margin: 0px;
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 5px;
+}
+.list-content li>a p {
+    font-size: 12px;
+    color: #666;
+}
+
+.list-bottom{
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.more-btn{
+	background: transparent;
+    border: none;
+    outline: none;
+        color: #489ef2;
+}
+.paging-btn{
+	height: 40px;
+	width: 140px;
+	float: none;
+}
+/* foot */
+.content-bottom{	
+    height: 30px;
+    text-align: center;
+}
+.table>thead>tr>th.operate-th,.tab-own tbody tr>td.operate-td,
+.table>thead>tr>th.state-th,.tab-own tbody tr>td.state-td {
+    padding-left: 8px!important;
+    text-align: center;
+}
+.state-color{
+    display: inline-block;
+    padding: 2px 8px 2px 9px;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 12px;
+}
+.state-color_0{
+    background-color: #FBD732;
+}
+.state-color_1{
+    background-color: #23B7E5;
+}
+.state-color_2{
+    background-color: #F15050;
+}
+.state-color_3{
+    background-color: #FF8624;
+}
+.state-color_4{
+    background-color: #26C34C;
+}
+.state-color_5{
+    background-color: #6684B0;
+}
+.state-color_6{
+    background-color: #109E59;
+}
+
+

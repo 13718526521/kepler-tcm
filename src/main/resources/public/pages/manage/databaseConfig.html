@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="keywords" content="" />
+		<meta name="description" content="" />
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link href="../icons/favicon_uc.ico" rel="shortcut icon">
+		<link class="bootselect" href="" rel="stylesheet" type="text/css" />
+		<link href="../base/bootstrap/bootstrap-skin/bootstrap-cerulean.css" rel="stylesheet" />
+		<link href="../base/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+		<link href="../base/layer/skin/default/layer.css" rel="stylesheet" />
+		<link href="../css/baseall.css" rel="stylesheet" />
+		<link href="../base/jsonanalyze/css/jsonanalysis.css" rel="stylesheet" />
+		<link href="../css/databaseConfig.css" rel="stylesheet" />
+		<script src="../base/jquery/jquery-1.11.0.min.js"></script>
+		<script src="../js/skin.js"></script>
+		<script src="../base/layer/layer.js"></script>
+
+		<title>数据库配置</title>
+		<style>
+		   html,body{height: 100%;}
+		   body{font-size: 13px;background:white;}
+		   .content {padding: 30px 15px;height: 100%;}
+		   
+		   .table>thead>tr>th {border-bottom: 0;}
+		   .glyphicon-triangle-bottom:before,.glyphicon-triangle-top:before {margin-left: 10px;font-size: 12px;}
+		   .fa-edit:before, .fa-pencil-square-o:before,.fa-trash:before,
+		   .fa-gear:before, .fa-cog:before,.fa-group:before, .fa-users:before,.fa-user:before,.fa-send:before, .fa-paper-plane:before{font-size: 14px;}
+		   .tab-own {border: 1px solid #ccc;}
+		   .tab-own tbody tr>td {border-top: 1px solid #ccc;}
+		   .tab-own th,.tab-own tr:hover,.modal-dialog .tab-own tr:hover{background-color: #eee;}
+		   .tab-own th, .tab-own td {text-align: center;padding-left: 20px!important;}
+		   .tab-own th input, .tab-own td input{margin-right: 10px;}
+		   
+		   .inputown input, .inputown select{height: 24px;line-height: 24px; padding: 0;}
+		   .form-control{border-radius: 2px;}
+		   .btn{font-size: 12px;border-radius: 2px;}
+		   .inputown button {height: 24px;padding: 1px 6px;}
+		   
+		   .table tr.active>td{background-color: #fce6a2!important;}
+		   
+		   .tab-own th input, .tab-own td input{cursor: pointer}
+		   
+		   .dataChange {margin-left: 0px;}
+		   #app {
+			    min-height: 80vh;
+			    position: relative;
+			    padding-bottom: 60px;
+			        margin-top: 3vh
+			}
+			
+		   .modal-dialog .tab-own th,.modal-dialog .tab-own td {border-right: 1px solid #ccc;}
+		   #app .tab-own td>.fa{
+		        padding: 0px!important;
+		        margin: 0px 2px!important;
+		        display: inline-block;
+		   }
+		   .modal-dialog .tab-own th input,.modal-dialog .tab-own td input {margin-left: 27px;}
+		   .modal-dialog .tab-own thead>tr:nth-child(1) th{
+                background: #e5e5e5;
+                border-bottom: 1px solid #ccc;
+           }
+		   .modal-dialog .pagination{
+			    margin-top: 0px;
+				bottom: -11px;
+				right: 20px;
+			}
+		   .start-modal .ope-btn:nth-child(2){
+			   color: #fff;
+			   margin-left: 5px;
+		   }
+		   thead>tr>th{
+		   	   font-weight:bold;
+		   }
+		   .table-hover>tbody>tr:hover {
+			    background-color: #eeeeee;
+			}
+			.tab-own th, .tab-own td {
+			    text-align: left;
+			    padding-left: 30px!important;
+			}
+			h4.modal-title{
+				color:#555555;
+			}
+		   .hidden_length{
+			   text-overflow: ellipsis;
+			   white-space: nowrap;
+			   max-width: 120px;
+			   overflow: hidden;
+		   }
+		</style>
+	</head>
+
+	<body>
+		<div class="loading changeSkin">
+			<span></span>
+			<span></span>
+			<span></span>
+			<span></span>
+			<span></span>
+		</div>
+		<div class="content">
+			<div class="content-title" id="queryCondition">
+				<div class="form-inline">
+					<div class="form-group form-group-3">
+						<label class="control-label">用户名:</label>
+						<input class="form-control" id="userId" type="text"/>
+					</div>
+				</div>
+				<div class="form-inline" style="position: absolute;right: 0;top: 0;">
+					<div class="form-group">
+						<button style="margin-bottom: 10px;" type="button" class="btn btn-blue query-btn"><span class="glyphicon glyphicon-search"></span> 查询</button>
+					</div>
+					<div class="form-group">
+				    <button style="margin-bottom: 10px;" type="button" class="btn btn-blue plus" id="dataBase" ><span class="glyphicon glyphicon-plus"></span> 添加数据库</button>
+					</div>
+					<div style="clear:both"></div>
+				</div>
+			</div>
+			<div id="app">
+				<table style="font-size:13px" border="0" class="table table-hover  tab-own" cellpadding="0" cellspacing="0">
+					<thead>
+					<tr>
+						<th>序号</th>
+					    <th>名称</th>
+						<th>驱动</th>
+						<th>链接</th>
+                        <th>用户名</th>
+                        <th>密码</th>
+                        <th>操作</th>
+					</tr>
+					</thead>
+					<tbody>
+						<tr v-for="(tabtr,index) in tabData">
+							<td>1</td>
+			                <td>oracle</td>
+			                <td>oracle.jdbc.driver.OracleDriver</td>
+			                <td>jdbc:oracle:thin:@0.0.0.0:1521:orcl</td>
+			                <td>scott</td>
+			                <td>tiger</td>
+                            <td>
+                                <span class="fa fa-random Check" @click="Check()" title="测试" data-toggle="modal" style=" padding-right: 10px;"></span>
+                                <span class="fa fa-edit Updatask" @click="Updatask()" title="修改" data-toggle="modal"  style="color: green;"></span>
+                                <span class="fa fa-trash dataDelete" @click="tabDelete()" title="删除" data-toggle="modal"  style="color: #C13333;padding-left: 5px;" ></span>
+                            </td>
+                        </tr>
+					</tbody>
+				</table>
+				<div class="pagleft" v-cloak>
+					共{{totalNum}}条数据 每页显示&nbsp;<input type="text" value="10" class="form-control" />&nbsp;条数据 第{{current}}/{{allpage}}页
+				</div>
+				<ul class="pagination pagination-sm" v-cloak>
+					<li @click="current <= 1 ? '' : (current-- && goto(current))">
+						<a href="#">
+							<</a>
+					</li>
+					<li v-for="index in pages" @click="goto(index)" :class="{'active':current == index}" :key="index">
+						<a href="#">{{index}}</a>
+					</li>
+					<li @click="(allpage != current && allpage != 0) ? (current++ && goto(current++)) : ''">
+						<a href="#">></a>
+					</li>
+					<li>
+						<a href="#">共{{allpage}}页</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<!--添加数据库-->
+		<div class="modal fade new-modal" id="addChange" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+			<div class="modal-dialog" role="document" v-cloak>
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="close">
+							<span>×</span>
+						</button>
+						<h4 class="modal-title"></h4>
+					</div>
+					<div class="modal-body form-inline inputNewData">
+						<div class="form-group">
+							<label>名称：</label>
+							<input type="text" id="businessName" class="form-control input-sm required" :readonly="modelData.readOnly" v-model="modelData.businessName" :style="modelData.readOnly ? '' : (modelData.businessName === '' ? 'background: #FFF3F3 !important;' : 'background: none !important;')" data-container="body" data-toggle="popover" data-placement="right" data-content="" />
+						</div>
+						<div class="form-group">
+							<label>驱动：</label>
+							<input type="text" id="usernameid" class="form-control input-sm required" :readonly="modelData.readOnly" v-model="modelData.loginName" :style="modelData.readOnly ? '' : (modelData.loginName === '' ? 'background: #FFF3F3 !important;' : 'background: none !important;')" data-container="body" data-toggle="popover" data-placement="right" data-content="" />
+						</div>
+						<div class="form-group">
+							<label>链接：</label>
+							<input type="password" id = "userpassword" class="form-control input-sm required" v-model="modelData.password" :style="modelData.password === '' ? 'background: #FFF3F3 !important;' : 'background: none !important;'" data-container="body" data-toggle="popover" data-placement="right" data-content="" placeholder = ""/>
+						</div>
+						<div class="form-group" v-else>
+							<label>用户名：</label>
+							<input type="password" id="newPwd" class="form-control input-sm required"  placeholder = "密码由6~32位数字字母组成"/>
+						</div>
+						<div class="form-group">
+							<label>密码：</label>
+							<input type="text" id = "businessType" class="form-control input-sm required" v-model="modelData.businessType" :style="modelData.businessType === '' ? 'background: #FFF3F3 !important;' : 'background: none !important;'" data-container="body" data-toggle="popover" data-placement="right" data-content="客户类型不能为空" />
+						</div>
+					<div class="modal-footer">
+						<button type="reset" class="btn btn-default btn-sm" data-dismiss="modal">取消</button>
+						<button type="submit" class="btn btn-primary btn-sm submit">确定</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	    </div>
+		<!--删除-->
+		<div class="modal fade onclose-modal-all" tabindex="-1" role="dialog" id="myModel" aria-labelledby="mySmallModalLabel">
+			<div class="modal-dialog modal-sm" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="close">
+							<span>×</span>
+						</button>
+						<h4 class="modal-title">确定要删除？</h4>
+					</div>
+					<div class="modal-body">
+						<button type="reset" class="btn btn-default btn-sm" data-dismiss="modal">取消</button>
+						<button type="submit" class="btn btn-success btn-sm" data-dismiss="modal">确定</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="../base/vue/vue.min.js"></script>
+	<script src="../base/bootstrap/js/bootstrap.min.js"></script>
+	<script src="../js/util.js"></script>
+	<!-- <script src="../js/common.js"></script> -->
+	<script src="../base/jsonanalyze/js/analyze.js"></script>
+	<script src="../js/databaseConfig.vue.js"></script>
+
+</html>

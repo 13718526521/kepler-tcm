@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link class="bootselect"
+	href="../base/bootstrap/bootstrap-skin/bootstrap-flatly.css"
+	rel="stylesheet" type="text/css" />
+<link href="../base/layer/skin/default/layer.css" rel="stylesheet" />
+<title>代理服务器</title>
+
+<style type="text/css">
+html, body {
+	height: 100%;
+}
+
+body {
+	font-size: 13px;
+}
+
+.content {
+	padding: 30px 15px;
+	height: 100%;
+}
+
+.table>thead>tr>th {
+	border-bottom: 0;
+}
+
+.tab-own {
+	border: 1px solid #ccc;
+}
+
+.tab-own tbody tr>td {
+	border-top: 1px solid #ccc;
+}
+
+.tab-own th, .tab-own tr:hover {
+	background-color: #eee !important;
+}
+
+.tab-own th, .tab-own td {
+	text-align: left;
+	padding-left: 30px !important;
+}
+
+.tab-own th input, .tab-own td input {
+	margin-right: 10px;
+}
+
+.inputown input, .inputown select {
+	height: 24px;
+	line-height: 24px;
+}
+
+.form-control {
+	border-radius: 2px;
+}
+
+.btn {
+	font-size: 12px;
+	border-radius: 2px;
+}
+
+.inputown button {
+	height: 24px;
+	padding: 1px 6px;
+}
+
+.btn-sm, .btn-group-sm>.btn {
+	padding: 3px 15px;
+}
+
+.modal-footer .btn+.btn {
+	margin-left: 10px;
+}
+
+.table tr.active>td {
+	background-color: #fce6a2 !important;
+}
+
+.tab-own th input, .tab-own td input {
+	cursor: pointer
+}
+
+.delete-modal .modal-body, .onclose-modal-all .modal-body {
+	text-align: right
+}
+
+.modal-content {
+	border-radius: 0px;
+}
+
+.modal-header {
+	padding: 12px 15px;
+	background: #f8fafe;
+}
+
+.inputNewData {
+	padding: 35px 70px 25px 0px;
+}
+
+.inputNewData input, .inputNewData select, .new-modal textarea {
+	width: calc(100% - 120px - 15px) !important;
+}
+
+.form-control {
+	border: 1px solid #ccc;
+	background: #fff !important
+}
+
+.form-control:focus {
+	border: 1px solid #4D90FE;
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px
+		rgba(77, 144, 254, .6);
+}
+/* #app {padding-bottom: 55px;} */
+#app .table {
+	margin-bottom: 0px
+}
+</style>
+
+</head>
+
+<body>
+	<div class="loading">
+		<span></span> <span></span> <span></span> <span></span> <span></span>
+	</div>
+	<div class="content">
+		<form class="form-inline inputown">
+			<div class="form-group">
+				<label>代理服务器名称:</label> <input type="text" class="form-control"
+					id="proxy_server_query" />
+			</div>
+			<div class="form-group">
+				<button type="button" class="btn btn-success filterData query">
+					<span class="glyphicon glyphicon-search"></span> 查询
+				</button>
+			</div>
+			<div class="form-group"
+				style="float: right; margin-top: 30px; margin-bottom: 15px !important;">
+				<button type="button" class="btn btn-success tabRefresh">
+					<span class="glyphicon glyphicon-refresh"></span> 刷新
+				</button>
+				<button type="button" class="btn btn-success newSource"
+					data-toggle="modal" data-target=".new-modal">
+					<span class="glyphicon glyphicon-plus"></span> 新增
+				</button>
+			</div>
+			<div class="clearfix"></div>
+		</form>
+
+		<div id="app">
+			<table class="table table-hover  tab-own sysTable" cellpadding="0"
+				cellspacing="0" v-cloak>
+				<thead>
+					<tr>
+						<th>序号</th>
+						<th>服务器地址</th>
+						<th>服务器代理端口</th>
+						<th>说明</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr v-for="(tabtr,index) in tabData">
+						<td>{{tabtr.id}}</td>
+						<td>{{tabtr.agent}}</td>
+						<td>{{tabtr.port}}</td>
+						<td>{{tabtr.memo}}</td>
+						<td><span class="glyphicon glyphicon-pencil dataChange"
+							@click="dataChange(index)" title="修改" data-toggle="modal"
+							data-target=".new-modal"></span> <span
+							class="glyphicon glyphicon-trash tabDelete"
+							@click="dataDelete(tabtr.id)" title="删除" data-toggle="modal"
+							data-target=".delete-modal" style="padding-left: 50px;"></span> <span
+							class="glyphicon glyphicon-map-marker" @click="dbConnect(tabtr.id,tabtr.agent,tabtr.port)"
+							title="测试连接" data-toggle="modal" data-target=".connect-modal"
+							style="padding-left: 50px;"></span> <span
+							class="glyphicon glyphicon-cloud" @click="" title="日志信息"
+							data-toggle="modal" data-target="" style="padding-left: 50px;"></span>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<div class="modal fade new-modal" id="addChange" tabindex="-1"
+		role="dialog" aria-labelledby="mySmallModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="close">
+						<span>×</span>
+					</button>
+					<h4 class="modal-title" style="font-weight: normal"></h4>
+				</div>
+				<div class="modal-body form-inline inputNewData">
+					<div class="form-group col-lg-12 input-group-sm"
+						style="text-align: right; padding-bottom: 10px;">
+						<label>服务器地址：</label> <input type="text" class="form-control"
+							id="agent" v-model="modelData.agent" />
+					</div>
+					<div class="form-group col-lg-12 input-group-sm"
+						style="text-align: right; padding-bottom: 10px;">
+						<label>服务器代理端口：</label> <input type="text" class="form-control"
+							id="port" v-model="modelData.port" />
+					</div>
+					<div class="form-group col-lg-12 input-group-sm"
+						style="text-align: right; padding-bottom: 10px;">
+						<label>说明：</label> <input type="text" class="form-control"
+							id="memo" v-model="modelData.memo" />
+					</div>
+					<div class="clearfix"></div>
+				</div>
+				<div class="modal-footer">
+					<button type="reset" class="btn btn-default btn-sm"
+						data-dismiss="modal">返回</button>
+					<button type="submit" class="btn btn-success btn-sm">提交</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--删除-->
+	<div class="modal fade delete-modal" tabindex="-1" role="dialog"
+		aria-labelledby="mySmallModalLabel">
+		<div class="modal-dialog modal-sm" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="close">
+						<span>×</span>
+					</button>
+					<h4 class="modal-title" style="font-weight: normal"></h4>
+				</div>
+				<div class="modal-body" style="text-align: left;padding-top: 25px;padding-bottom: 25px;">
+						<h4 style="margin: 0px;display: inline-block;font-size: 14px;color: #555555;font-weight: normal">你确定删除代理服务器序号为</h4>
+						<div style="color: red;" class="delModelTip"></div>
+						<h4 style="margin: 0px;display: inline-block;font-size: 14px;color: #555555;font-weight: normal">吗?</h4>
+					</div>
+				<div class="modal-footer">
+					<button type="reset" class="btn btn-default btn-sm"
+						data-dismiss="modal">取消</button>
+					<button type="submit" class="btn btn-success btn-sm"
+						data-dismiss="modal">确定</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade connect-modal" tabindex="-1"
+		role="dialog" aria-labelledby="mySmallModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="close">
+						<span>×</span>
+					</button>
+					<h4 class="modal-title">连接信息</h4>
+				</div>
+				<div class="modal-body form-inline inputNewData">
+					<div class="form-group" style="width: 100%; padding-left: 15%;">
+						<textarea class="form-control input-sm" style="width: 100%;" id="info"></textarea>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+				<div class="modal-footer">
+					<button type="reset" class="btn btn-success btn-sm"
+						data-dismiss="modal">确定</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script src="../base/jquery/jquery-1.11.0.js"></script>
+<script src="../base/vue/vue.min.js"></script>
+<script src="../base/bootstrap/js/bootstrap.min.js"></script>
+<script src="../base/layer/layer.js"></script>
+<script
+	src="../base/bootstrap-datetimepicker-master/bootstrap-datetimepicker.min.js"></script>
+<script
+	src="../base/bootstrap-datetimepicker-master/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="../js/util.js"></script>
+<script src="../js/proxy_server.vue.js"></script>
+</html>

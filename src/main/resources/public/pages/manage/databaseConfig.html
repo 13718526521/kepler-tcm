@@ -115,7 +115,7 @@
 						<button style="margin-bottom: 10px;" type="button" class="btn btn-blue query-btn"><span class="glyphicon glyphicon-search"></span> 查询</button>
 					</div>
 					<div class="form-group">
-				    <button style="margin-bottom: 10px;" type="button" class="btn btn-blue plus" id="dataBase" ><span class="glyphicon glyphicon-plus"></span> 添加数据库</button>
+				    <button style="margin-bottom: 10px;" type="button" class="btn btn-blue plus" id="dataBase" data-toggle="modal" data-target=".new-modal" ><span class="glyphicon glyphicon-plus"></span> 添加数据库</button>
 					</div>
 					<div style="clear:both"></div>
 				</div>
@@ -135,16 +135,16 @@
 					</thead>
 					<tbody>
 						<tr v-for="(tabtr,index) in tabData">
-							<td>1</td>
-			                <td>oracle</td>
-			                <td>oracle.jdbc.driver.OracleDriver</td>
-			                <td>jdbc:oracle:thin:@0.0.0.0:1521:orcl</td>
-			                <td>scott</td>
-			                <td>tiger</td>
+							<td>{{index+1}}</td>
+			                <td>{{tabtr.a}}</td>
+			                <td>{{tabtr.b}}</td>
+			                <td>{{tabtr.c}}</td>
+			                <td>{{tabtr.d}}</td>
+			                <td>{{tabtr.e}}</td>
                             <td>
                                 <span class="fa fa-random Check" @click="Check()" title="测试" data-toggle="modal" style=" padding-right: 10px;"></span>
                                 <span class="fa fa-edit Updatask" @click="Updatask()" title="修改" data-toggle="modal"  style="color: green;"></span>
-                                <span class="fa fa-trash dataDelete" @click="tabDelete()" title="删除" data-toggle="modal"  style="color: #C13333;padding-left: 5px;" ></span>
+                                <span class="fa fa-trash dataDelete" @click="tabDelete()" title="删除" data-toggle="modal" data-target=".delete-modal"  style="color: #C13333;padding-left: 5px;" ></span>
                             </td>
                         </tr>
 					</tbody>
@@ -171,7 +171,7 @@
 		</div>
 		<!--添加数据库-->
 		<div class="modal fade new-modal" id="addChange" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-			<div class="modal-dialog" role="document" v-cloak>
+			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-label="close">
@@ -209,18 +209,23 @@
 		</div>
 	    </div>
 		<!--删除-->
-		<div class="modal fade onclose-modal-all" tabindex="-1" role="dialog" id="myModel" aria-labelledby="mySmallModalLabel">
+		<div class="modal fade delete-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
 			<div class="modal-dialog modal-sm" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-label="close">
 							<span>×</span>
 						</button>
-						<h4 class="modal-title">确定要删除？</h4>
+						<h4 class="modal-title" style="font-weight:normal"></h4>
 					</div>
-					<div class="modal-body">
-						<button type="reset" class="btn btn-default btn-sm" data-dismiss="modal">取消</button>
-						<button type="submit" class="btn btn-success btn-sm" data-dismiss="modal">确定</button>
+					<div class="modal-body form-inline" style="text-align: left;padding-top: 25px;padding-bottom: 25px;">
+						<h4 style="margin: 0px;display: inline-block;font-size: 14px;color: #555555;font-weight: normal">你确定删除企业</h4>
+						<div class="delModelTip"></div>
+						<h4 style="margin: 0px;display: inline-block;font-size: 14px;color: #555555;font-weight: normal">吗?</h4>
+					</div>
+					<div class="modal-footer">
+						<button type="reset" class="btn btn-sm ope-btn" data-dismiss="modal" style="border-color: rgba(0,0,0,0.1);">取消</button>
+						<button type="submit" class="btn btn-sm ope-btn btn-success" data-dismiss="modal">确定</button>
 					</div>
 				</div>
 			</div>

@@ -665,7 +665,7 @@ h4.modal-title{
     background-repeat:  no-repeat;
     background-size: 95%;
     background-position: center;
-    background-image: url(../images/cry_ico.png);
+    background-image: url(../icons/cry_ico.png);
     margin-bottom: 5px;
 }
 .no-data h4,.no-data_extra h4,.no-data_extra1 h4{ color: #999;font-size: 16px;}

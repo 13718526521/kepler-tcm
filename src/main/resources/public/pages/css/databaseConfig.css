@@ -269,4 +269,41 @@ select::-ms-expand { display: none; }
     background-color: #109E59;
 }
 
+.inputNewData label {
+	display: inline-block;
+	width: 130px;
+	text-align: right;
+}
 
+.inputNewData .form-group {
+	margin-bottom: 10px;
+	position: relative;
+}
+
+.new-modal textarea {
+	width: calc(100% - 200px) !important;
+	min-height: 60px;
+}
+
+.inputNewData input[type=text],
+.inputNewData input[type=password],
+.inputNewData select,
+.inputNewData textarea {
+	padding: 5px 10px;
+	width: 220px !important;
+}
+.bootstrap-select-searchbox input[type=text]{display: none;}
+
+.inputNewData input[type=radio] {
+	margin: 0;
+	margin-left: 5px;
+}
+
+.inputNewData textarea {
+	min-height: 60px;
+}
+
+.inputNewData .form-group {
+	display: block;
+	padding-left: 60px;
+}

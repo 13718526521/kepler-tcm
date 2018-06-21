@@ -1,5 +1,4 @@
 $(function() {
-
     $(".pagleft input").on("change", function() {
         this.value = this.value.replace(/[^0-9]+/, '');
         if(this.value <= 0) {
@@ -54,7 +53,7 @@ var vm = new Vue({
 			return pag;
 		}
 	},
-	/*methods: {
+	methods: {
 		goto: function(index) {
 			//if(index == this.current) return;
 			this.current = index;
@@ -75,7 +74,7 @@ var vm = new Vue({
         	
         },
         //删除
-        tabDelete: function(id,isDeleted) {
+        tabDelete: function() {
 			$(".delete-modal .modal-title").text('是否删除？');
 			//确定删除
 			$(".delete-modal button[type=submit]").click(function() {
@@ -96,19 +95,41 @@ var vm = new Vue({
 			});
 
 		},
-	}*/
+	}
 });
+
+//新增
+$("#dataBase").click(function(){
+	$(".new-modal .modal-title").text('新增');
+	$(".new-modal button[type=submit]").click(function() {
+		$(".loading").show();
+		$.ajax({
+			type: "put",
+			url: util.agent().baseUrl + "/custom/update.json",
+			data: {"isDeleted" : 2,"id" : id},
+			async: true,
+			success: function() {
+				layer.msg("删除成功", {
+					time: 1000
+				});
+
+				init(1);
+			}
+		});
+	});
+})
 
 function init(index) {
 	var params = {};
-	//console.log("http://"+util.agent().baseUrl+"/git/kepler-tcm/src/main/resources/public/pages/js/data.json");
+	console.log(util.agent().baseUrl);
 	$.ajax({
 		type: "get",
-		url: "http://"+util.agent().baseUrl+"/git/kepler-tcm/src/main/resources/public/pages/js/data.json",
+		url: util.agent().baseUrl+"/view/js/data.json",
 		async: true,
 		data: params,
 		success: function(data) {
 			if(data.length>0&&data!=undefined){
+				vm.tabData = data;
         		vm.current = index;
         		$("#app .no-data").remove();
         	}else{

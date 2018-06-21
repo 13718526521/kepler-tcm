@@ -14,7 +14,7 @@
 		<link href="../base/layer/skin/default/layer.css" rel="stylesheet" />
 		<link href="../css/baseall.css" rel="stylesheet" />
 		<link href="../base/jsonanalyze/css/jsonanalysis.css" rel="stylesheet" />
-		<link href="../css/databaseConfig.css" rel="stylesheet" />
+		<link href="../css/tasks.css" rel="stylesheet" />
 		<script src="../base/jquery/jquery-1.11.0.min.js"></script>
 		<script src="../js/skin.js"></script>
 		<script src="../base/layer/layer.js"></script>
@@ -118,7 +118,7 @@
 			            <button style="margin-bottom: 10px;" type="button" class="btn btn-blue plus" id="dataBase" ><span class="glyphicon glyphicon-plus"></span> 新建任务</button>
         			</div>
         			<div class="form-group">
-			            <button style="margin-bottom: 10px;" type="button" class="btn btn-blue deletes" id="dataBase" ><span class="glyphicon glyphicon-plus"></span> 批量删除</button>
+			            <button style="margin-bottom: 10px;" type="button" class="btn btn-blue deletes" id="deletes" ><span class="glyphicon glyphicon-plus"></span> 批量删除</button>
         			</div>
         			<div style="clear:both"></div>
 				</div>
@@ -137,9 +137,9 @@
 					</thead>
 					<tbody>
 						<tr v-for="(tabtr,index) in tabData">
-							<td>1</td>
-			                <td>总共 245760 K, 使用 6940 K, 剩余 238820 K</td>
-			                <td>最小内存 3398 K, 最大内存 36338 K</td>
+							<td>{{index+1}}</td>
+			                <td>总共{{tabtr.a}},使用{{tabtr.b}},剩余{{tabtr.c}}</td>
+			                <td>最小内存{{tabtr.d}},最大内存{{tabtr.e}}</td>
 			                <!-- <td>
 			                    <span class="fa fa-edit Updatask" @click="Updatask(tabtr.activityId,tabtr.activityState,tabtr.externalActivityId)" title="启动" data-toggle="modal"  style="color: green;"></span>
                                 <span class="fa fa-edit Updatask" @click="Updatask(tabtr.activityId,tabtr.activityState,tabtr.externalActivityId)" title="停止" data-toggle="modal"  style="color: green;"></span>
@@ -150,10 +150,11 @@
 			                    <a value="start" href="javascript:void(0)"  @click="audio()">清除所有错误</a>
 			                </td>
                             <td>
-                                <span class="fa fa-play-circle" @click="Updatask(tabtr.activityId,tabtr.activityState,tabtr.externalActivityId)" title="启动" data-toggle="modal"  style="color: green;font-size: 15px;"></span>
-                                <span class="fa fa-dot-circle-o" @click="Updatask(tabtr.activityId,tabtr.activityState,tabtr.externalActivityId)" title="停止" data-toggle="modal"  style="color: green;font-size: 15px;"></span>
-                                <span class="fa fa-warning" @click="Updatask(tabtr.activityId,tabtr.activityState,tabtr.externalActivityId)" title="终止" data-toggle="modal"  style="color: green;font-size: 15px;"></span>
-                                <span class="fa fa-trash dataDelete" @click="dataDelete(tabtr.activityId,tabtr.activityState)" title="删除" data-toggle="modal"  style="color: #C13333;padding-left: 5px;font-size: 15px;" ></span>
+                                <span class="fa fa-play-circle" @click="start()" title="启动" data-toggle="modal"  style="color: green;font-size: 15px;"></span>
+                                <span class="fa fa-dot-circle-o" @click="stop()" title="停止" data-toggle="modal"  style="color: green;font-size: 15px;"></span>
+                                <span class="fa fa-warning" @click="termination()" title="终止" data-toggle="modal"  style="color: green;font-size: 15px;"></span>
+                                <span class="fa fa-edit Updatask" @click="updatask(index)" title="修改" data-toggle="modal" data-target=".new-modal"  style="color: green;"></span>
+                                <span class="fa fa-trash dataDelete" @click="tabDelete()" title="删除" data-toggle="modal" data-target=".delete-modal" style="color: #C13333;padding-left: 5px;font-size: 15px;" ></span>
                             </td>
                         </tr>
 					</tbody>
@@ -179,23 +180,23 @@
 			</div>
 		</div>
 		<!--删除-->
-		<div class="modal fade start-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+		<div class="modal fade delete-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
 			<div class="modal-dialog modal-sm" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-label="close">
 							<span>×</span>
 						</button>
-						<h4  style="font-weight:normal">提示信息</h4>
+						<h4 class="modal-title" style="font-weight:normal"></h4>
 					</div>
 					<div class="modal-body form-inline" style="text-align: left;padding-top: 25px;padding-bottom: 25px;">
-						<h4 class="modal-type" style="margin: 0px;display: inline-block;font-size: 14px;color: #555555;font-weight: normal"></h4>
-						<div class="delModelTip" ></div>
-						<h4  style="margin: 0px;display: inline-block;font-size: 14px;color: #555555;font-weight: normal;padding-left: 4px;">的活动吗?</h4>
+						<h4 style="margin: 0px;display: inline-block;font-size: 14px;color: #555555;font-weight: normal">你确定删除</h4>
+						<div class="delModelTip"></div>
+						<h4 style="margin: 0px;display: inline-block;font-size: 14px;color: #555555;font-weight: normal">吗?</h4>
 					</div>
 					<div class="modal-footer">
-						<button type="reset" class="btn btn-default btn-sm" data-dismiss="modal">取消</button>
-						<button type="submit" class="btn btn-primary btn-sm" data-dismiss="modal">确定</button>
+						<button type="reset" class="btn btn-sm ope-btn" data-dismiss="modal" style="border-color: rgba(0,0,0,0.1);">取消</button>
+						<button type="submit" style="background-color: #489ef2;color:#fff;" class="btn btn-sm ope-btn" data-dismiss="modal">确定</button>
 					</div>
 				</div>
 			</div>

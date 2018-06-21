@@ -14,7 +14,7 @@
 		<link href="../base/layer/skin/default/layer.css" rel="stylesheet" />
 		<link href="../css/baseall.css" rel="stylesheet" />
 		<link href="../base/jsonanalyze/css/jsonanalysis.css" rel="stylesheet" />
-		<link href="../css/databaseConfig.css" rel="stylesheet" />
+		<link href="../css/database_config.css" rel="stylesheet" />
 		<script src="../base/jquery/jquery-1.11.0.min.js"></script>
 		<script src="../js/skin.js"></script>
 		<script src="../base/layer/layer.js"></script>
@@ -142,8 +142,8 @@
 			                <td>{{tabtr.d}}</td>
 			                <td>{{tabtr.e}}</td>
                             <td>
-                                <span class="fa fa-random Check" @click="Check()" title="测试" data-toggle="modal" style=" padding-right: 10px;"></span>
-                                <span class="fa fa-edit Updatask" @click="Updatask()" title="修改" data-toggle="modal"  style="color: green;"></span>
+                                <span class="fa fa-random Check" @click="Check()" title="测试连接" data-toggle="modal" style=" padding-right: 10px;"></span>
+                                <span class="fa fa-edit Updatask" @click="Updatask(index)" title="修改" data-toggle="modal" data-target=".new-modal"  style="color: green;"></span>
                                 <span class="fa fa-trash dataDelete" @click="tabDelete()" title="删除" data-toggle="modal" data-target=".delete-modal"  style="color: #C13333;padding-left: 5px;" ></span>
                             </td>
                         </tr>
@@ -182,23 +182,23 @@
 					<div class="modal-body form-inline inputNewData">
 						<div class="form-group">
 							<label>名称：</label>
-							<input type="text" id="businessName" class="form-control input-sm required" :readonly="modelData.readOnly" v-model="modelData.businessName" :style="modelData.readOnly ? '' : (modelData.businessName === '' ? 'background: #FFF3F3 !important;' : 'background: none !important;')" data-container="body" data-toggle="popover" data-placement="right" data-content="" />
+							<input type="text" id="dataBaseName" class="form-control input-sm required" :readonly="modelData.readOnly" v-model="modelData.businessName" :style="modelData.readOnly ? '' : (modelData.businessName === '' ? 'background: #FFF3F3 !important;' : 'background: none !important;')" data-container="body" data-toggle="popover" data-placement="right" data-content="" />
 						</div>
 						<div class="form-group">
 							<label>驱动：</label>
-							<input type="text" id="usernameid" class="form-control input-sm required" :readonly="modelData.readOnly" v-model="modelData.loginName" :style="modelData.readOnly ? '' : (modelData.loginName === '' ? 'background: #FFF3F3 !important;' : 'background: none !important;')" data-container="body" data-toggle="popover" data-placement="right" data-content="" />
+							<input type="text" id="drive" class="form-control input-sm required" :readonly="modelData.readOnly" v-model="modelData.loginName" :style="modelData.readOnly ? '' : (modelData.loginName === '' ? 'background: #FFF3F3 !important;' : 'background: none !important;')" data-container="body" data-toggle="popover" data-placement="right" data-content="" />
 						</div>
 						<div class="form-group">
 							<label>链接：</label>
-							<input type="password" id = "userpassword" class="form-control input-sm required" v-model="modelData.password" :style="modelData.password === '' ? 'background: #FFF3F3 !important;' : 'background: none !important;'" data-container="body" data-toggle="popover" data-placement="right" data-content="" placeholder = ""/>
+							<input type="text" id = "link" class="form-control input-sm required" v-model="modelData.password" :style="modelData.password === '' ? 'background: #FFF3F3 !important;' : 'background: none !important;'" data-container="body" data-toggle="popover" data-placement="right" data-content="" placeholder = ""/>
 						</div>
 						<div class="form-group" v-else>
 							<label>用户名：</label>
-							<input type="password" id="newPwd" class="form-control input-sm required"  placeholder = "密码由6~32位数字字母组成"/>
+							<input type="text" id="userName" class="form-control input-sm required"  placeholder = "密码由6~32位数字字母组成"/>
 						</div>
 						<div class="form-group">
 							<label>密码：</label>
-							<input type="text" id = "businessType" class="form-control input-sm required" v-model="modelData.businessType" :style="modelData.businessType === '' ? 'background: #FFF3F3 !important;' : 'background: none !important;'" data-container="body" data-toggle="popover" data-placement="right" data-content="客户类型不能为空" />
+							<input type="password" id = "passWord" class="form-control input-sm required" v-model="modelData.businessType" :style="modelData.businessType === '' ? 'background: #FFF3F3 !important;' : 'background: none !important;'" data-container="body" data-toggle="popover" data-placement="right" data-content="客户类型不能为空" />
 						</div>
 					<div class="modal-footer">
 						<button type="reset" class="btn btn-default btn-sm" data-dismiss="modal">取消</button>
@@ -219,13 +219,13 @@
 						<h4 class="modal-title" style="font-weight:normal"></h4>
 					</div>
 					<div class="modal-body form-inline" style="text-align: left;padding-top: 25px;padding-bottom: 25px;">
-						<h4 style="margin: 0px;display: inline-block;font-size: 14px;color: #555555;font-weight: normal">你确定删除企业</h4>
+						<h4 style="margin: 0px;display: inline-block;font-size: 14px;color: #555555;font-weight: normal">你确定删除</h4>
 						<div class="delModelTip"></div>
 						<h4 style="margin: 0px;display: inline-block;font-size: 14px;color: #555555;font-weight: normal">吗?</h4>
 					</div>
 					<div class="modal-footer">
 						<button type="reset" class="btn btn-sm ope-btn" data-dismiss="modal" style="border-color: rgba(0,0,0,0.1);">取消</button>
-						<button type="submit" class="btn btn-sm ope-btn btn-success" data-dismiss="modal">确定</button>
+						<button type="submit" style="background-color: #489ef2;color:#fff;" class="btn btn-sm ope-btn" data-dismiss="modal">确定</button>
 					</div>
 				</div>
 			</div>
@@ -236,6 +236,6 @@
 	<script src="../js/util.js"></script>
 	<!-- <script src="../js/common.js"></script> -->
 	<script src="../base/jsonanalyze/js/analyze.js"></script>
-	<script src="../js/databaseConfig.vue.js"></script>
+	<script src="../js/database_config.vue.js"></script>
 
 </html>

@@ -25,7 +25,7 @@ var vm = new Vue({
 		tabData: [],
 		current: 1, //当前显示第几页
 		showItem: 5,
-		allpage: 13,
+		allpage: 1,
 		totalNum: 0,
 		checkAll:false,
 		checkModel:[]
@@ -69,9 +69,21 @@ var vm = new Vue({
 			//这里可以发送ajax请求
 			init(index);
 		},
+		Check: function(){
+			layer.msg("连接成功", {
+				time: 1000
+			});
+		},
         //修改
-        Updatask: function() {
+        Updatask: function(ind) {
+        	$(".new-modal .modal-title").text('修改');
         	
+        	$("#dataBaseName").val(vm.tabData[ind].a);
+        	$("#drive").val(vm.tabData[ind].b);
+        	$("#link").val(vm.tabData[ind].c);
+        	$("#userName").val(vm.tabData[ind].d);
+        	$("#passWord").val(vm.tabData[ind].e);
+        	dataBase(vm.tabData[ind]);
         },
         //删除
         tabDelete: function() {
@@ -101,9 +113,16 @@ var vm = new Vue({
 //新增
 $("#dataBase").click(function(){
 	$(".new-modal .modal-title").text('新增');
+	
+	$("#dataBaseName").val("");
+	$("#drive").val("");
+	$("#link").val("");
+	$("#userName").val("");
+	$("#passWord").val("");
 	$(".new-modal button[type=submit]").click(function() {
 		$(".loading").show();
-		$.ajax({
+		
+		/*$.ajax({
 			type: "put",
 			url: util.agent().baseUrl + "/custom/update.json",
 			data: {"isDeleted" : 2,"id" : id},
@@ -115,13 +134,19 @@ $("#dataBase").click(function(){
 
 				init(1);
 			}
-		});
+		});*/
 	});
 })
 
+function dataBase(data){
+	console.log(data);
+	
+}
+
 function init(index) {
 	var params = {};
-	console.log(util.agent().baseUrl);
+	params.pageNum = index-1;
+    params.pageSize = $(".pagleft input").val();
 	$.ajax({
 		type: "get",
 		url: util.agent().baseUrl+"/view/js/data.json",

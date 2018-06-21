@@ -86,9 +86,14 @@ var vm = new Vue({
 		},
         //修改
 		updatask: function(ind) {
+        	$(".new-modal .modal-title").text('修改');
         	
-        	
-        	window.location.href="tasks_add.html";
+        	$("#dataBaseName").val(vm.tabData[ind].a);
+        	$("#drive").val(vm.tabData[ind].b);
+        	$("#link").val(vm.tabData[ind].c);
+        	$("#userName").val(vm.tabData[ind].d);
+        	$("#passWord").val(vm.tabData[ind].e);
+        	dataBase(vm.tabData[ind]);
         },
         //删除
         tabDelete: function() {

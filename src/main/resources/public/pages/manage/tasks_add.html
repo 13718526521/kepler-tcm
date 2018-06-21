@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="keywords" content="" />
+	<meta name="description" content="" />
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="../icons/favicon_uc.ico" rel="shortcut icon">
+	<link class="bootselect" href="" rel="stylesheet" type="text/css" />
+	<link href="../base/bootstrap-datetimepicker-master/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+	<link href="../base/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+	<link href="../base/layer/skin/default/layer.css" rel="stylesheet" />
+	<link href="../css/baseall.css" rel="stylesheet" />
+	<link href="../base/jsonanalyze/css/jsonanalysis.css" rel="stylesheet" />
+	<!-- <link href="../../css/call_execute_center.css" rel="stylesheet" /> -->
+	<script src="../base/jquery/jquery-1.11.0.min.js"></script>
+	<script src="../base/layer/layer.js"></script>
+	<script src="../js/skin.js"></script>
+	<title>添加任务</title>
+	<style>
+		html,body{height: 100%;}
+		body{font-size: 12px;background: #F5F5F5;}
+		.content {padding: 30px 70px;height: 100%;min-width: 1115px;padding-top:15px;}
+		.content>div{
+			height: 100%;
+		}
+		.content>div form .control-label{
+			min-width: 140px;
+			height: 30px;
+			padding: 8px 12px;
+			font-size: 14px;
+			line-height: 1.42857143;
+			float: left;
+			text-align: right;
+			color: #666;
+			font-family: MicrosoftYaHei;
+			font-weight: normal;
+		}
+		.content>div form span.form-control{
+			height: 30px;
+			border: none;
+			background-color: transparent;
+			box-shadow: none;
+			text-align: center;
+		}
+		.form-inline{
+			margin-bottom: 20px;
+		}
+		.form-control{
+			height: 30px;
+			border: 1px solid #eee;
+			box-shadow: none;
+			color: #333;
+			padding: 0px 12px;
+		}
+		.form-inline .form-group{position: relative;}
+		.form-group-1{
+			width: 100%;
+		}
+		.form-group-1 textarea,.form-group-2 textarea{width: 60%!important;min-height: 80px;padding: 4px 10px;}
+		.form-group-1 textarea{width: calc(70.1%)!important;border:1px solid #cccccc;margin-bottom: 4px;}
+		.form-group-2{
+			width: calc(50% - 7%);
+		}
+		.form-inline .form-group-2:nth-child(2){margin-left: 9.65%;}
+		.form-group input[type='text'],
+		.form-group select,.form-group input[type='number'],
+		.spinner{
+			/*width: calc(100% - 140px)!important;*/
+			width: 40% !important;
+			border:1px solid #cccccc;
+		}
+		#spinner1{
+			border:none;
+		}
+		.testCustom input[type='text']{    width: 40% !important;}
+		/* .form-group select,.form-group input[type='number']{
+             width: 30%!important;
+        } */
+
+		input[type='text'].start-time,input[type='text'].end-time{width: 27%!important;}
+		.select-btn{margin-left: 25px;}
+
+		#formApp {
+			padding-bottom: 0px;
+		}
+		.txt-cont{
+			height: 38px;
+			padding: 8px 12px;
+			font-size: 14px;
+			line-height: 1.42857143;
+			text-align: center;
+			display: inline;
+		}
+		.sum-con{text-align: right;margin-top: 30px; width:calc(73% + 140px);padding-bottom:40px;}
+		.sum-con button{
+			padding: 8px 25px;
+			margin-left: 30px;
+		}
+		.table{font-size: 13px;max-height:200px;margin-bottom:0}
+		.table>thead>tr>th{border-bottom: 1px solid #ddd;font-weight:bold}
+		.tab-own {
+			border: 1px solid #ccc;
+		}
+		.tab-own tr{
+			height:25px;
+		}
+		.pagleft{
+			top:226px;
+			left:20px;
+			margin:0;
+		}
+		.pagination{
+			top:226px;
+			right:20px;
+			margin:0;
+		}
+		.tab-own th, .tab-own td {
+			text-align: left;
+			padding-left: 30px!important;
+		}
+		#selectGroupArea{
+			overflow-y:auto;
+			height:200px;
+
+		}
+		/** 自定义input单选按钮 **/
+		.radio-txt{
+			display: inline-block;
+			font-size: 15px;
+			margin-right: 30px;
+		}
+		.iradio_square {
+			display: inline-block;
+			vertical-align: middle;
+			margin: 0;
+			padding: 0;
+			width: 22px;
+			height: 22px;
+			background: url(../icons/radio_ico.png) no-repeat;
+			background-size: 80%;
+			background-position: top center;
+			border: none;
+			cursor: pointer;
+			margin-right: 5px;
+		}
+		.iradio_square_1{
+			width: 28px;
+			height: 28px;
+		}
+		.iradio_square.selected{
+			background: url(../icons/btn_chose_1.png) no-repeat;
+			background-size: 80%;
+			background-position: top center;
+		}
+
+		/** 自定义input数值框 **/
+		/* .spinner {
+          width: 30%;
+        } */
+		.spinner input[type='text'] {
+			text-align: left;
+			width: 100%!important;
+		}
+		.input-group-btn-vertical {
+			position: relative;
+			white-space: nowrap;
+			width: 1%;
+			vertical-align: middle;
+			display: table-cell;
+		}
+		.input-group-btn-vertical > .btn {
+			display: block;
+			float: none;
+			width: 100%;
+			max-width: 100%;
+			padding: 2px 8px;
+			margin-left: -1px;
+			position: relative;
+			border-radius: 0;
+			height: 16px;
+			border-color: #ccc; 
+			outline: none;
+		}
+		.input-group-btn-vertical > .btn:first-child {
+			border-top-right-radius: 4px;
+		}
+		.input-group-btn-vertical > .btn:last-child {
+			margin-top: -2px;
+			border-bottom-right-radius: 4px;
+		}
+		.input-group-btn-vertical i{
+			position: absolute;
+			top: -1px;
+			left: 4px;
+		}
+		.select-btn{
+			height: 30px;
+			background-color: #489ef2;
+			font-size: 14px;
+			color: #fff;
+			font-family: MicrosoftYaHei;
+			padding: 0 10px;
+			margin-top: -3px;
+		}
+		.btn-blue{
+			background-color: #489ef2;
+			font-size: 14px;
+			color: #fff;
+			font-family: MicrosoftYaHei;
+			width: 100px;
+			height: 40px;
+		}
+		.select-btn:hover,.select-btn:focus,.select-btn:active,
+		.btn-blue:hover,.btn-blue:focus,.btn-blue:active{
+			/* background-color: #3879D9; */
+			color: #fff;
+		}
+
+		/** 自定义下拉框样式 **/
+		select {
+			border: solid 1px #000;/*Chrome和Firefox里面的边框是不一样的，所以复写了一下*/
+			appearance:none;/*很关键：将默认的select选择框样式清除*/
+			-moz-appearance:none;
+			-webkit-appearance:none;
+			background: url(../icons/减号.png) no-repeat scroll right center transparent;/*在选择框的最右侧中间显示小箭头图片*/
+			padding-right: 14px;/*为下拉小箭头留出一点位置，避免被文字覆盖*/
+		}
+		/*清除ie的默认选择框样式清除，隐藏下拉箭头*/
+		select::-ms-expand { display: none; }
+		.trangle{
+			width: 0;
+			height: 0;
+			margin-top: 5px;
+			margin-left: 1px;
+			border-left: 4px solid transparent;
+			border-right: 4px solid transparent;
+			border-top: 8px solid rgba(0,0,0,.5);
+			position: absolute;
+			display: inline;
+			left: calc(40% + 120px);
+			top: 6px;
+		}
+		.modal-dialog .tab-own thead>tr:nth-child(1) th {
+			background: #eee;
+			border-bottom: 1px solid #ccc;
+		}
+		.fset{
+		    height: 150px;
+		    margin-left: 10%;
+		    margin-right: 10%;
+		}
+	</style>
+</head>
+
+<body>
+    <div class="content">
+        <div class="form-group" style="width: auto">
+			<label>*任务名称：</label>
+			<input type="text" class="form-control"/>
+			<input type="checkbox"/>自动运行
+			<input type="checkbox"/>禁止运行
+		</div>
+        <div class="form-group" style="width: auto">
+			<label>*信息名称：</label>
+			<select id="smsName" class="require" style="width: 200px;" onchange="getSmsOne()" data-toggle="popover" data-content="请选择信息名称">
+				<option value="-1">----- 请选择 -----</option>
+				<option v-for="smsContent in smsContentModal" :value="smsContent.id">{{smsContent.messageName}}</option>
+			</select>
+		</div>
+    </div>
+</body>
+<script src="../base/vue/vue.min.js"></script>
+<script src="../base/bootstrap/js/bootstrap.min.js"></script>
+<script src="../base/bootstrap-datetimepicker-master/bootstrap-datetimepicker.min.js"></script>
+<script src="../base/bootstrap-datetimepicker-master/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="../js/util.js"></script>
+<script src="../js/common.js"></script>
+<script src="../base/jsonanalyze/js/analyze.js"></script>
+<!-- <script src="../js/tasks_add.vue.js"></script> -->
+
+</html>

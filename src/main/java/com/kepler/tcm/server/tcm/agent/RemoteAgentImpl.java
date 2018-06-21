@@ -92,6 +92,7 @@ public class RemoteAgentImpl extends UnicastRemoteObject implements RemoteAgent 
 		else {
 			shell = shell + "./startServer.sh " + server;
 		}
+		
 		logger.info(shell);
 		Process proc = Runtime.getRuntime().exec(shell);
 
@@ -491,17 +492,6 @@ public class RemoteAgentImpl extends UnicastRemoteObject implements RemoteAgent 
 		System.exit(0);
 	}
 
-	public static void main(String[] args) throws Exception {
-		Process process = Runtime.getRuntime().exec(new String[] { "cmd.exe /C start  ../bin/startServer.bat" });
-
-		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-		String s;
-		while ((s = bufferedReader.readLine()) != null) {
-			/* String s; */
-			System.out.println(">" + s);
-		}
-		System.out.println("end");
-	}
 
 	public void setName(String name) throws RemoteException {
 		this.name = name;
@@ -621,5 +611,25 @@ public class RemoteAgentImpl extends UnicastRemoteObject implements RemoteAgent 
 		} catch (Exception e) {
 		}
 		return "";
+	}
+	
+	
+	public static void main(String[] args) throws Exception {
+		
+		Process process = Runtime.getRuntime().exec("cmd.exe /c start  bin/startServer.bat");
+		
+		//Process process = Runtime.getRuntime().exec("cmd.exe /c start  F:\\apache-tomcat-7.0.72\\bin\\startup.bat");
+
+		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+		String s;
+		while ((s = bufferedReader.readLine()) != null) {
+			System.out.println(">" + s);
+		}
+		System.out.println("end");
+		
+		
+		//RemoteAgent remoteAgent = new  RemoteAgentImpl();
+		
+		//remoteAgent.startServer("");
 	}
 }

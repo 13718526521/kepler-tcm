@@ -1,7 +1,0 @@
-{
-"server":[
-{"id":"1","agent":"127.0.0.1","port":"1098","memo":"name"}, 
-{"id":"2","agent":"localhost","port":"1098","memo":"测试"}, 
-{"id":"3","agent":"172.16.63.63","port":"1098","memo":"server"}
-]
-}

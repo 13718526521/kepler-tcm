@@ -23,7 +23,7 @@
 		body{font-size: 12px;background: #F5F5F5;}
 		.content {padding: 30px 70px;height: 100%;min-width: 1115px;padding-top:15px;}
 		.content>div{
-			height: 100%;
+			height: 6%;
 		}
 		.content>div form .control-label{
 			min-width: 140px;
@@ -49,10 +49,10 @@
 		}
 		.form-control{
 			height: 30px;
+			width:20%;
 			border: 1px solid #eee;
 			box-shadow: none;
 			color: #333;
-			padding: 0px 12px;
 		}
 		.form-inline .form-group{position: relative;}
 		.form-group-1{
@@ -64,11 +64,10 @@
 			width: calc(50% - 7%);
 		}
 		.form-inline .form-group-2:nth-child(2){margin-left: 9.65%;}
-		.form-group input[type='text'],
 		.form-group select,.form-group input[type='number'],
 		.spinner{
 			/*width: calc(100% - 140px)!important;*/
-			width: 40% !important;
+			width: 20% !important;
 			border:1px solid #cccccc;
 		}
 		#spinner1{
@@ -251,6 +250,22 @@
 		    margin-left: 10%;
 		    margin-right: 10%;
 		}
+		.form-time{
+		    height: 25px;
+		    width: 4% !important;
+			background-color: transparent;
+			box-shadow: none;
+			text-align: center;
+			border:1px solid #cccccc;
+		}
+		.form-time-cron{
+		    height: 25px;
+		    width: 15% !important;
+			background-color: transparent;
+			box-shadow: none;
+			text-align: center;
+			border:1px solid #cccccc;
+		}
 	</style>
 </head>
 
@@ -263,11 +278,110 @@
 			<input type="checkbox"/>禁止运行
 		</div>
         <div class="form-group" style="width: auto">
-			<label>*信息名称：</label>
-			<select id="smsName" class="require" style="width: 200px;" onchange="getSmsOne()" data-toggle="popover" data-content="请选择信息名称">
-				<option value="-1">----- 请选择 -----</option>
-				<option v-for="smsContent in smsContentModal" :value="smsContent.id">{{smsContent.messageName}}</option>
+			<label>*引用插件：</label>
+			<select class="form-control required activeType" v-model="codeTypeId" data-toggle="popover" data-placement="bottom" data-content="请选择有效活动"/>
+			<option value="">-- 请选择 --</option>
 			</select>
+		</div>
+		<div class="form-group" style="width: auto">
+		    <label>*数据库：</label>
+			<label>主要：</label>
+			<select class="form-control required activeType" v-model="codeTypeId" data-toggle="popover" data-placement="bottom" data-content="请选择有效活动"/>
+			<option value="">-- 请选择 --</option>
+			</select>
+			<label>备用：</label>
+			<select class="form-control required activeType" v-model="codeTypeId" data-toggle="popover" data-placement="bottom" data-content="请选择有效活动"/>
+			<option value="">-- 请选择 --</option>
+			</select>
+		</div>
+		<div class="form-group" style="width: auto">
+		    <label>时间格式示例：2049年12月31日 23时59分59秒</label>
+		</div>
+		<div class="form-group" style="width: auto">
+			<input value="1" type="radio" kind="Group"></label><span class="radio">&nbsp&nbsp立即执行</span>
+		</div>
+		<div class="form-group" style="width: auto">
+			<input value="1" type="radio" kind="Group"></label><span class="radio">&nbsp&nbsp定时执行</span>
+			<input type="text" class="form-time"/>
+			<label>年</label>
+			<input type="text" class="form-time"/>
+			<label>月</label>
+			<input type="text" class="form-time"/>
+			<label>日</label>
+			<input type="text" class="form-time"/>
+			<label>时</label>
+			<input type="text" class="form-time"/>
+			<label>分</label>
+			<input type="text" class="form-time"/>
+			<label>秒</label>
+		</div>
+		<div class="form-group" style="width: auto">
+			<input value="1" type="radio" kind="Group"></label><span class="radio">&nbsp&nbsp每</span>
+			<input type="text" class="form-time"/>
+			<label>分钟执行一次</label>
+		</div>
+		<div class="form-group" style="width: auto">
+			<input value="1" type="radio" kind="Group"></label><span class="radio">&nbsp&nbsp每</span>
+			<input type="text" class="form-time"/>
+			<label>天执行一次 ，每次执行于</label>
+			<input type="text" class="form-time"/>
+			<label>时</label>
+			<input type="text" class="form-time"/>
+			<label>分</label>
+			<input type="text" class="form-time"/>
+			<label>秒</label>
+		</div>
+		<div class="form-group" style="width: auto">
+			<input value="1" type="radio" kind="Group"></label><span class="radio">&nbsp&nbspCron表达式</span>
+			<input type="text" class="form-time-cron"/>
+			<a value="start" href="javascript:void(0)" @click="audio()" style="color:red;">表达式说明</a>
+		</div>
+		<div class="form-group" style="width: auto">
+		    <label>出错报警方式:</label>
+		    <input value="1" type="radio" kind="Group"></label><span class="radio">&nbsp&nbsp报警一次</span>&nbsp&nbsp&nbsp&nbsp
+		    <input value="1" type="radio" kind="Group"></label><span class="radio">&nbsp&nbsp保持报警</span>
+		    <input type="text" class="form-time"/>
+			<label>分钟</label>
+			&nbsp&nbsp&nbsp&nbsp
+		    <input value="1" type="radio" kind="Group"></label><span class="radio">&nbsp&nbsp一直报警</span>
+		</div>
+		<div class="form-group" style="width: auto">
+			<input value="1" type="radio" kind="Group"></label><span class="radio">&nbsp&nbsp立即执行</span>
+			<label> 成功记录数报警。 在</label>
+			<input type="text" class="form-time"/>
+			<label>分钟内”成功记录数“（succNum）没有增加则报警</label>
+		</div>
+		<div class="form-group" style="width: auto">
+			<input value="1" type="radio" kind="Group"></label><span class="radio">&nbsp&nbsp错误记录报警。 错误记录数（failNum）只要变化则报警</span>
+		</div>
+		<div class="form-group" style="width: auto">
+		    <label>注：值为“0”表示无限制</label>
+		</div>
+		<div class="form-group" style="width: auto">
+			<label> 保留</label>
+			<input type="text" class="form-time"/>
+			<label>个日志， 每个日志最大容量为 </label>
+			<input type="text" class="form-time"/>
+			<label>兆 ， </label>
+		</div>
+		<div class="form-group" style="width: auto">
+			<label> 日志一”输出级别为 </label>
+			<select class="form-control required activeType" v-model="codeTypeId" data-toggle="popover" data-placement="bottom" data-content="请选择有效活动"/>
+			<option value="">-- DEBUG --</option>
+			</select>
+			<label>， “日志二”输出级别为 </label>
+			<select class="form-control required activeType" v-model="codeTypeId" data-toggle="popover" data-placement="bottom" data-content="请选择有效活动"/>
+			<option value="">-- ERROR --</option>
+			</select>
+		</div>
+		<div class="form-group" style="width: auto">
+			<label> 单次任务超时设置：</label>
+			<input type="text" class="form-time"/>
+			<label>分钟</label>
+		</div>
+		<div class="form-group">
+			<button type="reset" class="btn btn-default btn-sm reset" data-dismiss="modal">取消</button>
+			<button type="submit" class="btn btn-success btn-sm submit" style="background-color: #489ef2;color:#fff;" data-dismiss="modal">确定</button>
 		</div>
     </div>
 </body>
@@ -278,6 +392,6 @@
 <script src="../js/util.js"></script>
 <script src="../js/common.js"></script>
 <script src="../base/jsonanalyze/js/analyze.js"></script>
-<!-- <script src="../js/tasks_add.vue.js"></script> -->
+<script src="../js/tasks_add.vue.js"></script> 
 
 </html>

@@ -8,6 +8,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link href="../icons/favicon_uc.ico" rel="shortcut icon">
 	<link class="bootselect" href="" rel="stylesheet" type="text/css" />
+	<!-- <link href="../base/bootstrap/bootstrap-cerulean.css" rel="stylesheet" /> -->
 	<link href="../base/bootstrap-datetimepicker-master/bootstrap-datetimepicker.min.css" rel="stylesheet" />
 	<link href="../base/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
 	<link href="../base/layer/skin/default/layer.css" rel="stylesheet" />
@@ -48,13 +49,19 @@
 			margin-bottom: 20px;
 		}
 		.form-control{
-			height: 30px;
-			width:20%;
-			border: 1px solid #eee;
-			box-shadow: none;
-			color: #333;
+			    height: 30px;
+			    width: 20%;
+			    border: 1px solid #ccc;
+			    box-shadow: none;
+			    color: #333;
+			    background-color: transparent;
+			    padding: 0 8px;
 		}
-		.form-inline .form-group{position: relative;}
+	    .form-group{
+		    position: relative;
+		    margin: 7px 0;
+		    margin-top: 0px;
+		}
 		.form-group-1{
 			width: 100%;
 		}
@@ -67,7 +74,7 @@
 		.form-group select,.form-group input[type='number'],
 		.spinner{
 			/*width: calc(100% - 140px)!important;*/
-			width: 20% !important;
+			width: 15% !important;
 			border:1px solid #cccccc;
 		}
 		#spinner1{
@@ -208,8 +215,18 @@
 			font-size: 14px;
 			color: #fff;
 			font-family: MicrosoftYaHei;
-			width: 100px;
-			height: 40px;
+			padding:5px 15px;
+			border-width: 1px;
+			border-color: rgba(0,0,0,.2)!important;
+            border-style: solid;
+		}
+		.btn-default{
+			font-size: 14px;
+			font-family: MicrosoftYaHei;
+			padding:5px 15px;
+			border-width: 1px;
+			border-color: rgba(0,0,0,.2)!important;
+            border-style: solid;
 		}
 		.select-btn:hover,.select-btn:focus,.select-btn:active,
 		.btn-blue:hover,.btn-blue:focus,.btn-blue:active{
@@ -266,42 +283,65 @@
 			text-align: center;
 			border:1px solid #cccccc;
 		}
+		fieldset{
+		    padding: 10px;
+		    margin: 10px 0;
+		    padding-left: 15px;
+		}
+		fieldset > legend{
+		    font-weight: bold;
+		}
+		.checkbox-text{
+		    display: inline;
+		    position:relative;
+		    top:-2px;
+		}
+		.label-text{
+		    text-align: right;
+		    width: 66px;
+		    display: inline-block;
+		}
 	</style>
 </head>
 
 <body>
     <div class="content">
-        <div class="form-group" style="width: auto">
-			<label>*任务名称：</label>
+        <fieldset style="margin-top: 0px;">
+            <legend>常规</legend>
+            <div class="form-group" style="width: auto">
+			<label class="label-text">*任务名称：</label>
 			<input type="text" class="form-control"/>
-			<input type="checkbox"/>自动运行
-			<input type="checkbox"/>禁止运行
+			<input type="checkbox"/><span class="checkbox-text">自动运行</span>
+			<input type="checkbox"/><span class="checkbox-text">禁止运行</span>
 		</div>
         <div class="form-group" style="width: auto">
-			<label>*引用插件：</label>
-			<select class="form-control required activeType" v-model="codeTypeId" data-toggle="popover" data-placement="bottom" data-content="请选择有效活动"/>
+			<label class="label-text">*引用插件：</label>
+			<select class="form-control required activeType" v-model="codeTypeId" data-toggle="popover" data-placement="bottom" data-content=""/>
 			<option value="">-- 请选择 --</option>
 			</select>
 		</div>
 		<div class="form-group" style="width: auto">
-		    <label>*数据库：</label>
-			<label>主要：</label>
-			<select class="form-control required activeType" v-model="codeTypeId" data-toggle="popover" data-placement="bottom" data-content="请选择有效活动"/>
+		    <label class="label-text">*数据库：</label>
+			<select class="form-control required activeType" v-model="codeTypeId" data-toggle="popover" data-placement="bottom" data-content=""/>
 			<option value="">-- 请选择 --</option>
 			</select>
-			<label>备用：</label>
-			<select class="form-control required activeType" v-model="codeTypeId" data-toggle="popover" data-placement="bottom" data-content="请选择有效活动"/>
+			<label>(主要)</label>
+			<select class="form-control required activeType" style="margin-left: 15px;" v-model="codeTypeId" data-toggle="popover" data-placement="bottom" data-content=""/>
 			<option value="">-- 请选择 --</option>
 			</select>
+			<label>(备用)</label>
+		</div>
+        </fieldset>
+         <fieldset>
+            <legend>计划</legend>
+            <div class="form-group" style="width: auto;margin-top: 0px;">
+		    <label style="margin-bottom: 5px">时间格式示例：2049年12月31日 23时59分59秒</label>
 		</div>
 		<div class="form-group" style="width: auto">
-		    <label>时间格式示例：2049年12月31日 23时59分59秒</label>
+			<input type="radio" name="opt"></label><span class="radio checkbox-text">&nbsp&nbsp立即执行</span>
 		</div>
 		<div class="form-group" style="width: auto">
-			<input value="1" type="radio" kind="Group"></label><span class="radio">&nbsp&nbsp立即执行</span>
-		</div>
-		<div class="form-group" style="width: auto">
-			<input value="1" type="radio" kind="Group"></label><span class="radio">&nbsp&nbsp定时执行</span>
+			<input value="1" type="radio" name="opt"></label><span class="radio checkbox-text">&nbsp&nbsp定时执行</span>
 			<input type="text" class="form-time"/>
 			<label>年</label>
 			<input type="text" class="form-time"/>
@@ -316,12 +356,12 @@
 			<label>秒</label>
 		</div>
 		<div class="form-group" style="width: auto">
-			<input value="1" type="radio" kind="Group"></label><span class="radio">&nbsp&nbsp每</span>
+			<input value="1" type="radio" name="opt"></label><span class="radio checkbox-text">&nbsp&nbsp每</span>
 			<input type="text" class="form-time"/>
 			<label>分钟执行一次</label>
 		</div>
 		<div class="form-group" style="width: auto">
-			<input value="1" type="radio" kind="Group"></label><span class="radio">&nbsp&nbsp每</span>
+			<input value="1" type="radio" name="opt"></label><span class="radio checkbox-text">&nbsp&nbsp每</span>
 			<input type="text" class="form-time"/>
 			<label>天执行一次 ，每次执行于</label>
 			<input type="text" class="form-time"/>
@@ -332,29 +372,37 @@
 			<label>秒</label>
 		</div>
 		<div class="form-group" style="width: auto">
-			<input value="1" type="radio" kind="Group"></label><span class="radio">&nbsp&nbspCron表达式</span>
+			<input value="1" type="radio" name="opt"></label><span class="radio checkbox-text">&nbsp&nbspCron表达式</span>
 			<input type="text" class="form-time-cron"/>
 			<a value="start" href="javascript:void(0)" @click="audio()" style="color:red;">表达式说明</a>
 		</div>
-		<div class="form-group" style="width: auto">
+         </fieldset>
+         <fieldset>
+            <legend>
+                <input type="checkbox"/><span class="checkbox-text">任务监控报警</span>
+            </legend>
+            <div class="form-group" style="width: auto">
 		    <label>出错报警方式:</label>
-		    <input value="1" type="radio" kind="Group"></label><span class="radio">&nbsp&nbsp报警一次</span>&nbsp&nbsp&nbsp&nbsp
-		    <input value="1" type="radio" kind="Group"></label><span class="radio">&nbsp&nbsp保持报警</span>
+		    <input value="1" type="radio" name="opt2"></label><span class="radio checkbox-text">&nbsp&nbsp报警一次</span>&nbsp&nbsp&nbsp&nbsp
+		    <input value="1" type="radio" name="opt2"></label><span class="radio checkbox-text">&nbsp&nbsp保持报警</span>
 		    <input type="text" class="form-time"/>
 			<label>分钟</label>
 			&nbsp&nbsp&nbsp&nbsp
-		    <input value="1" type="radio" kind="Group"></label><span class="radio">&nbsp&nbsp一直报警</span>
+		    <input value="1" type="radio" name="opt2"></label><span class="radio checkbox-text">&nbsp&nbsp一直报警</span>
 		</div>
 		<div class="form-group" style="width: auto">
-			<input value="1" type="radio" kind="Group"></label><span class="radio">&nbsp&nbsp立即执行</span>
+			<input value="1" type="checkbox"></label><span class="radio checkbox-text">&nbsp&nbsp立即执行</span>
 			<label> 成功记录数报警。 在</label>
-			<input type="text" class="form-time"/>
+			<input value="10" type="text" class="form-time"/>
 			<label>分钟内”成功记录数“（succNum）没有增加则报警</label>
 		</div>
 		<div class="form-group" style="width: auto">
-			<input value="1" type="radio" kind="Group"></label><span class="radio">&nbsp&nbsp错误记录报警。 错误记录数（failNum）只要变化则报警</span>
+			<input value="1" type="checkbox" kind="Group"></label><span class="radio checkbox-text">&nbsp&nbsp错误记录报警。 错误记录数（failNum）只要变化则报警</span>
 		</div>
-		<div class="form-group" style="width: auto">
+         </fieldset>
+         <fieldset>
+            <legend>其他</legend>
+            <div class="form-group" style="width: auto">
 		    <label>注：值为“0”表示无限制</label>
 		</div>
 		<div class="form-group" style="width: auto">
@@ -379,9 +427,10 @@
 			<input type="text" class="form-time"/>
 			<label>分钟</label>
 		</div>
+         </fieldset>
 		<div class="form-group">
 			<button type="reset" class="btn btn-default btn-sm reset" data-dismiss="modal">取消</button>
-			<button type="submit" class="btn btn-success btn-sm submit" style="background-color: #489ef2;color:#fff;" data-dismiss="modal">确定</button>
+			<button type="submit" class="btn btn-blue submit"  data-dismiss="modal">确定</button>
 		</div>
     </div>
 </body>

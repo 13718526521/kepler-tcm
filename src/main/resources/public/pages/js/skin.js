@@ -12,7 +12,7 @@ var skinData = [{
 	},
 	{
 		name: 'Journal',
-		value: '../../base/bootstrap/bootstrap-skin/bootstrap-journal.css'
+		value: '../base/bootstrap/bootstrap-skin/bootstrap-journal.css'
 	},
 	{
 		name: 'Lumen',
@@ -83,6 +83,7 @@ function changeSkin() {
 			$(".bootselect").attr('href', skinData[2].value);
 		}
 	} else {
-		$(".bootselect").attr('href', skinData[0].value);
+		console.log(skinData[0].value)
+		//$(".bootselect").attr('href', skinData[0].value);
 	}
 }

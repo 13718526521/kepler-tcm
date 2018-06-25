@@ -2,6 +2,11 @@ body {
 	display: none;
 }
 
+button{
+	outline: none;
+	
+}
+
 .loading {
 	display: none;
 	position: fixed;

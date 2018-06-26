@@ -14,12 +14,12 @@
 		<link href="../base/layer/skin/default/layer.css" rel="stylesheet" />
 		<link href="../css/baseall.css" rel="stylesheet" />
 		<link href="../base/jsonanalyze/css/jsonanalysis.css" rel="stylesheet" />
-		<link href="../css/proxy_server.css" rel="stylesheet" />
+		<link href="../css/plugins.css" rel="stylesheet" />
 		<script src="../base/jquery/jquery-1.11.0.min.js"></script>
 		<script src="../js/skin.js"></script>
 		<script src="../base/layer/layer.js"></script>
 
-		<title>代理服务器</title>
+		<title>插件管理</title>
 		<style>
 		   html,body{height: 100%;}
 		   body{font-size: 13px;background:white;}
@@ -106,8 +106,8 @@
 			<div class="content-title" id="queryCondition">
 				<div class="form-inline">
 					<div class="form-group form-group-3">
-						<label class="control-label">名称:</label>
-						<input class="form-control" id="proxy_server_query" type="text"/>
+						<label class="control-label">插件名称:</label>
+						<input class="form-control" id="plugin_query" type="text"/>
 					</div>
 				</div>
 				<div class="form-inline" style="position: absolute;right: 0;top: 0;">
@@ -125,24 +125,24 @@
 					<thead>
 					<tr>
 						<th>序号</th>
-						<th>服务器地址</th>
-						<th>服务器代理端口</th>
-						<th>说明</th>
+						<th>名称</th>
+						<th>入口类</th>
+						<th>版本</th>
+						<th>状态</th>
 						<th>操作</th>
 					</tr>
 					</thead>
 					<tbody>
 						<tr v-for="(tabtr,index) in tabData">
 							<td>{{tabtr.id}}</td>
-							<td>{{tabtr.agent}}</td>
-							<td>{{tabtr.port}}</td>
-							<td>{{tabtr.memo}}</td>
+						    <td>{{tabtr.pluginName}}</td>
+							<td>{{tabtr.entryClass}}</td>
+							<td>{{tabtr.version}}</td>
+							<td>{{tabtr.error}}</td>
                             <td>
-                             	<span class="fa fa-plus addApplication" @click="addApplication(tabtr.id,tabtr.agent,tabtr.port,tabtr.memo)" title="添加应用服务器" data-toggle="modal" data-target=".application-modal" style=" padding-right: 10px;"></span>
-                                <span class="fa fa-random dataConnect" @click="dataConnect(tabtr.id,tabtr.agent,tabtr.port)" title="测试连接" data-toggle="modal" data-target=".connect-modal" style=" padding-right: 10px;"></span>
+                                <span class="fa fa-repeat dataReload" @click="dataReload(tabtr.id,tabtr.pluginName,tabtr.entryClass)" title="重载" data-toggle="modal" data-target=".reload-modal" style=" padding-right: 10px;"></span>
                                 <span class="fa fa-edit dataChange" @click="dataChange(index)" title="修改" data-toggle="modal" data-target=".new-modal" style="color: green;"></span>
                                 <span class="fa fa-trash dataDelete" @click="dataDelete(tabtr.id)" title="删除" data-toggle="modal" data-target=".delete-modal" style="color: #C13333;padding-left: 5px;" ></span>
-                             	<span class="fa fa-eject dataLog" @click="dataLog(tabtr.id,tabtr.agent,tabtr.port,tabtr.memo)" title="日志信息" data-toggle="modal"  data-target=".info-modal" style="color: #C13333;padding-left: 5px;" ></span>
                             </td>
                         </tr>
 					</tbody>
@@ -179,16 +179,26 @@
 					</div>
 					<div class="modal-body form-inline inputNewData">
 						<div class="form-group">
-							<label>服务器地址：</label>
-							<input type="text" id="agent" error="服务器地址不能为空" class="form-control input-sm required" :readonly="modelData.readOnly" v-model="modelData.agent" :style="modelData.readOnly ? '' : (modelData.agent === '' ? 'background: #FFF3F3 !important;' : 'background: none !important;')" data-container="body" data-toggle="popover" data-placement="right" data-content="例如 10.0.0.1" />
+							<label>插件序号：</label>
+							<input type="text" id="pluginid" class="form-control input-sm required" :readonly="modelData.readOnly" v-model="modelData.pluginid" :style="modelData.readOnly ? '' : (modelData.pluginid === '' ? 'background: #FFF3F3 !important;' : 'background: none !important;')" data-container="body" data-toggle="popover" data-placement="right" data-content="" />
 						</div>
 						<div class="form-group">
-							<label>服务器代理端口：</label>
-							<input type="text" min="1" max="65535" id="port" error="服务器端口必须为(1~65535)" class="form-control input-sm required" :readonly="modelData.readOnly" v-model="modelData.port" :style="modelData.readOnly ? '' : (modelData.port === '' ? 'background: #FFF3F3 !important;' : 'background: none !important;')" data-container="body" data-toggle="popover" data-placement="right" data-content="端口必须为1~65535" />
+							<label>插件名称：</label>
+							<input type="text" id="pluginName" class="form-control input-sm required" :readonly="modelData.readOnly" v-model="modelData.pluginName" :style="modelData.readOnly ? '' : (modelData.pluginName === '' ? 'background: #FFF3F3 !important;' : 'background: none !important;')" data-container="body" data-toggle="popover" data-placement="right" data-content="" />
+						</div>
+						<div class="form-group">
+							<label>入口类：</label>
+							<input type="text" id="entryClass" class="form-control input-sm required" :readonly="modelData.readOnly" v-model="modelData.entryClass" :style="modelData.readOnly ? '' : (modelData.entryClass === '' ? 'background: #FFF3F3 !important;' : 'background: none !important;')" data-container="body" data-toggle="popover" data-placement="right" data-content="" />
 						</div>
 						<div class="form-group">
 							<label>说明：</label>
-							<input type="text" id="memo" class="form-control input-sm required" v-model="modelData.memo" :style="modelData.memo === '' ? 'background: #FFF3F3 !important;' : 'background: none !important;'" data-container="body" data-toggle="popover" data-placement="right" data-content="" placeholder = ""/>
+							<input type="text" id="pluginMemo" class="form-control input-sm required" v-model="modelData.pluginMemo" :style="modelData.pluginMemo === '' ? 'background: #FFF3F3 !important;' : 'background: none !important;'" data-container="body" data-toggle="popover" data-placement="right" data-content="" placeholder = ""/>
+						</div>
+						<div class="form-group">
+							<label>上传文件：</label> 
+							<label for="file" class="btn btn-primary" style="width: 100px;">请选择文件</label> 
+							<input type="file" id="file" name="file" style="display: none;" multiple="multiple" /> 
+							<span id="plugin_fileName" style="margin-left: 10px;">未选择</span>
 						</div>
 					<div class="modal-footer">
 						<button type="reset" class="btn btn-default btn-sm" data-dismiss="modal">取消</button>
@@ -209,7 +219,7 @@
 						<h4 class="modal-title">确定要删除？</h4>
 					</div>
 					<div class="modal-body">
-						<h4 style="font-size: 16px;color: #555555;">你确定删除代理服务器序号为</h4>
+						<h4 style="font-size: 16px;color: #555555;">你确定删除插件序号为</h4>
 						<div style="color: red;" class="delog"></div>
 						<h4 style="font-size: 16px;color: #555555;">吗?</h4>
 					</div>
@@ -220,7 +230,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="modal fade connect-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+		<div class="modal fade reload-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -241,82 +251,12 @@
 				</div>
 			</div>
 		</div>
-		<div class="modal fade application-modal" id="addApplication" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-label="close">
-							<span>×</span>
-						</button>
-						<h4 class="modal-title"></h4>
-					</div>
-					<div class="modal-body form-inline inputNewData">
-						<div class="form-group">
-							<label>代理服务器：</label>
-							<select class="form-control input-sm" id="agentName" style="padding: 0px 10px;" disabled="disabled">
-							<option value="">请选择</option>
- 							</select>
-						</div>
-						<div class="form-group">
-							<label>代理服务器说明：</label>
-							<input type="text" id="agentMemo" class="form-control input-sm " v-model="modelData.agentMemo" disabled="disabled"/>
-						</div>
-						<div class="form-group">
-							<label>应用服务器名称：</label>
-							<input type="text" id="serverName" class="form-control input-sm required" :readonly="modelData.readOnly" v-model="modelData.serverName" :style="modelData.readOnly ? '' : (modelData.serverName === '' ? 'background: #FFF3F3 !important;' : 'background: none !important;')" data-container="body" data-toggle="popover" data-placement="right" data-content="字母、数字和下划线" />
-						</div>
-						<div class="form-group">
-							<label>应用服务器端口：</label>
-							<input type="text" min="1" max="65535" error="应用服务器端口必须为(1~65535)" id="serverPort" class="form-control input-sm required" :readonly="modelData.readOnly" v-model="modelData.serverPort" :style="modelData.readOnly ? '' : (modelData.serverPort === '' ? 'background: #FFF3F3 !important;' : 'background: none !important;')" data-container="body" data-toggle="popover" data-placement="right" data-content="端口必须为1~65535" />
-						</div>
-						<div class="form-group">
-							<label>应用服务器说明：</label>
-							<input type="text" id="memo" class="form-control input-sm required" v-model="modelData.memo" :style="modelData.memo === '' ? 'background: #FFF3F3 !important;' : 'background: none !important;'" data-container="body" data-toggle="popover" data-placement="right" data-content="" placeholder = ""/>
-						</div>
-						<div class="form-group">
-							<label>应用服务器监控端口：</label>
-							<input type="text" min="1" max="65535" id="monitorPort" error="应用服务器监控端口必须为(1~65535)" class="form-control input-sm required" :readonly="modelData.readOnly" v-model="modelData.monitorPort" :style="modelData.readOnly ? '' : (modelData.monitorPort === '' ? 'background: #FFF3F3 !important;' : 'background: none !important;')" data-container="body" data-toggle="popover" data-placement="right" data-content="端口必须为1~65535" />
-						</div>
-						<div class="form-group">
-							<label>应用服务器自动重启：</label>
-							<input type="checkbox" value="1"  name="autoRestart"><font style="font-size: 14px;">允许自动重启服务,监控间隔</font>
-							<input type="text" min="10" id="monitorInterval" error="监控间隔必须为10以上的数字" style="margin-left: 130px;" class="form-control" :readonly="modelData.readOnly" v-model="modelData.monitorInterval" :style="modelData.readOnly ? '' : (modelData.monitorInterval === '' ? 'background: #FFF3F3 !important;' : 'background: none !important;')" data-container="body" data-toggle="popover" data-placement="right" data-content="" /><font style="font-size: 14px;">秒 (最小10秒)</font>
-						</div>
-					<div class="modal-footer">
-						<button type="reset" class="btn btn-default btn-sm" data-dismiss="modal">取消</button>
-						<button type="submit" class="btn btn-primary btn-sm submit">确定</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	    </div>
-	    <div class="modal fade info-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-label="close">
-						<span>×</span>
-						</button>
-						<h4 class="modal-title"></h4>
-					</div>
-					<div class="modal-body form-inline inputNewData">
-						<div class="form-group">
-							<textarea class="form-control input-sm" id="loginfo" style="width: inherit;"></textarea>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<button type="reset" class="btn btn-default btn-sm" data-dismiss="modal">取消</button>
-						<button type="submit" class="btn btn-primary btn-sm submit">确定</button>
-					</div>
-				</div>
-			</div>
-		</div>
 	</body>
 	<script src="../base/vue/vue.min.js"></script>
 	<script src="../base/bootstrap/js/bootstrap.min.js"></script>
 	<script src="../js/util.js"></script>
 	<!-- <script src="../js/common.js"></script> -->
 	<script src="../base/jsonanalyze/js/analyze.js"></script>
-	<script src="../js/proxy_server.vue.js"></script>
+	<script src="../js/plugins.vue.js"></script>
 
 </html>

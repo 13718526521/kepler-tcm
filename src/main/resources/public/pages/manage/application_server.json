@@ -1,0 +1,9 @@
+{
+"data":[
+{"id":"1","agentName":"127.0.0.1:1098","agentMemo":"name","serverName":"server_01","serverPort":"1099","memo":"","monitorPort":"1010","monitorInterval":"300"}, 
+{"id":"2","agentName":"localhost:1098","agentMemo":"测试","serverName":"server_02","serverPort":"1199","memo":"","monitorPort":"1110","monitorInterval":"1000"}, 
+{"id":"3","agentName":"172.16.63.63:1098","agentMemo":"server","serverName":"server_03","serverPort":"1299","memo":"","monitorPort":"1210","monitorInterval":"10"}
+],
+"totalPages":"3",
+"totalCount":"3"
+}

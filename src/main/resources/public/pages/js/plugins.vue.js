@@ -60,80 +60,76 @@ var vm = new Vue({
 			//这里可以发送ajax请求
 			init(index);
 		},
-		//测试连接
-		dataConnect: function(id,agent,port) {
-			$(".connect-modal .modal-title").text('提示信息');
-			var info="代理服务器地址为:"+agent+"\r\n"+"服务器端口号为:"+port;
+		//重新载入
+		dataReload: function(id,pluginName,entryClass) {
+			$(".reload-modal .modal-title").text('提示信息');
+			var info="插件名称为:"+pluginName+"\r\n"+"插件的入口类为:"+entryClass;
 			$("#info").val(info); 
-			/*			
-			 layer.msg("连接成功", { 
-			 time: 1000
-			});*/
-		},
-		addApplication: function(id,agent,port,memo){
-			$(".application-modal .modal-title").text('应用服务器 - 新增');
-			var html=[];
-            html.push('<option value="'+id+'">',agent+":"+port,'</option>')
-            $("#agentName").empty().append(html.join(''));
-            $("#agentMemo").val(memo);
-		},
-		dataLog: function(id,agent,port,memo){
-			$(".info-modal .modal-title").text('日志信息');
-			var info="代理服务器地址为"+agent+"\n\r"+"应用服务器端口为"+port+"\n\r"+"代理服务器说明为"+memo+"。";
-			$("#loginfo").val(info);
-			
 		},
         //修改
 		dataChange: function(ind) {
-			$(".new-modal .modal-title").text('代理服务器 - 修改');
+			$(".new-modal .modal-title").text('插件 - 修改');
 				addChange.modelData = JSON.parse(JSON.stringify(vm.tabData[ind]));
-				agent = vm.tabData[ind].agent;
-				port = vm.tabData[ind].port;
-				memo = vm.tabData[ind].memo;
-				$("#agent").val(agent);
-				$("#port").val(port);
-				$("#memo").val(memo);
+				pluginid = vm.tabData[ind].id;
+				pluginName = vm.tabData[ind].pluginName;
+				entryClass = vm.tabData[ind].entryClass;
+				pluginMemo = vm.tabData[ind].pluginMemo;
+				plugin_fileName = vm.tabData[ind].plugin_fileName;
+				$("#pluginid").val(pluginid);
+				$("#pluginName").val(pluginName);
+				$("#entryClass").val(entryClass);
+				$("#pluginMemo").val(pluginMemo);
+				$("#plugin_fileName").text(plugin_fileName);
         },
         //删除
         dataDelete: function(id) {
         	$(".delete-modal .modal-title").text('提示信息');
 			$(".delete-modal .modal-body>div:nth-child(2)").text(id);
 			$(".delete-modal button[type=submit]").unbind('click').click(function() {
-				alert('删除序号为'+id+'的代理服务器');
+				alert('删除序号为'+id+'的插件');
 			});
         },
 	}
 });
 $("#query").click(function() {
-	proxy_server_query = $("#proxy_server_query").val();
-	alert(proxy_server_query);
+	plugin_query = $("#plugin_query").val();
+	alert(plugin_query);
 });
 
 $(".add_btn").click(function() {
-	$(".new-modal .modal-title").text('代理服务器 - 新增');
-		$("#agent").val("");
-		$("#port").val("");
-		$("#memo").val("");
+	$(".new-modal .modal-title").text('插件 - 新增');
+		$("#pluginid").val("");
+		$("#pluginName").val("");
+		$("#entryClass").val("");
+		$("#pluginMemo").val("");
+		$("#plugin_fileName").text("");
 });
 
 $('.new-modal button[type=submit]').click(
 		function() {
 			var sub_Data = {};
-			sub_Data.agent = $("#agent").val();
-			sub_Data.port = $("#port").val();
-			sub_Data.memo = $("#memo").val();
-			if (!(/^[0-9]*$/.test(sub_Data.port))) {
-				alert('服务器代理端口号只能为数字');
-				return;
-			}
-			alert('服务器地址为:' + sub_Data.agent + "\r\n" + '服务器代理端口号为:'+ sub_Data.port + "\r\n" + '服务器内容为:' + sub_Data.memo);
+			sub_Data.pluginid = $("#pluginid").val();
+			sub_Data.pluginName = $("#pluginName").val();
+			sub_Data.entryClass = $("#entryClass").val();
+			sub_Data.pluginMemo = $("#pluginMemo").val();
+			sub_Data.plugin_fileName = $("#plugin_fileName").text();
+			alert('插件序号为:' + sub_Data.pluginid + "\r\n" + '插件名称为:'+ sub_Data.pluginName + "\r\n" + '入口类为:' + sub_Data.entryClass+ "\r\n" + '说明为:' + sub_Data.pluginMemo+ "\r\n" + '上传文件名称为:' + sub_Data.plugin_fileName);
 		});
+
+$("#file").change(function(){
+	var t_files = this.files;
+    var str='';
+    for (var i = 0, len = t_files.length; i < len; i++) {
+        str +=t_files[i].name + '  ';
+    };
+    $(this).parent().find("span").html(str);
+});
 
 function init(index) {
 	var params = {};
 	$.ajax({
 		type: "get",
-		url: util.agent().baseUrl + "/view/manage/proxy_server.json",
+		url: util.agent().baseUrl + "/view/manage/plugins.json",
 		async: true,
 		data: params,
 		success: function(data) {

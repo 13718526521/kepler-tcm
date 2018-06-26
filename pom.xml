@@ -25,9 +25,27 @@
 		<spring-cloud.version>Dalston.RELEASE</spring-cloud.version>
 	</properties>
 
-
+	<repositories>
+		<repository>
+			<id>maven-public</id>
+			<name>maven-public</name>
+			<url>http://www.uicom.top:8010/nexus/repository/maven-public-bonc/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</repository>
+	</repositories>
 
 	<dependencies>
+		<dependency>
+	    	<groupId>com.kepler</groupId>
+	    	<artifactId>kepler-tcm-server</artifactId>
+	    	<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+	
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>

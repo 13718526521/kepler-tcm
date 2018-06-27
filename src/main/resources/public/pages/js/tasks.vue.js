@@ -88,7 +88,7 @@ var vm = new Vue({
 		updatask: function(ind) {
         	
         	
-        	window.location.href="tasks_add.html";
+        	window.location.href="tasks_add.html?a=2";
         },
         //删除
         tabDelete: function() {
@@ -150,7 +150,7 @@ function dataBase(data){
 
 //新建
 $("#dataBase").click(function(){
-	window.location.href="tasks_add.html";
+	window.location.href="tasks_add.html?a=1";
 })
 
 function init(index) {

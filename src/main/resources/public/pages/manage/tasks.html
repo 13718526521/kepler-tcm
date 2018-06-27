@@ -128,11 +128,12 @@
 				
 					<thead>
 					<tr>
-						<th>序号</th>
+						<th>ID</th>
 						<th>任务名称</th>
-					    <th>当前的内存使用情况</th>
-						<th>2小时来的内存情况</th>
-						<th>任务运行监控</th>
+					    <th>当前状态</th>
+						<th>最后运行时间</th>
+						<th>统计</th>
+						<th>其他</th>
                         <th>操作</th>
 					</tr>
 					</thead>
@@ -140,17 +141,15 @@
 						<tr v-for="(tabtr,index) in tabData">
 							<td>{{index+1}}</td>
 							<td>{{tabtr.f}}</td>
-			                <td>总共{{tabtr.a}},使用{{tabtr.b}},剩余{{tabtr.c}}</td>
-			                <td>最小内存{{tabtr.d}},最大内存{{tabtr.e}}</td>
+			                <td>运行</td>
+			                <td>2018-06-27 10:22:18</td>
+			                <td>成功:{{tabtr.a}}|失败:{{tabtr.b}}|等待:{{tabtr.c}}|忽略:{{tabtr.d}}</td>
+			                <td>{{tabtr.e}}</td>
 			                <!-- <td>
-			                    <span class="fa fa-edit Updatask" @click="Updatask(tabtr.activityId,tabtr.activityState,tabtr.externalActivityId)" title="启动" data-toggle="modal"  style="color: green;"></span>
-                                <span class="fa fa-edit Updatask" @click="Updatask(tabtr.activityId,tabtr.activityState,tabtr.externalActivityId)" title="停止" data-toggle="modal"  style="color: green;"></span>
-			                </td> -->
-			                <td>
 			                    <a value="start" href="javascript:void(0)" @click="audio()">声音报警</a>
 			                    |
 			                    <a value="start" href="javascript:void(0)"  @click="audio()">清除所有错误</a>
-			                </td>
+			                </td> -->
                             <td>
                                 <span class="fa fa-play-circle" @click="start()" title="启动" data-toggle="modal"  style="color: green;font-size: 15px;"></span>
                                 <span class="fa fa-dot-circle-o" @click="stop()" title="停止" data-toggle="modal"  style="color: green;font-size: 15px;"></span>

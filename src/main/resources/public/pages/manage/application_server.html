@@ -146,6 +146,7 @@
 							<td>{{tabtr.monitorPort}}</td>
 							<td>{{tabtr.monitorInterval}}秒</td>
                             <td>
+                                <span class="fa fa-arrows-alt dataManage" @click="dataManage(tabtr.agentName,tabtr.serverName)" title="管理" style=" padding-right: 10px;"></span>
                                 <span class="fa fa-edit dataChange" @click="dataChange(index)" title="修改" data-toggle="modal" data-target=".new-modal" style="color: green;"></span>
                                 <span class="fa fa-play startServer" @click="startServer(tabtr.agentName,tabtr.serverName)" title="启动" data-toggle="modal" data-target=".info-modal"  style=" padding-right: 10px;"></span>
                                 <span class="fa fa-stop stopServer" @click="stopServer(tabtr.agentName,tabtr.serverName)" title="停止" data-toggle="modal" data-target=".info-modal" style=" padding-right: 10px;"></span>

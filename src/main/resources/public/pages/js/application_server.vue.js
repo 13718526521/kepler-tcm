@@ -60,6 +60,17 @@ var vm = new Vue({
 			//这里可以发送ajax请求
 			init(index);
 		},
+		dataManage: function(agentName,serverName) {
+			window.location.href="tasks.html?server="+agentName+"@"+serverName;
+			var agent=agentName.split(":")[0];
+			var port=agentName.split(":")[1];
+			var serverName=serverName;
+			var server=agentName+"@"+serverName;
+			localStorage.agent=agent;
+			localStorage.port=port;
+			localStorage.serverName=serverName;
+			localStorage.server=server;
+		},
 		startServer: function(agentName,serverName) {
 			$(".info-modal .modal-title").text('提示信息');
 			var info="代理服务器地址与端口为"+agentName+"\n\r"+"应用服务器名称为"+serverName+"。";

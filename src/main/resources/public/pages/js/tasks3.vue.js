@@ -1,8 +1,4 @@
-var server,dbName,dbDriver,dbUrl,dbUser,dbPass;
 $(function() {
-	
-	server = localStorage.server;
-	
     $(".pagleft input").on("change", function() {
         this.value = this.value.replace(/[^0-9]+/, '');
         if(this.value <= 0) {
@@ -29,7 +25,7 @@ var vm = new Vue({
 		tabData: [],
 		current: 1, //当前显示第几页
 		showItem: 5,
-		allpage: 1,
+		allpage: 13,
 		totalNum: 0,
 		checkAll:false,
 		checkModel:[]
@@ -73,31 +69,37 @@ var vm = new Vue({
 			//这里可以发送ajax请求
 			init(index);
 		},
-		Check: function(){
-			layer.msg("连接成功", {
+		start: function(){
+			layer.msg("已启动", {
+				time: 1000
+			});
+		},
+		stop: function(){
+			layer.msg("已停止", {
+				time: 1000
+			});
+		},
+		termination: function(){
+			layer.msg("已终止", {
 				time: 1000
 			});
 		},
         //修改
-        Updatask: function(ind,dbId) {
-        	$(".new-modal .modal-title").text('修改');
+		updatask: function(ind) {
         	
-        	$("#dbName").val(vm.tabData[ind].dbName);
-        	$("#dbDriver").val(vm.tabData[ind].dbDriver);
-        	$("#dbUrl").val(vm.tabData[ind].dbUrl);
-        	$("#dbUser").val(vm.tabData[ind].dbUser);
-        	$("#dbPass").val(vm.tabData[ind].dbPass);
+        	
+        	window.location.href="tasks_add.html?a=2";
         },
         //删除
-        tabDelete: function(dbId) {
+        tabDelete: function() {
 			$(".delete-modal .modal-title").text('是否删除？');
 			//确定删除
 			$(".delete-modal button[type=submit]").click(function() {
 				$(".loading").show();
-				$.ajax({
+				/*$.ajax({
 					type: "put",
-					url: util.agent().baseUrl + "/dataBaseConfig/remove.json",
-					data: {"dbId" : dbId,"agentAndServer" : server},
+					url: util.agent().baseUrl + "/custom/update.json",
+					data: {"isDeleted" : 2,"id" : id},
 					async: true,
 					success: function() {
 						layer.msg("删除成功", {
@@ -106,7 +108,7 @@ var vm = new Vue({
 
 						init(1);
 					}
-				});
+				});*/
 			});
 
 		},
@@ -117,32 +119,18 @@ var vm = new Vue({
 $("#dataBase").click(function(){
 	$(".new-modal .modal-title").text('新增');
 	
-	$("#dbName").val("");
-	$("#dbDriver").val("");
-	$("#dbUrl").val("");
-	$("#dbUser").val("");
-	$("#dbPass").val("");
-	
+	$("#dataBaseName").val("");
+	$("#drive").val("");
+	$("#link").val("");
+	$("#userName").val("");
+	$("#passWord").val("");
 	$(".new-modal button[type=submit]").click(function() {
 		$(".loading").show();
-		var data = {};
-		dbName = $("#dbName").val();
-		dbDriver = $("#dbDriver").val();
-		dbUrl = $("#dbUrl").val();
-		dbUser = $("#dbUser").val();
-		dbPass = $("#dbPass").val();
-		data.dbName = dbName;
-		data.dbDriver = dbDriver;
-		data.dbUrl = dbUrl;
-		data.dbUser = dbUser;
-		data.dbPass = dbPass;
-		data.agentAndServer=server;
-		console.log(server);
-		console.log(data);
-		$.ajax({
-			type: "post",
-			url: util.agent().baseUrl + "/dataBaseConfig/add.json",
-			data: data,
+		
+		/*$.ajax({
+			type: "put",
+			url: util.agent().baseUrl + "/custom/update.json",
+			data: {"isDeleted" : 2,"id" : id},
 			async: true,
 			success: function() {
 				layer.msg("删除成功", {
@@ -151,31 +139,33 @@ $("#dataBase").click(function(){
 
 				init(1);
 			}
-		});
+		});*/
 	});
+})
+
+function dataBase(data){
+	console.log(data);
+	
+}
+
+//新建
+$("#dataBase").click(function(){
+	window.location.href="tasks_add.html?a=1";
 })
 
 function init(index) {
 	var params = {};
-	params.pageNum = index-1;
-    params.pageSize = $(".pagleft input").val();
-    params.agentAndServer=server;
+	console.log(util.agent().baseUrl);
 	$.ajax({
 		type: "get",
-		url: util.agent().baseUrl+"/dataBaseConfig/pages.json",
+		url: util.agent().baseUrl+"/view/js/tasks.json",
 		async: true,
 		data: params,
 		success: function(data) {
-			if(data.error!=null&&data.error!=undefined){
-				$(".loading").hide();
-	            layer.msg("请求异常", {
-	                time : 1500
-	            });
-			}
 			if(data.length>0&&data!=undefined){
-				console.log(data);
 				vm.tabData = data;
         		vm.current = index;
+                console.log(vm.allpage);
         		$("#app .no-data").remove();
         	}else{
         		vm.current = 0;

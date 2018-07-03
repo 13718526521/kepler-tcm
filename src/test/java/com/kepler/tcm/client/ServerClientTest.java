@@ -21,7 +21,7 @@ public class ServerClientTest {
 		
 		//String agentAndServer = "172.16.13.248:1098@server_01";
 		
-		String agentAndServer = "127.0.0.1:1098@server01";
+		String agentAndServer = "127.0.0.1:1098";
 		
 		serverClient = serverClient ==  null ? new ServerClient(agentAndServer): serverClient ;
 	}
@@ -33,9 +33,10 @@ public class ServerClientTest {
 		Set set = serverMap.keySet();
 		
 		Iterator it = set.iterator();
-		
+		 
 		while(it.hasNext()){
-			System.out.println(serverMap.get(it.next()));
+			String key = (String )it.next();
+			System.out.println(key + ":"+ serverMap.get(key));
 		}
 	}
 
@@ -45,10 +46,10 @@ public class ServerClientTest {
 		Map map = new HashMap();
 		map.put("autoRestart","1");
 		map.put("monitorInterval",""+300);
-		map.put("serverPort",""+1088);
-		map.put("monitorPort",1077);
-		map.put("memo", "测试服务09");
-		serverClient.addServer("server09", map);
+		map.put("serverPort",""+1044);
+		map.put("monitorPort",1055);
+		map.put("memo", "测试服务01");
+		serverClient.addServer("server01", map);
 	}
 
 	
@@ -84,38 +85,38 @@ public class ServerClientTest {
 	}
 
 	@Test
-	public void testServerStarted() {
-		fail("Not yet implemented");
+	public void testServerStarted() throws Exception {
+		System.out.println(serverClient.serverStarted("server01"));
 	}
 
 	@Test
-	public void testGetServerHost() {
-		fail("Not yet implemented");
+	public void testGetServerHost() throws Exception {
+		System.out.println(serverClient.getServerHost("server01"));
 	}
 
 	@Test
-	public void testGetServerPort() {
-		fail("Not yet implemented");
+	public void testGetServerPort() throws Exception {
+		System.out.println(serverClient.getServerPort("server01"));
 	}
 
 	@Test
-	public void testGetMonitorPort() {
-		fail("Not yet implemented");
+	public void testGetMonitorPort() throws Exception {
+		System.out.println(serverClient.getMonitorPort("server01"));
 	}
 
 	@Test
-	public void testStartMonitor() {
-		fail("Not yet implemented");
+	public void testStartMonitor() throws Exception {
+		serverClient.startMonitor("server01");
 	}
 
 	@Test
-	public void testStopMonitor() {
-		fail("Not yet implemented");
+	public void testStopMonitor() throws Exception {
+		serverClient.stopMonitor("server01");
 	}
 
 	@Test
-	public void testRestartMonitor() {
-		fail("Not yet implemented");
+	public void testRestartMonitor() throws Exception {
+		serverClient.restartMonitor("server01");
 	}
 
 
@@ -129,5 +130,19 @@ public class ServerClientTest {
 	public void testGetServerName() {
 		fail("Not yet implemented");
 	}
+	
+	@Test
+	public void testGetMemoInfo() throws Exception {
+		 HashMap memoInfoMap = serverClient.getMemoInfo("server01");
+		 
+		 Iterator it = memoInfoMap.keySet().iterator();
+		 
+		 while(it.hasNext()){
+			  String key = (String )it.next();
+			 System.out.println(key +":"+ memoInfoMap.get(key));
+		 }
+	}
+	
+	
 
 }

@@ -8,12 +8,12 @@ import org.junit.Test;
 public class AgentServerConfigTest {
 	
 	
-	private AgentServerConfig agentServerConfig = null ;
+	private AgentConfig agentServerConfig = null ;
 
 	@Before
 	public void setUp() throws Exception {
 		
-		agentServerConfig = new AgentServerConfig("F:\\workspace\\bonc-git\\kepler-tcm-server","agent.conf");
+		agentServerConfig = new AgentConfig("F:\\workspace\\bonc-git\\kepler-tcm-server","agent.conf");
 		
 	}
 

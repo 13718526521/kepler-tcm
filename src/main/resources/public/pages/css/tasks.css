@@ -1,309 +1,452 @@
 html,body{height: 100%;}
-body{font-size: 12px;font-family: "Microsoft YaHei";background: #F1F3FA;}
+body{font-size: 12px;background: #F5F5F5;}
 .content {
-	padding: 30px 45px;
-	height: 100%;
-	min-width: 1115px;
-	
+    padding: 30px;
+    min-width: 1115px;
 }
 
-*{
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
-	box-sizing: border-box;
-	font-weight: normal;
-}
-p,h4{margin: 0px;font-weight: normal;}
-.content-title{
-    /*height: 70px;*/
-    /* padding: 20px; */
-    color: #fff;
-    position: relative;
-    /* margin-bottom: 20px; */
-}
-
-.btn-oran,.btn-initial{
-    background-color: #fab732;
-    font-size: 12px;
-    width: 74px;
-    height: 24px;
-    padding: 0px;
-    border-radius: 12px;
-    margin-left: 15px;
-    outline: none!important;
-    border: none;
-}
-.btn-oran:hover,.btn-oran:focus,.btn-oran:active,.btn-oran.active{background-color: #F0AA1C;border: 1px solid rgba(255,255,255,.5);}
-.btn-blue{
-    background-color: #489ef2;
-	width: 100px;
-	height: 30px;
-	padding: 0px;
-	color: #fff;
-	line-height: 28px;
-	text-align: center;
-	display: block;
-}
-.btn-oran:hover,.btn-oran:focus,.btn-oran:active,
-.btn-blue:hover,.btn-blue:focus,.btn-blue:active,
-.btn-initial:hover,.btn-initial:focus,.btn-initial:active{
-    color: #fff;
-}
-
-.control-label{
-    min-width: 90px;
-    height: 30px;
+.content div .control-label{
     padding: 5px 12px;
-    font-size: 14px;
+    font-size: 13px;
     line-height: 1.42857143;
     float: left;
-    text-align: left;
+    text-align: right;
     color: #666;
     font-family: MicrosoftYaHei;
     font-weight: normal;
 }
-span.form-control{
-  height: 30px;
-  border: none;
-  background-color: transparent;
-  box-shadow: none;
-  text-align: center;
+.content div span.form-control{
+	height: 30px;
+	border: none;
+	background-color: transparent;
+	box-shadow: none;
+	text-align: center;
 }
+.sum-con{margin-bottom: 0px;}
 .form-control{
-  height: 30px;
-  border: 1px solid #cccccc;
-  box-shadow: none;
-  color: #333;
-     padding: 0px 12px;
+	height: 30px;
+	box-shadow: none;
+	color: #333;
+	padding: 0px 12px;
+	line-height: 30px;
+}
+.form-group input[type='text'].form-control, .form-group select.form-control{
+	height: 30px;
+    width: 20%;
+    border: 1px solid #ccc;
+    box-shadow: none;
+    color: #333;
+    background-color: transparent;
+    padding: 0 8px;
+}
+.form-group-2 select.form-control{    width: 50%;}
+.form-group-2 .trangle{left: calc(43% + 120px);}
+.form-group-22 select.form-control{ width: calc(100% - 120px);}
+.form-group-22 .trangle{left: calc(13% + 120px);}
+.form-group-22 {
+    width: 30%;
+    float: left;
+}
+.form-inline .form-group{position: relative;float: left;margin: 7px 0;margin-top: 0px;}
+.form-group{position: relative;margin: 7px 0;margin-top: 0px;}
+.form-group-1{
+	width: 100%;
+}
+.form-group-1 textarea,.form-group-2 textarea{width: 60%!important;min-height: 110px;padding: 4px 10px;}
+.form-group-1 textarea{width: calc(73%)!important;border:1px solid #cccccc;margin-bottom: 4px;}
+.form-group-2 {
+    width: 30%;
+    float: left;
 }
 .form-group-3{
-     width: 26.5%;
-    position: relative;
-    /*margin-left: 10%;*/
-    margin-right: 5%;
+	height:4% !important;
 }
+/* .form-inline .form-group-2:nth-child(2){margin-left: 9.65%;} */
 .form-group input[type='text'],
 .form-group select,.form-group input[type='number'],
-.form-group textarea,
 .spinner{
-     width: calc(100% - 90px)!important;
-     background: transparent;
+	/*width: calc(100% - 140px)!important;*/
+	width: 46%;
+	border:1px solid #cccccc;
 }
-.txt-cont{
-  height: 38px;
-  padding: 8px 12px;
-  font-size: 14px;
-  line-height: 1.42857143;
-  text-align: center;
-  display: inline;
-}
-.call-recode{
+
+input[type='text'].start-time,input[type='text'].end-time{width: 27%!important;}
+.select-btn{margin-left: 25px;}
+
+/** 自定义input单选按钮 **/
+.radio-txt{
 	display: inline-block;
-    border: 1px solid #67adf1;
-    border-radius: 10px;
-    font-size: 12px;
-    padding: 2px 8px;
-    color: #67adf1;
-        float: left;
-    margin-top: 6px;
+	font-size: 15px;
+	margin-right: 30px;
 }
-.sum-con{text-align: right;margin-right: 47px;}
+.iradio_square {
+	display: inline-block;
+	vertical-align: middle;
+	margin: 0;
+	padding: 0;
+	width: 22px;
+	height: 22px;
+	background: url(../icons/radio_ico.png) no-repeat;
+	background-size: 80%;
+	background-position: top center;
+	border: none;
+	cursor: pointer;
+	margin-right: 5px;
+}
+.iradio_square_1{
+	width: 28px;
+	height: 28px;
+}
+.iradio_square.selected{
+	background: url(../icons/btn_chose_1.png) no-repeat;
+	background-size: 80%;
+	background-position: top center;
+}
+
+/** 自定义input数值框 **/
+/* .spinner {
+        width: 30%;
+      } */
+.spinner input[type='text'] {
+	text-align: left;
+	width: 100%!important;
+}
+
+.select-btn{
+	height: 30px;
+	background-color: #489ef2;
+	font-size: 14px;
+	color: #fff;
+	font-family: MicrosoftYaHei;
+	padding: 0 10px;
+	margin-top: -3px;
+}
+.btn-blue{
+	background-color: #489ef2;
+	font-size: 14px;
+	color: #fff;
+	font-family: MicrosoftYaHei;
+	width: 70px;
+    height: 30px;
+    line-height: 28px;
+    padding: 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.select-btn:hover,.select-btn:focus,.select-btn:active,
+.btn-blue:hover,.btn-blue:focus,.btn-blue:active{
+	/* background-color: #3879D9; */
+	color: #fff;
+}
+.add-btn{margin-left: 0px;}
 
 /** 自定义下拉框样式 **/
-select {			 
-     border: solid 1px #000;/*Chrome和Firefox里面的边框是不一样的，所以复写了一下*/
-     appearance:none;/*很关键：将默认的select选择框样式清除*/
-	 -moz-appearance:none;
-	 -webkit-appearance:none;
-     background: url(../../icons/减号.png) no-repeat scroll right center transparent;/*在选择框的最右侧中间显示小箭头图片*/
-     padding-right: 14px;/*为下拉小箭头留出一点位置，避免被文字覆盖*/
+select {
+	border: solid 1px #000;/*Chrome和Firefox里面的边框是不一样的，所以复写了一下*/
+	appearance:none;/*很关键：将默认的select选择框样式清除*/
+	-moz-appearance:none;
+	-webkit-appearance:none;
+	background: url(../../icons/减号.png) no-repeat scroll right center transparent;/*在选择框的最右侧中间显示小箭头图片*/
+	padding-right: 14px;/*为下拉小箭头留出一点位置，避免被文字覆盖*/
 }
 /*清除ie的默认选择框样式清除，隐藏下拉箭头*/
 select::-ms-expand { display: none; }
 .trangle{
-    width: 0;
-    height: 0;
-    margin-top: 5px;
-    margin-left: 1px;
-    border-left: 4px solid transparent;
-    border-right: 4px solid transparent;
-    border-top: 8px solid rgba(0,0,0,.5);
-    position: absolute;
-    display: inline;
-    right: 14px;
-    top: 6px;
+	width: 0;
+	height: 0;
+	margin-top: 5px;
+	margin-left: 1px;
+	border-left: 4px solid transparent;
+	border-right: 4px solid transparent;
+	border-top: 8px solid rgba(0,0,0,.5);
+	position: absolute;
+	display: inline;
+	left: calc(40% + 120px);
+	top: 6px;
 }
 
-/* 内容 */
-.content-body{
-	height: calc(100% - 70px - 20px - 50px);
-}
-.list-box{
-	height: calc(50% - 26px);
-    margin-bottom: 26px;
+.content-title{
+    height: 70px;
+    padding: 20px;
+    color: #fff;
     position: relative;
+    margin-bottom: 20px;
+    background-color: #fafafa;
+    border: 1px solid #eee;
 }
-.list-title {
+.content-title .control-label{min-width: 90px!important;}
+.content-title .form-group-2{width: 30%;}
+.content-title .form-group input[type='text']{width: calc(100% - 90px - 24px)!important;}
+.content-body {
+    margin-bottom: 20px;
+}
+.searchGroup{margin-left: 15px;}
+
+.accordion {
+    position: relative;
+    background-color: transparent;
+    border: none;
+}
+.accordion dl{
+    border: 1px solid #F3F3F3;
+    margin-bottom: 15px;
+}
+/*清除浮动*/
+.clear:after{  
+    content: ".";
+	height: 1px;
+	display: block;
+	clear: both;
+	visibility: hidden; 
+}
+.accordion dt {
+    position: relative;
+    background: #fff;
+    border-radius: 4px;
+    margin-bottom: 4px;
+    padding: 20px;
+    float: left;
+    width: calc(100% - 20px);
+    padding-left: 0;
+}
+.accordionItem.is-collapsed{
+    height: 0;
+}
+.accordionItem.is-collapsed.active {
+    height: auto;
+    display: block;
+}
+
+.accordion dd {
+    background-color: #FAFAFA;
+    margin-bottom: 4px;
+    float: left;
+    width: 100%;
+    display: none;
+}
+.activity-title {
+    float: left;
     display: table;
     margin: 0px;
-    font-size: 16px;
+    font-size: 18px;
     color: #333;
+    height: 30px;
+    /* border: 1px solid; */
+    line-height: 30px;
+    margin-bottom: 10px;
 }
-.list-ico{
-	width: 10px;
-    height: 10px;
-    display: inline-block;
-    background: #67adf1;
-    border-radius: 50%;
+.activity-title .activity-ico {
+    width: 20px;
+    height: 20px;
+    display: table-cell;
+    background-size: 85%;
+    background-position: center;
 }
-.list-title span:last-child {
+.icon_4g {
+    background: url(../images/callSeatOutImg/icon_4ghk.png) no-repeat;
+}
+.activity-title span:last-child {
     margin-left: 10px;
 }
-.list-content{
-	height: calc(100% - 20px);
-    margin-bottom: 0px;
-    padding-top: 10px;
-    clear: both;
-}
-.list-content li{
-    float: left;
-    height: 100%;
-}
-.list-content li:nth-child(1){
-        width: 18%;
-}
-.list-content li:nth-child(2){
-    width: 28%;
-    margin: 0 3%;
-}
-.list-content li:nth-child(3){
-    width: 48%;
-}
-.list-content li>a{
-	height: 100%;
-    width: 100%;
-    display: inline-block;
-    margin-left: 0px;
-    text-align: center;
-    border: 1px solid #eee;
-    border-radius: 4px;
-    background-color: #fff;
-    padding-top: 12px;
-}
-.seat-img{
-	display: inline-block;
-	width: 70px;
-	height: 70px;	
-    background-repeat:  no-repeat;
-    background-size: 95%;
-    background-position: center;
-    background-image: url(../images/icon_fp.png);
-    margin-bottom: 20px;
-    margin-top: 30px;
-}
-.seat-name{
-	margin: 0px;
-    font-size: 28px;
-    color: #333;
-    margin-bottom: 5px;
-}
-.list-content li>a p {
-    font-size: 12px;
-    color: #666;
-}
-
-.list-bottom{
-    position: absolute;
-    top: 0;
-    right: 0;
-}
-
-.more-btn{
-	background: transparent;
-    border: none;
-    outline: none;
-        color: #489ef2;
-}
-.paging-btn{
-	height: 40px;
-	width: 140px;
-	float: none;
-}
-/* foot */
-.content-bottom{	
-    height: 30px;
-    text-align: center;
-}
-.table>thead>tr>th.operate-th,.tab-own tbody tr>td.operate-td,
-.table>thead>tr>th.state-th,.tab-own tbody tr>td.state-td {
-    padding-left: 8px!important;
-    text-align: center;
-}
-.state-color{
-    display: inline-block;
-    padding: 2px 8px 2px 9px;
-    border-radius: 10px;
+.accordionTitle:hover,.accordionTitle:focus,.accordionTitle:active{
     color: #fff;
-    font-size: 12px;
 }
-.state-color_0{
-    background-color: #FBD732;
+.accordion dt>a {
+    float: right;
 }
-.state-color_1{
-    background-color: #23B7E5;
+.accordionTitle {
+    font-size: 14px;
+    width: 74px;
+    height: 30px;
+    padding: 0px;
+    border-radius: 4px;
+    color: #fff;
+    line-height: 30px;
+    background-color: #489ef2;
+    text-align: center;
+    font-family: MicrosoftYaHei;
+    font-weight: normal;
+    display: block;
+    text-decoration: none;
+    color: #fff;
+    -webkit-transition: background-color 0.5s ease-in-out;
+    transition: background-color 0.5s ease-in-out;
 }
-.state-color_2{
-    background-color: #F15050;
+.form-content {
+    overflow: hidden;
+    position: relative;
+    padding: 20px 45px;
 }
-.state-color_3{
-    background-color: #FF8624;
+.ope-btn{
+	clear: both;
+	margin-left: 30px;
+	margin-top: 5px;
+	float: left;
 }
-.state-color_4{
-    background-color: #26C34C;
+.opt-btn2{
+	margin-left: 30px;
+	margin-top: 5px;
+	float: right;
+	
 }
-.state-color_5{
-    background-color: #6684B0;
+.tasks-list{
+	width: calc(20% - 45px);
+	float: left;
 }
-.state-color_6{
-    background-color: #109E59;
+.tasks-content{
+	width:calc(80% - 15px - 45px);
+	float: left;
 }
-
-.inputNewData label {
+.shuxian{
+	border:none;
+	border-left:1px solid #ccc;
+	height: 400px;
+	margin: 0 5% 0 2%;
+	float: left;
 	display: inline-block;
-	width: 130px;
-	text-align: right;
 }
-
-.inputNewData .form-group {
-	margin-bottom: 10px;
+ul > li{
+	list-style: none;
+	padding: 5px 0;
 	position: relative;
 }
-
-.new-modal textarea {
-	width: calc(100% - 200px) !important;
-	min-height: 60px;
+ul > li > span{
+	display: inline-block;
+	margin-right: 5px;
 }
-
-.inputNewData input[type=text],
-.inputNewData input[type=password],
-.inputNewData select,
-.inputNewData textarea {
-	padding: 5px 10px;
-	width: 220px !important;
+ul > li > input{
+    margin-top: 2px;
+    position: absolute;
 }
-.bootstrap-select-searchbox input[type=text]{display: none;}
-
-.inputNewData input[type=radio] {
-	margin: 0;
-	margin-left: 5px;
+.opt-point{
+	width: 8px;
+	height: 8px;
+	background-color: #4c6fbf;
+	border-radius: 50%;
 }
-
-.inputNewData textarea {
-	min-height: 60px;
+.opt-picture{
+	margin-left: 20px;
 }
-
-.inputNewData .form-group {
+.fa-play{
+	color: #3dbe3f;
+}
+.fa-pause{
+	color: #bd855c;
+}
+.tasks-new{
 	display: block;
-	padding-left: 60px;
+}
+.tasks-listenter{
+	display: none;
+}
+.fa-bullhorn{
+	color: #f84141;
+}
+.task-title{
+	display: inline-block;
+	margin-right: 10px;
+}
+.form-cont{
+	border: 1px solid #ccc;
+	margin-top: 10px;
+}
+.table>thead>tr>th {border-bottom: 0;}
+		   .glyphicon-triangle-bottom:before,.glyphicon-triangle-top:before {margin-left: 10px;font-size: 12px;}
+		   .fa-edit:before, .fa-pencil-square-o:before,.fa-trash:before,
+		   .fa-gear:before, .fa-cog:before,.fa-group:before, .fa-users:before,.fa-user:before,.fa-send:before, .fa-paper-plane:before{font-size: 14px;}
+		   .tab-own {border: 1px solid #ccc;}
+		   .tab-own tbody tr>td {border-top: 1px solid #ccc;}
+		   .tab-own th,.tab-own tr:hover,.modal-dialog .tab-own tr:hover{background-color: #eee;}
+		   .tab-own th, .tab-own td {text-align: center;padding-left: 20px!important;}
+		   .tab-own th input, .tab-own td input{margin-right: 10px;}
+		   
+		   .inputown input, .inputown select{height: 24px;line-height: 24px; padding: 0;}
+		   .form-control{border-radius: 2px;}
+		   .btn{font-size: 12px;border-radius: 2px;}
+		   .inputown button {height: 24px;padding: 1px 6px;}
+		   
+		   .table tr.active>td{background-color: #fce6a2!important;}
+		   
+		   .tab-own th input, .tab-own td input{cursor: pointer}
+thead>tr>th{
+  	font-weight:bold;
+}
+.table-hover>tbody>tr:hover {
+    background-color: #eeeeee;
+}
+.tab-own th, .tab-own td {
+    text-align: left;
+    padding-left: 30px!important;
+    padding: 5px;
+}
+.fset{
+    height: 150px;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+.form-time{
+    height: 25px;
+    width: 4% !important;
+	background-color: transparent;
+	box-shadow: none;
+	text-align: center;
+	border:1px solid #cccccc;
+}
+.form-time-cron{
+    height: 25px;
+    width: 15% !important;
+	background-color: transparent;
+	box-shadow: none;
+	text-align: center;
+	border:1px solid #cccccc;
+}
+fieldset{
+    padding: 10px;
+    margin: 10px 0;
+    padding-left: 15px;
+}
+fieldset > legend{
+    font-weight: bold;
+}
+.checkbox-text{
+    display: inline;
+    position:relative;
+    top:-2px;
+}
+.label-text{
+    text-align: right;
+    width: 66px;
+    display: inline-block;
+}
+/** 自定义下拉框样式 **/
+		select {
+			border: solid 1px #000;/*Chrome和Firefox里面的边框是不一样的，所以复写了一下*/
+			appearance:none;/*很关键：将默认的select选择框样式清除*/
+			-moz-appearance:none;
+			-webkit-appearance:none;
+			background: url(../icons/减号.png) no-repeat scroll right center transparent;/*在选择框的最右侧中间显示小箭头图片*/
+			padding-right: 14px;/*为下拉小箭头留出一点位置，避免被文字覆盖*/
+		}
+		/*清除ie的默认选择框样式清除，隐藏下拉箭头*/
+		select::-ms-expand { display: none; }
+		.trangle{
+			width: 0;
+			height: 0;
+			margin-top: 5px;
+			margin-left: 1px;
+			border-left: 4px solid transparent;
+			border-right: 4px solid transparent;
+			border-top: 8px solid rgba(0,0,0,.5);
+			position: absolute;
+			display: inline;
+			left: calc(13% + 120px);
+			top: 6px;
+		}
+.btn-default {
+    font-size: 14px;
+    font-family: MicrosoftYaHei;
+    padding: 5px 15px;
+    border-width: 1px;
+    border-color: rgba(0,0,0,.2)!important;
+    border-style: solid;
 }

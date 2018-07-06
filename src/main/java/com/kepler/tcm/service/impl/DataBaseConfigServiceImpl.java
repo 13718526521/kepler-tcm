@@ -57,10 +57,16 @@ public class DataBaseConfigServiceImpl implements DataBaseConfigService{
 		
 	}
 
+	@Override
+	public Map pages(String agentAndServer, String name, int pageNum, int pageSize) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	/**
 	 * 分页-条件查询
 	 */
-	@Override
+	/*@Override
 	public Map pages(String agentAndServer,String name, int pageNum, int pageSize){
 		
 		//定义返回值map
@@ -98,7 +104,7 @@ public class DataBaseConfigServiceImpl implements DataBaseConfigService{
 			map.put("error", e.getMessage());
 			return map;
 		}
-	}
+	}*/
 
 	
 

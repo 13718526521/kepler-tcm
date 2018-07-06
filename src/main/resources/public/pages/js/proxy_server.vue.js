@@ -61,45 +61,90 @@ var vm = new Vue({
 			init(index);
 		},
 		//测试连接
-		dataConnect: function(id,agent,port) {
+		dataConnect: function(id,agentName) {
 			$(".connect-modal .modal-title").text('提示信息');
-			var info="代理服务器地址为:"+agent+"\r\n"+"服务器端口号为:"+port;
-			$("#info").val(info); 
-			/*			
-			 layer.msg("连接成功", { 
-			 time: 1000
-			});*/
+			var agent=agentName.split(":")[0];
+			var port=agentName.split(":")[1];
+			 $.ajax({
+	              type: "get",
+	              url: util.agent().baseUrl + "/agent/connect",
+	              data: {"agent":agent,"port":port},
+	              success: function(data) {
+	            	  console.log(data);
+	            	  if(data.CODE==0){
+	            		  var info=data.MESSAGE;
+	            	  }else{
+	            		  var info=data.MESSAGE;
+	            	  }
+	            	  $("#info").val(info); 
+	              },
+	      		error: function() {
+	    		}
+		   });
 		},
-		addApplication: function(id,agent,port,memo){
+		addApplication: function(id,agentName,memo){
 			$(".application-modal .modal-title").text('应用服务器 - 新增');
 			var html=[];
-            html.push('<option value="'+id+'">',agent+":"+port,'</option>')
+            html.push('<option value="'+id+'">',agentName,'</option>')
             $("#agentName").empty().append(html.join(''));
             $("#agentMemo").val(memo);
 		},
-		dataLog: function(id,agent,port,memo){
+		/*		
+		    dataLog: function(id,agentName,memo){
 			$(".info-modal .modal-title").text('日志信息');
-			var info="代理服务器地址为"+agent+"\n\r"+"应用服务器端口为"+port+"\n\r"+"代理服务器说明为"+memo+"。";
+			var info="代理服务器地址与端口为"+agentName+"\n\r"+"代理服务器说明为"+memo+"。";
 			$("#loginfo").val(info);
 			
-		},
+		},*/
         //修改
 		dataChange: function(ind) {
 			$(".new-modal .modal-title").text('代理服务器 - 修改');
 				addChange.modelData = JSON.parse(JSON.stringify(vm.tabData[ind]));
-				agent = vm.tabData[ind].agent;
-				port = vm.tabData[ind].port;
+				oldAgent=vm.tabData[ind].agentName
+			    agent=vm.tabData[ind].agentName.split(":")[0];
+			    port=vm.tabData[ind].agentName.split(":")[1];
 				memo = vm.tabData[ind].memo;
 				$("#agent").val(agent);
 				$("#port").val(port);
 				$("#memo").val(memo);
+				$(".new-modal button[type=submit]").unbind('click').click(function() {
+					var edit_agent=$("#agent").val();
+					var edit_port=$("#port").val();
+					var edit_memo=$("#memo").val();
+				 $.ajax({
+		              type: "get",
+		              url: util.agent().baseUrl + "/agent/edit",
+		              data: {"oldagent":oldAgent,"agent":edit_agent,"port":edit_port,"memo":edit_memo},
+		              success: function(data) {
+		            	  if(data.CODE==1){
+		         			 layer.msg("修改失败", { 
+		         			 time: 1000
+		         			 });
+		            	  }
+		            	  $("#addChange .close").click();
+		                  init(1);
+		              },
+		      		error: function() {
+		    		}
+			          });
+				});
         },
         //删除
-        dataDelete: function(id) {
+        dataDelete: function(id,agentName) {
         	$(".delete-modal .modal-title").text('提示信息');
 			$(".delete-modal .modal-body>div:nth-child(2)").text(id);
 			$(".delete-modal button[type=submit]").unbind('click').click(function() {
-				alert('删除序号为'+id+'的代理服务器');
+				 $.ajax({
+		              type: "get",
+		              url: util.agent().baseUrl + "/agent/delete",
+		              data: {"agentName":agentName},
+		              success: function(data) {
+		            	  $(".delete-modal .close").click();
+		                  init(1);
+		              },
+		      		error: function() {
+		    		}
+			          });
 			});
         },
 	}
@@ -116,7 +161,7 @@ $(".add_btn").click(function() {
 		$("#memo").val("");
 });
 
-$('.new-modal button[type=submit]').click(
+$('.new-modal button[type=submit]').unbind('click').click(
 		function() {
 			var sub_Data = {};
 			sub_Data.agent = $("#agent").val();
@@ -126,20 +171,32 @@ $('.new-modal button[type=submit]').click(
 				alert('服务器代理端口号只能为数字');
 				return;
 			}
-			alert('服务器地址为:' + sub_Data.agent + "\r\n" + '服务器代理端口号为:'+ sub_Data.port + "\r\n" + '服务器内容为:' + sub_Data.memo);
+		  $.ajax({
+              type: "get",
+              url: util.agent().baseUrl + "/agent/add",
+              data: {"agent":sub_Data.agent,"port":sub_Data.port,"memo":sub_Data.memo},
+              success: function(data) {
+            	  $("#addChange .close").click();
+                  init(1);
+              },
+      		error: function() {
+    		}
+          });
 		});
 
 function init(index) {
 	var params = {};
 	$.ajax({
 		type: "get",
-		url: util.agent().baseUrl + "/view/manage/proxy_server.json",
+		url: util.agent().baseUrl + "/agent/query",
 		async: true,
 		data: params,
 		success: function(data) {
-            $(".loading").hide();
-            
             vm.tabData = data.data;
+            /*  
+            	for(var i in data.data){
+            	vm.tabData[i].id++;}
+            */
             vm.current = index;
             vm.showItem = 5;
             vm.allpage = data.totalPages;

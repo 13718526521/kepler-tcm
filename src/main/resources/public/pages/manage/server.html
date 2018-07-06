@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="../icons/favicon_uc.ico" rel="shortcut icon">
+<link class="bootselect" href="" rel="stylesheet" type="text/css" />
+<link href="../base/bootstrap/bootstrap-skin/bootstrap-cerulean.css"
+	rel="stylesheet" />
+<link href="../base/font-awesome/css/font-awesome.min.css"
+	rel="stylesheet" />
+<link href="../base/layer/skin/default/layer.css" rel="stylesheet" />
+<link href="../css/baseall.css" rel="stylesheet" />
+<link href="../css/server.css" rel="stylesheet" />
+<link href="../base/jsonanalyze/css/jsonanalysis.css" rel="stylesheet" />
+<script src="../base/jquery/jquery-1.11.0.min.js"></script>
+<script src="../base/layer/layer.js"></script>
+<script src="../js/skin.js"></script>
+<title>服务器控制台</title>
+</head>
+
+<body>
+	<div class="loading changeSkin">
+		<span></span> <span></span> <span></span> <span></span> <span></span>
+	</div>
+	<div class="content">
+		<div class="content-title">
+			<div class="form-inline">
+				<div class="form-group form-group-2"></div>
+				<div class="form-group form-group-2">
+					<h4 style="text-align: center;">TCM管理控制台</h4>
+				</div>
+				<div class="form-group form-group-2"></div>
+			</div>
+			<button type="button" class="btn btn-blue agent-add-btn" style="float: right;" data-toggle="modal" data-target=".agent-new-modal">
+				<span class="glyphicon glyphicon-plus"></span> 添加代理服务器
+			</button>
+		</div>
+		<div class="content-body">
+			<!-- 内容区 -->
+			<div class="accordion">
+				<!--  <dl>
+					<dt class="active">
+						<h4 class="activity-title">
+							<i class="fa fa-check" style="margin-right: 10px; color: green;"></i><span>代理服务器</span><span style="margin-left: 10px;">172.16.13.248:1098</span><span style="margin-left: 10px;">-</span><span>说明</span>
+						</h4>
+						<a href="#accordion1" aria-expanded="false" aria-controls="accordion1" class="accordion-title accordionTitle js-accordionTrigger">隐藏</a>
+						<div class="ope-btn">
+							<button type="button" class="btn btn-blue agent-edit-btn">
+								<span class="glyphicon glyphicon-edit"></span> 修改
+							</button>
+							<button type="button" class="btn btn-blue agent-delete-btn">
+								<span class="glyphicon glyphicon-trash"></span> 删除
+							</button>
+						</div>
+						<div class="opt-btn2">
+							<button type="button" class="btn btn-blue application-add-btn">
+								<span class="glyphicon glyphicon-plus"></span> 添加应用服务器
+							</button>
+						</div>
+					</dt>
+					<!-- 				<dd class="accordion-content accordionItem is-collapsed active"  id="accordion1" aria-hidden="true">
+					<div class="form-content" id="formContent1">
+						<div id="app">
+							<table style="font-size:13px;width: 100%;" border="0" class="table table-hover  tab-own" cellpadding="0" cellspacing="0">
+								<thead>
+								<tr>
+									<th>应用服务器名称</th>
+									<th>应用服务器端口</th>
+									<th>应用服务器说明</th>
+									<th>应用服务器监控端口</th>
+									<th>应用服务器监控间隔</th>
+									<th>操作</th>
+								</tr>
+								</thead>
+								<tbody>
+									<tr v-for="(tabtr,index) in tabData">
+										<td><a href="tasks.html"><i class="fa fa-play"></i>{{tabtr.serverName}}</a></td>
+										<td>{{tabtr.serverPort}}</td>
+										<td>{{tabtr.memo}}</td>
+										<td>{{tabtr.monitorPort}}</td>
+										<td>{{tabtr.monitorInterval}}秒</td>
+			                            <td>
+			                                <span class="fa fa-arrows-alt dataManage" @click="dataManage(tabtr.agentName,tabtr.serverName)" title="管理" style=" padding-right: 5px;"></span>
+			                                <span class="fa fa-edit dataChange" @click="dataChange(index)" title="修改" data-toggle="modal" data-target=".new-modal" style="color: green;padding-right: 5px;"></span>
+			                                <span class="fa fa-play-circle startServer" @click="startServer(tabtr.agentName,tabtr.serverName)" title="启动" data-toggle="modal" data-target=".info-modal"  style=" padding-right: 5px;"></span>
+			                                <span class="fa fa-stop stopServer" @click="stopServer(tabtr.agentName,tabtr.serverName)" title="停止" data-toggle="modal" data-target=".info-modal" style=" padding-right: 5px;"></span>
+			                                <span class="fa fa-repeat restartServer" @click="restartServer(tabtr.agentName,tabtr.serverName)" title="重启" data-toggle="modal" data-target=".info-modal"  style=" padding-right: 5px;"></span>
+			                                <span class="fa fa-trash dataDelete" @click="dataDelete(tabtr.id)" title="删除" data-toggle="modal" data-target=".delete-modal" style="color: #C13333;padding-right: 5px;" ></span>
+			                            </td>
+			                        </tr>
+								</tbody>
+							</table>
+							<div class="pagleft" v-cloak>
+								共{{totalNum}}条数据 每页显示&nbsp;<input type="text" value="10" class="form-control" />&nbsp;条数据 第{{current}}/{{allpage}}页
+							</div>
+							<ul class="pagination pagination-sm" v-cloak>
+								<li @click="current <= 1 ? '' : (current-- && goto(current))">
+									<a href="#">
+										<</a>
+								</li>
+								<li v-for="index in pages" @click="goto(index)" :class="{'active':current == index}" :key="index">
+									<a href="#">{{index}}</a>
+								</li>
+								<li @click="(allpage != current && allpage != 0) ? (current++ && goto(current++)) : ''">
+									<a href="#">></a>
+								</li>
+								<li>
+									<a href="#">共{{allpage}}页</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</dd> 
+					<div class="clear"></div>	
+				</dl>-->
+			
+				<!-- 			 <dl>
+				<dt>
+					<h4 class="activity-title"><i class="fa fa-remove" style="margin-right: 10px;color: red"></i><span>代理服务器</span><span style="margin-left: 10px;">172.16.13.248:1098</span><span style="margin-left: 10px;">-</span><span>说明</span></h4>
+					<a href="#accordion1"  aria-expanded="false" aria-controls="accordion1" class="accordion-title accordionTitle js-accordionTrigger">显示</a>	
+					<div class="ope-btn">
+					    <button  type="button" class="btn btn-blue query-btn"><span class="glyphicon glyphicon-edit"></span> 修改</button>
+					    <button  type="button" class="btn btn-blue query-btn"><span class="glyphicon glyphicon-trash"></span> 删除</button>
+					</div>
+					<div class="opt-btn2">
+					    <button  type="button" class="btn btn-blue query-btn"><span class="glyphicon glyphicon-plus"></span> 添加应用服务器</button>
+					</div>
+									
+				</dt>
+				<dd class="accordion-content accordionItem is-collapsed"  id="accordion1" aria-hidden="true">
+					<div class="form-content" id="formContent1">
+						<div id="app1">
+							<table style="font-size:13px;width: 100%;" border="0" class="table table-hover  tab-own" cellpadding="0" cellspacing="0">
+								<thead>
+								<tr>
+									<th>应用服务器名称</th>
+									<th>应用服务器端口</th>
+									<th>应用服务器说明</th>
+									<th>应用服务器监控端口</th>
+									<th>应用服务器监控间隔</th>
+									<th>操作</th>
+								</tr>
+								</thead>
+								<tbody>
+									<tr v-for="(tabtr,index) in tabData">
+										<td><a href="tasks.html"><i class="fa fa-play"></i>{{tabtr.serverName}}</a></td>
+										<td>{{tabtr.serverPort}}</td>
+										<td>{{tabtr.memo}}</td>
+										<td>{{tabtr.monitorPort}}</td>
+										<td>{{tabtr.monitorInterval}}秒</td>
+			                            <td>
+			                            	<span class="fa fa-arrows-alt dataManage" @click="dataManage(tabtr.agentName,tabtr.serverName)" title="管理" style=" padding-right: 5px;"></span>
+			                                <span class="fa fa-edit dataChange" @click="dataChange(index)" title="修改" data-toggle="modal" data-target=".new-modal" style="color: green;padding-right: 5px;"></span>
+			                                <span class="fa fa-play-circle startServer" @click="startServer(tabtr.agentName,tabtr.serverName)" title="启动" data-toggle="modal" data-target=".info-modal"  style=" padding-right: 5px;"></span>
+			                                <span class="fa fa-stop stopServer" @click="stopServer(tabtr.agentName,tabtr.serverName)" title="停止" data-toggle="modal" data-target=".info-modal" style=" padding-right: 5px;"></span>
+			                                <span class="fa fa-repeat restartServer" @click="restartServer(tabtr.agentName,tabtr.serverName)" title="重启" data-toggle="modal" data-target=".info-modal"  style=" padding-right: 5px;"></span>
+			                                <span class="fa fa-trash dataDelete" @click="dataDelete(tabtr.id)" title="删除" data-toggle="modal" data-target=".delete-modal" style="color: #C13333;padding-right: 5px;" ></span>
+			                            </td>
+			                        </tr>
+								</tbody>
+							</table>
+							<div class="pagleft" v-cloak>
+								共{{totalNum}}条数据 每页显示&nbsp;<input type="text" value="10" class="form-control" />&nbsp;条数据 第{{current}}/{{allpage}}页
+							</div>
+							<ul class="pagination pagination-sm" v-cloak>
+								<li @click="current <= 1 ? '' : (current-- && goto(current))">
+									<a href="#">
+										<</a>
+								</li>
+								<li v-for="index in pages" @click="goto(index)" :class="{'active':current == index}" :key="index">
+									<a href="#">{{index}}</a>
+								</li>
+								<li @click="(allpage != current && allpage != 0) ? (current++ && goto(current++)) : ''">
+									<a href="#">></a>
+								</li>
+								<li>
+									<a href="#">共{{allpage}}页</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</dd>
+				<div class="clear"></div>				
+			</dl> -->
+			</div>
+		</div>
+		<!--<div class="content-bottom"><button id="addBtn" type="button" class="btn btn-blue paging-btn add-btn">添加</button></div> -->
+	</div>
+	<!--添加代理服务器-->
+	<div class="modal fade agent-new-modal" id="agent-addChange" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="close">
+						<span>×</span>
+					</button>
+					<h4 class="modal-title"></h4>
+				</div>
+				<div class="modal-body form-inline inputNewData">
+					<div class="form-group">
+						<label>服务器地址：</label> 
+							<input type="text" id="agent" error="服务器地址不能为空" class="form-control input-sm required" :readonly="modelData.readOnly" v-model="modelData.agent" :style="modelData.readOnly ? '' : (modelData.agent === '' ? 'background: #FFF3F3 !important;' : 'background: none !important;')" data-container="body" data-toggle="popover" data-placement="right" data-content="例如 10.0.0.1" />
+					</div>
+					<div class="form-group">
+						<label>服务器代理端口：</label> 
+							<input type="text" min="1" max="65535" id="port" error="服务器端口必须为(1~65535)" class="form-control input-sm required" :readonly="modelData.readOnly" v-model="modelData.port" :style="modelData.readOnly ? '' : (modelData.port === '' ? 'background: #FFF3F3 !important;' : 'background: none !important;')" data-container="body" data-toggle="popover" data-placement="right" data-content="端口必须为1~65535" />
+					</div>
+					<div class="form-group">
+						<label>说明：</label> 
+							<input type="text" id="memo" class="form-control input-sm required" v-model="modelData.memo" :style="modelData.memo === '' ? 'background: #FFF3F3 !important;' : 'background: none !important;'" data-container="body" data-toggle="popover" data-placement="right" data-content="" placeholder="" />
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="reset" class="btn btn-default btn-sm" data-dismiss="modal">取消</button>
+					<button type="submit" class="btn btn-primary btn-sm submit">确定</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--删除代理服务器-->
+	<div class="modal fade agent-delete-modal" tabindex="-1" role="dialog" id="agent-deleteChange" aria-labelledby="mySmallModalLabel">
+		<div class="modal-dialog modal-sm" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="close">
+						<span>×</span>
+					</button>
+					<h4 class="modal-title">确定要删除？</h4>
+				</div>
+				<div class="modal-body">
+					<h4 style="font-size: 16px;color: #555555;">你确定删除代理服务器序号为</h4>
+					<div style="color: red;" class="delog"></div>
+					<h4 style="font-size: 16px;color: #555555;">吗?</h4>
+				</div>
+				<div class="modal-footer">
+					<button type="reset" class="btn btn-default btn-sm" data-dismiss="modal">取消</button>
+					<button type="submit" class="btn btn-primary btn-sm submit">确定</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--添加应用服务器-->
+	<div class="modal fade application-new-modal" id="application-addChange" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="close">
+						<span>×</span>
+					</button>
+					<h4 class="modal-title"></h4>
+				</div>
+				<div class="modal-body form-inline inputNewData">
+					<div class="form-group">
+						<label>代理服务器：</label> 
+						<input type="text" id="agentName" class="form-control input-sm " v-model="modelData.agentName" disabled="disabled" />
+					</div>
+					<div class="form-group">
+						<label>代理服务器说明：</label> 
+						<input type="text" id="agentMemo" class="form-control input-sm " v-model="modelData.agentMemo" disabled="disabled" />
+					</div>
+					<div class="form-group">
+						<label>应用服务器名称：</label> 
+						<input type="text" id="serverName" class="form-control input-sm required" :readonly="modelData.readOnly" v-model="modelData.serverName" :style="modelData.readOnly ? '' : (modelData.serverName === '' ? 'background: #FFF3F3 !important;' : 'background: none !important;')" data-container="body" data-toggle="popover" data-placement="right" data-content="字母、数字和下划线" />
+					</div>
+					<div class="form-group">
+						<label>应用服务器端口：</label> 
+						<input type="text" min="1" max="65535" error="应用服务器端口必须为(1~65535)" id="serverPort" class="form-control input-sm required" :readonly="modelData.readOnly" v-model="modelData.serverPort" :style="modelData.readOnly ? '' : (modelData.serverPort === '' ? 'background: #FFF3F3 !important;' : 'background: none !important;')" data-container="body" data-toggle="popover" data-placement="right" data-content="端口必须为1~65535" />
+					</div>
+					<div class="form-group">
+						<label>应用服务器说明：</label> 
+						<input type="text" id="applicationmemo" class="form-control input-sm required" v-model="modelData.applicationmemo" :style="modelData.applicationmemo === '' ? 'background: #FFF3F3 !important;' : 'background: none !important;'" data-container="body" data-toggle="popover" data-placement="right" data-content="" placeholder="" />
+					</div>
+					<div class="form-group">
+						<label>应用服务器监控端口：</label> 
+						<input type="text" min="1" max="65535" id="monitorPort" error="应用服务器监控端口必须为(1~65535)" class="form-control input-sm required" :readonly="modelData.readOnly" v-model="modelData.monitorPort" :style="modelData.readOnly ? '' : (modelData.monitorPort === '' ? 'background: #FFF3F3 !important;' : 'background: none !important;')" data-container="body" data-toggle="popover" data-placement="right" data-content="端口必须为1~65535" />
+					</div>
+					<div class="form-group">
+						<label>应用服务器自动重启：</label> 
+						<input type="checkbox" value="1" name="autoRestart" id="autoRestart"><font style="font-size: 14px;">允许自动重启服务,监控间隔</font>
+						<input type="text" id="monitorInterval" min="10" error="监控间隔必须为10以上的数字" style="margin-left: 130px;" class="form-control" :readonly="modelData.readOnly" v-model="modelData.monitorInterval" :style="modelData.readOnly ? '' : (modelData.monitorInterval === '' ? 'background: #FFF3F3 !important;' : 'background: none !important;')" data-container="body" data-toggle="popover" data-placement="right" data-content="" /><font style="font-size: 14px;">秒 (最小10秒)</font>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="reset" class="btn btn-default btn-sm" data-dismiss="modal">取消</button>
+					<button type="submit" class="btn btn-primary btn-sm submit">确定</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade info-modal" tabindex="-1" role="dialog"
+		aria-labelledby="mySmallModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="close">
+						<span>×</span>
+					</button>
+					<h4 class="modal-title">连接信息</h4>
+				</div>
+				<div class="modal-body form-inline inputNewData">
+					<div class="form-group">
+						<textarea class="form-control input-sm" id="info"
+							style="width: inherit;"></textarea>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="reset" class="btn btn-default btn-sm"
+						data-dismiss="modal">取消</button>
+					<button type="submit" class="btn btn-primary btn-sm submit">确定</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script src="../base/vue/vue.min.js"></script>
+<script src="../base/bootstrap/js/bootstrap.min.js"></script>
+<script src="../js/util.js"></script>
+<script src="../js/common.js"></script>
+<script src="../base/jsonanalyze/js/analyze.js"></script>
+<script src="../js/server.vue.js"></script>
+
+</html>

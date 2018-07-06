@@ -126,6 +126,10 @@ $("#file").change(function(){
 });
 
 function init(index) {
+	console.log(localStorage.agent);
+	console.log(localStorage.port);
+	console.log(localStorage.serverName);
+	console.log(localStorage.server);
 	var params = {};
 	$.ajax({
 		type: "get",

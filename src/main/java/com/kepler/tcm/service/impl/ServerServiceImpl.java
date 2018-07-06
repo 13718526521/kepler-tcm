@@ -1,0 +1,262 @@
+package com.kepler.tcm.service.impl;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
+import com.kepler.tcm.client.ServerClient;
+import com.kepler.tcm.core.agent.ServerInfo;
+import com.kepler.tcm.core.server.RemoteServer;
+import com.kepler.tcm.service.ServerService;
+@Service
+public class ServerServiceImpl implements ServerService {
+	
+	private static final Logger log  = LoggerFactory.getLogger(ServerServiceImpl.class);
+	
+	@Override
+	public Map<String, Object> query(HttpServletRequest request,HttpServletResponse response,String agentName) throws Exception {
+			List<ServerInfo> list = new ArrayList<ServerInfo>();
+			HashMap<String, Object> map=new HashMap<String, Object>();
+			ServerClient serverClient=new ServerClient(agentName);
+			try {
+				Set keys=serverClient.getServerMap().keySet();
+				String message="";
+				for (Object object : keys) {
+					ServerInfo serverInfo=(ServerInfo) serverClient.getServerMap().get(object);
+					list.add(serverInfo);
+				}
+				map.put("data", list);
+				map.put("CODE",0);
+				map.put("MESSAGE","成功");
+			} catch (Exception e) {
+				StringWriter sw = new StringWriter();
+				e.printStackTrace(new PrintWriter(sw, true));  
+				map.put("CODE", 1);
+				map.put("MESSAGE", sw.toString());
+				log.info("异常信息为:"+sw.toString());
+				e.printStackTrace();
+			}
+			return map;
+	}
+	
+	@Override
+	public Map<String, Object> querystate(HttpServletRequest request,HttpServletResponse response,String agentName) throws Exception {
+		ServerClient serverClient=new ServerClient(agentName);
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		try {
+			Set keys=serverClient.getServerMap().keySet();
+			List key_list = new ArrayList(keys);
+			for (int i = 0; i < key_list.size(); i++) {
+				ServerInfo serverInfo=(ServerInfo) serverClient.getServerMap().get(key_list.get(i));
+				Map data_map = new HashMap<>();
+				data_map.put("serverName",  serverInfo.serverName);
+				data_map.put("port",  serverInfo.port);
+				data_map.put("monitorPort",  serverInfo.monitorPort);
+				data_map.put("monitorInterval",  serverInfo.monitorInterval);
+				data_map.put("memo",  serverInfo.memo);
+				Boolean flag=started(request, response, agentName, serverInfo.serverName);
+				data_map.put("started", flag);
+				list.add(i, data_map);
+			}
+			map.put("CODE", 0);
+			map.put("MESSAGE", "成功");
+			map.put("data", list);
+		} catch (Exception e) {
+			map.put("CODE", 1);
+			map.put("MESSAGE", "失败");
+		}
+		return map;
+	}
+	
+	@Override
+	public Map<String, Object> add(HttpServletRequest request,HttpServletResponse response, String agentName,String serverName,String autoRestart,String monitorInterval,String serverPort,String monitorPort,String memo) throws Exception {
+			ServerClient serverClient=new ServerClient(agentName);
+			HashMap<String, Object> param_map=new HashMap<String, Object>();
+			HashMap<String, Object> map=new HashMap<String, Object>();
+			param_map.put("autoRestart",autoRestart);
+			param_map.put("monitorInterval",monitorInterval);
+			param_map.put("serverPort",serverPort);
+			param_map.put("monitorPort",monitorPort);
+			param_map.put("memo", memo);
+			try {
+				serverClient.addServer(serverName, param_map);
+				map.put("CODE",0);
+				map.put("MESSAGE","成功");
+			} catch (Exception e) {
+				map.put("CODE",1);
+				map.put("MESSAGE","失败");
+			}
+			return map;
+	}
+	
+	@Override
+	public Map<String, Object> edit(HttpServletRequest request,HttpServletResponse response, String agentName, String serverName,String autoRestart, String monitorInterval, String serverPort,String monitorPort, String memo) throws Exception {
+		ServerClient serverClient=new ServerClient(agentName);
+		HashMap<String, Object> param_map=new HashMap<String, Object>();
+		HashMap<String, Object> map=new HashMap<String, Object>();
+		param_map.put("autoRestart",autoRestart);
+		param_map.put("monitorInterval",monitorInterval);
+		param_map.put("serverPort",serverPort);
+		param_map.put("monitorPort",monitorPort);
+		param_map.put("memo", memo);
+		try {
+			serverClient.setServerConfig(serverName, param_map);
+			map.put("CODE",0);
+			map.put("MESSAGE","成功");
+		} catch (Exception e) {
+			map.put("CODE",1);
+			map.put("MESSAGE","失败");
+		}
+		return map;
+	}
+	
+	@Override
+	public Map<String, Object> get(HttpServletRequest request,
+			HttpServletResponse response, String agentName,String serverName) throws Exception {
+		ServerClient serverClient=new ServerClient(agentName);
+		HashMap<String, Object> map=new HashMap<String, Object>();
+		RemoteServer remoteServer = null;
+		try {
+			remoteServer = serverClient.getServer(serverName);
+			if(!remoteServer.getServerName().equals(serverName)){
+				map.put("CODE", 1);
+				map.put("MESSAGE", "服务器尚未启动");
+			}else{
+				map.put("CODE", 0);
+				map.put("MESSAGE", "成功");
+			}
+		} catch (Exception e) {
+			map.put("CODE", 1);
+			map.put("MESSAGE", "失败");
+		}
+		return map;
+	}
+
+	@Override
+	public Map<String, Object> start(HttpServletRequest request,
+			HttpServletResponse response, String agentName, String serverName)
+			throws Exception {
+		HashMap<String, Object> map=new HashMap<String, Object>();
+		ServerClient serverClient=new ServerClient(agentName);
+		try {
+			serverClient.startServer(serverName);
+			map.put("CODE", 0);
+			map.put("MESSAGE", "成功");
+		} catch (Exception e) {
+			map.put("CODE", 1);
+			map.put("MESSAGE", "失败");
+		}
+		return map;
+	}
+
+	@Override
+	public Map<String, Object> restart(HttpServletRequest request,
+			HttpServletResponse response, String agentName, String serverName)
+			throws Exception {
+		ServerClient serverClient=new ServerClient(agentName);
+		HashMap<String, Object> map=new HashMap<String, Object>();
+		try {
+			serverClient.restartServer(serverName, false);
+			map.put("CODE", 0);
+			map.put("MESSAGE", "成功");
+		} catch (Exception e) {
+			map.put("CODE", 1);
+			map.put("MESSAGE", "失败");
+		}
+		return map;
+	}
+
+	@Override
+	public Map<String, Object> stop(HttpServletRequest request,
+			HttpServletResponse response, String agentName, String serverName)
+			throws Exception {
+		HashMap<String, Object> map=new HashMap<String, Object>();
+		ServerClient serverClient=new ServerClient(agentName);
+		try {
+			serverClient.stopServer(serverName);
+			map.put("CODE", 0);
+			map.put("MESSAGE", "成功");
+		} catch (Exception e) {
+			map.put("CODE", 1);
+			map.put("MESSAGE", "失败");
+		}
+		return map;
+	}
+
+	@Override
+	public boolean started(HttpServletRequest request,
+			HttpServletResponse response, String agentName, String serverName)
+			throws Exception {
+		ServerClient serverClient=new ServerClient(agentName);
+		return serverClient.serverStarted(serverName);
+	}
+
+	@Override
+	public Map<String, Object> serverhost(HttpServletRequest request,
+			HttpServletResponse response, String agentName, String serverName)
+			throws Exception {
+		ServerClient serverClient=new ServerClient(agentName);
+		HashMap<String, Object> map=new HashMap<String, Object>();
+		try {
+			String result=serverClient.getServerHost(serverName);
+			map.put("CODE", 0);
+			map.put("MESSAGE", "成功");
+			map.put("data", result);
+		} catch (Exception e) {
+			map.put("CODE", 1);
+			map.put("MESSAGE", "失败");
+		}
+		return map;
+	}
+
+	@Override
+	public Map<String, Object> serverport(HttpServletRequest request,
+			HttpServletResponse response, String agentName, String serverName)
+			throws Exception {
+		HashMap<String, Object> map=new HashMap<String, Object>();
+		ServerClient serverClient=new ServerClient(agentName);
+		try {
+			String result=serverClient.getServerPort(serverName);
+			map.put("CODE", 0);
+			map.put("MESSAGE", "成功");
+			map.put("data", result);
+		} catch (Exception e) {
+			map.put("CODE", 1);
+			map.put("MESSAGE", "失败");
+		}
+		return map;
+	}
+
+	@Override
+	public Map<String, Object> monitorport(HttpServletRequest request,
+			HttpServletResponse response, String agentName, String serverName)
+			throws Exception {
+		HashMap<String, Object> map=new HashMap<String, Object>();
+		ServerClient serverClient=new ServerClient(agentName);
+		try {
+			String result=serverClient.getMonitorPort(serverName);
+			map.put("CODE", 0);
+			map.put("MESSAGE", "成功");
+			map.put("data", result);
+		} catch (Exception e) {
+			map.put("CODE", 1);
+			map.put("MESSAGE", "失败");
+		}
+		return map;
+	}
+
+	
+}

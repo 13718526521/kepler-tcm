@@ -25,7 +25,7 @@ import com.kepler.tcm.domain.LocalSource;
 import com.kepler.tcm.exception.ApiException;
 import com.kepler.tcm.exception.ApiSQLException;
 import com.kepler.tcm.service.RestApiService;
-import com.kepler.tcm.util.DefaultStringUtils;
+import com.kepler.tcm.util.DefaultStringUtil;
 @Service
 public class RestApiServiceImpl implements RestApiService {
 

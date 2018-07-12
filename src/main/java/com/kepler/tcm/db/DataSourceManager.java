@@ -18,7 +18,7 @@ import org.springframework.core.env.Environment;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.kepler.tcm.db.util.DataBaseUtil;
 import com.kepler.tcm.domain.LocalSource;
-import com.kepler.tcm.util.DefaultStringUtils;
+import com.kepler.tcm.util.DefaultStringUtil;
  
  
 /**
@@ -207,8 +207,8 @@ public class DataSourceManager  implements EnvironmentAware{
 	public static Connection createConnection(LocalSource ls){
 	    try{   
 	        Class.forName(DataBaseUtil.getDriverName(Integer.valueOf(ls.getSourceType()))) ;   ;
-	        Connection con = DriverManager.getConnection(ls.getSourceUrl() ,DefaultStringUtils.nullToString(ls.getDbName()) ,
-	        		DefaultStringUtils.nullToString(ls.getDbPwd()) );
+	        Connection con = DriverManager.getConnection(ls.getSourceUrl() ,DefaultStringUtil.nullToString(ls.getDbName()) ,
+	        		DefaultStringUtil.nullToString(ls.getDbPwd()) );
 	        return con;
 	    }catch(ClassNotFoundException e){
 			e.printStackTrace();
@@ -236,7 +236,7 @@ public class DataSourceManager  implements EnvironmentAware{
 	    try{   
 	        Class.forName(DataBaseUtil.getDriverName(dataBaseType)) ;   
 	        String url = DataBaseUtil.getConnectionUrl(ipAddress, port,dataBaseName, dataBaseType);
-	        Connection con = DriverManager.getConnection(url , userName , DefaultStringUtils.nullToString(password) );
+	        Connection con = DriverManager.getConnection(url , userName , DefaultStringUtil.nullToString(password) );
 	        return con;
 	    }catch(ClassNotFoundException e){   
 	    	log.error("找不到驱动程序类 ，加载驱动失败");   

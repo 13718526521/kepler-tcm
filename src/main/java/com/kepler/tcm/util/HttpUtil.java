@@ -23,7 +23,7 @@ public class HttpUtil {
         BufferedReader in = null;
         String urlNameString = url;
         try {
-            if(DefaultStringUtils.isNotEmpty(param)){
+            if(DefaultStringUtil.isNotEmpty(param)){
             	urlNameString = url + "?" + param;
             }
             URL realUrl = new URL(urlNameString);

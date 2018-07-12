@@ -462,7 +462,7 @@
 			<id>dev</id>
 			<properties>
 				<profiles.active>dev</profiles.active>
-				<profiles.finalName>kepler-tcom</profiles.finalName>
+				<profiles.finalName>kepler-tcm</profiles.finalName>
 			</properties>
 			<!-- 默认触发 -->
 			<activation>

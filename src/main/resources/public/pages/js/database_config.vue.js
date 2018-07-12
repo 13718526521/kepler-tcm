@@ -1,4 +1,4 @@
-var server,dbName,dbDriver,dbUrl,dbUser,dbPass;
+var server,dbName,dbDriver,dbUrl,dbUser,dbPass,type,overId;
 $(function() {
 	
 	server = localStorage.server;
@@ -20,6 +20,12 @@ $(function() {
 	});
     
 	init(1);
+});
+
+//查询按钮
+$("#search").click(function() {
+	dbName = $("#userId").val();
+    init(1);
 });
 
 //表格数据及分页
@@ -73,20 +79,50 @@ var vm = new Vue({
 			//这里可以发送ajax请求
 			init(index);
 		},
-		Check: function(){
-			layer.msg("连接成功", {
-				time: 1000
+		Check: function(ind){
+			
+			var data = {};
+			data.name = vm.tabData[ind].name;
+			data.driver = vm.tabData[ind].driver;
+			data.url = vm.tabData[ind].url;
+			data.user = vm.tabData[ind].user;
+			data.pass = vm.tabData[ind].pass;
+			data.agentAndServer="127.0.0.1:1098@server01";
+			console.log(data);
+			$.ajax({
+				type: "post",
+				url: util.agent().baseUrl + "/dataBaseConfig/getConnection.json",
+				data: data,
+				async: true,
+				success: function(data) {
+					console.log(data);
+					$(".loading").hide();
+					layer.msg("连接成功", {
+						time: 1000
+					});
+
+					init(1);
+				},
+				error: function(e) {
+					console.log(e);
+					$(".loading").hide();
+					layer.msg("连接失败", {
+						time: 1000
+					});
+				}
 			});
 		},
         //修改
-        Updatask: function(ind,dbId) {
+        Updatask: function(ind,id) {
         	$(".new-modal .modal-title").text('修改');
         	
-        	$("#dbName").val(vm.tabData[ind].dbName);
-        	$("#dbDriver").val(vm.tabData[ind].dbDriver);
-        	$("#dbUrl").val(vm.tabData[ind].dbUrl);
-        	$("#dbUser").val(vm.tabData[ind].dbUser);
-        	$("#dbPass").val(vm.tabData[ind].dbPass);
+        	$("#dbName").val(vm.tabData[ind].name);
+        	$("#dbDriver").val(vm.tabData[ind].driver);
+        	$("#dbUrl").val(vm.tabData[ind].url);
+        	$("#dbUser").val(vm.tabData[ind].user);
+        	$("#dbPass").val(vm.tabData[ind].pass);
+        	type=2;
+        	overId = id;
         },
         //删除
         tabDelete: function(dbId) {
@@ -94,17 +130,25 @@ var vm = new Vue({
 			//确定删除
 			$(".delete-modal button[type=submit]").click(function() {
 				$(".loading").show();
+				var agentAndServer="127.0.0.1:1098@server01";
 				$.ajax({
 					type: "put",
 					url: util.agent().baseUrl + "/dataBaseConfig/remove.json",
-					data: {"dbId" : dbId,"agentAndServer" : server},
+					data: {"id" : dbId,"agentAndServer" : agentAndServer},
 					async: true,
 					success: function() {
+						$(".loading").hide();
 						layer.msg("删除成功", {
 							time: 1000
 						});
 
 						init(1);
+					},
+					error: function(e) {
+						$(".loading").hide();
+						layer.msg("删除失败", {
+							time: 1000
+						});
 					}
 				});
 			});
@@ -122,44 +166,84 @@ $("#dataBase").click(function(){
 	$("#dbUrl").val("");
 	$("#dbUser").val("");
 	$("#dbPass").val("");
+	type=1;
+})
 	
-	$(".new-modal button[type=submit]").click(function() {
-		$(".loading").show();
-		var data = {};
-		dbName = $("#dbName").val();
-		dbDriver = $("#dbDriver").val();
-		dbUrl = $("#dbUrl").val();
-		dbUser = $("#dbUser").val();
-		dbPass = $("#dbPass").val();
-		data.dbName = dbName;
-		data.dbDriver = dbDriver;
-		data.dbUrl = dbUrl;
-		data.dbUser = dbUser;
-		data.dbPass = dbPass;
-		data.agentAndServer=server;
-		console.log(server);
-		console.log(data);
+$(".new-modal button[type=submit]").click(function() {
+	$(".loading").show();
+	var data = {};
+	dbName = $("#dbName").val();
+	dbDriver = $("#dbDriver").val();
+	dbUrl = $("#dbUrl").val();
+	dbUser = $("#dbUser").val();
+	dbPass = $("#dbPass").val();
+	data.name = dbName;
+	data.driver = dbDriver;
+	data.url = dbUrl;
+	data.user = dbUser;
+	data.pass = dbPass;
+	//data.agentAndServer=server;
+	data.agentAndServer="127.0.0.1:1098@server01";
+	if(type==1){
+	    
 		$.ajax({
 			type: "post",
 			url: util.agent().baseUrl + "/dataBaseConfig/add.json",
 			data: data,
 			async: true,
-			success: function() {
-				layer.msg("删除成功", {
-					time: 1000
-				});
-
+			success: function(data) {
+				$(".loading").hide();
+				if(data){
+					console.log(1);
+					layer.msg("添加成功", {
+						time: 1000
+					});
+				}else{
+					console.log(2);
+					layer.msg("添加失败", {
+						time: 1000
+					});
+				}
+				
 				init(1);
 			}
 		});
-	});
-})
+	}else{
+		data.id = overId;
+		$.ajax({
+			type: "post",
+			url: util.agent().baseUrl + "/dataBaseConfig/modify.json",
+			data: data,
+			async: true,
+			success: function(data) {
+				$(".loading").hide();
+				if(data){
+					layer.msg("修改成功", {
+						time: 1000
+					});
+				}else{
+					console.log(2);
+					layer.msg("修改失败", {
+						time: 1000
+					});
+				}
+				
+				init(1);
+			}
+		});
+	}
+	
+});
+
 
 function init(index) {
 	var params = {};
+	if(dbName!=null&&dbName!=""){
+		params.name = dbName;
+	}
 	params.pageNum = index-1;
     params.pageSize = $(".pagleft input").val();
-    params.agentAndServer=server;
+    params.agentAndServer="127.0.0.1:1098@server01";
 	$.ajax({
 		type: "get",
 		url: util.agent().baseUrl+"/dataBaseConfig/pages.json",
@@ -172,10 +256,12 @@ function init(index) {
 	                time : 1500
 	            });
 			}
-			if(data.length>0&&data!=undefined){
-				console.log(data);
-				vm.tabData = data;
-        		vm.current = index;
+			vm.tabData = data.data;               
+            vm.showItem = 5;
+            vm.allpage = data.totalPages;
+            vm.totalNum = data.totalCount;
+			if(data.data.length>0&&data!=undefined){
+				vm.current = index;
         		$("#app .no-data").remove();
         	}else{
         		vm.current = 0;

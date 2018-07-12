@@ -24,9 +24,9 @@ public class DataBaseConfigServiceImpl implements DataBaseConfigService{
 	 * 测试连接
 	 */
 	@Override
-	public boolean getConnection(String agentAndServer,HashMap map) throws Exception {
+	public String getConnection(String agentAndServer,HashMap map) throws Exception {
 		DatabaseClient d = new DatabaseClient(agentAndServer);
-		return d.testDatabaseConnection(map);
+		return d.testConnection(map);
 	}
 	
 	/**
@@ -42,31 +42,25 @@ public class DataBaseConfigServiceImpl implements DataBaseConfigService{
 	 * 修改
 	 */
 	@Override
-	public boolean modify(String agentAndServer,String dbId, HashMap map) throws Exception {
+	public boolean modify(String agentAndServer,String id, HashMap map) throws Exception {
 		DatabaseClient d = new DatabaseClient(agentAndServer);
-		return d.editDatabase(dbId, map);
+		return d.editDatabase(id, map);
 	}
 
 	/**
 	 * 删除
 	 */
 	@Override
-	public boolean remove(String agentAndServer,String dbId) throws Exception {
+	public boolean remove(String agentAndServer,String id) throws Exception {
 		DatabaseClient d = new DatabaseClient(agentAndServer);
-		return d.removeDatabase(dbId);
+		return d.removeDatabase(id);
 		
-	}
-
-	@Override
-	public Map pages(String agentAndServer, String name, int pageNum, int pageSize) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	/**
 	 * 分页-条件查询
 	 */
-	/*@Override
+	@Override
 	public Map pages(String agentAndServer,String name, int pageNum, int pageSize){
 		
 		//定义返回值map
@@ -74,18 +68,19 @@ public class DataBaseConfigServiceImpl implements DataBaseConfigService{
 		try {
 			//pageNum 页码   pageSize 查询个数
 			DatabaseClient d = new DatabaseClient(agentAndServer);
-			//拉取数据库信息列表数据
-			List<Database> databases = d.getDatabases();
-			if(databases == null|| databases.size()==0) {
+			//拉取数据库信息列表  id  String[]
+			//List<Database> databases = d.getDatabases();
+			String[] database = d.getDatabase();
+			if(database == null|| database.length==0) {
 				return null;
 			}
-			Collections.reverse(databases);
-			List<Database> lDatabases = new ArrayList<>();
+			List<HashMap> lDatabases = new ArrayList<>();
 			
 			if(StringUtils.isNoneBlank(name)) {
-				for(Database database : databases) {
-					if(database.getDbName().equals(name)) {
-						lDatabases.add(database);
+				for(String id : database) {
+					HashMap databaseById = d.getDatabasePropertyById(id);
+					if(databaseById.get("name").toString().indexOf(name)>-1) {
+						lDatabases.add(databaseById);
 						break;
 					}
 				}
@@ -93,7 +88,18 @@ public class DataBaseConfigServiceImpl implements DataBaseConfigService{
 				return map;
 			}
 			//分页
-			for(int i= (pageNum-1)*pageSize; i<(pageNum-1)*pageSize+pageSize; i++) {
+			List<HashMap> databases = new ArrayList<>();
+			for(String id : database) {
+				databases.add(d.getDatabasePropertyById(id));
+			}
+			Collections.reverse(databases);
+			int length = 0;
+			if(pageNum*pageSize+pageSize<=databases.size()) {
+				length = pageNum*pageSize+pageSize;
+			}else {
+				length = databases.size();
+			}
+			for(int i= pageNum*pageSize; i<length; i++) {
 				lDatabases.add(databases.get(i));
 			}
 			map.put("data", lDatabases);
@@ -104,7 +110,7 @@ public class DataBaseConfigServiceImpl implements DataBaseConfigService{
 			map.put("error", e.getMessage());
 			return map;
 		}
-	}*/
+	}
 
 	
 

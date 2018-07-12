@@ -1,9 +1,12 @@
 package com.kepler.tcm.web.controller;
 
+import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +30,15 @@ public class DataBaseConfigController {
 	 * 测试连接
 	 */
 	@RequestMapping(value="/getConnection",method=RequestMethod.POST)
-	public boolean getConnection(String agentAndServer,HashMap map) throws Exception{
+	public String getConnection(HttpServletRequest req) throws Exception{
+		Map<String, String[]> parameterMap = req.getParameterMap();
+		HashMap map = new HashMap<>();
+		String agentAndServer = StringUtils.join(parameterMap.get("agentAndServer"));
+		map.put("name", StringUtils.join(parameterMap.get("name")));
+		map.put("driver", StringUtils.join(parameterMap.get("driver")));
+		map.put("url", StringUtils.join(parameterMap.get("url")));
+		map.put("user", StringUtils.join(parameterMap.get("user")));
+		map.put("pass", StringUtils.join(parameterMap.get("pass")));
 		return dataBaseConfigService.getConnection(agentAndServer,map);
 	} 
 	
@@ -35,9 +46,17 @@ public class DataBaseConfigController {
 	 * 添加
 	 */
 	@RequestMapping(value="/add",method=RequestMethod.POST)
-	public boolean add(String agentAndServer,HashMap map) throws Exception{
+	public boolean add(HttpServletRequest req) throws Exception{
+		Map<String, String[]> parameterMap = req.getParameterMap();
+		HashMap map = new HashMap<>();
 		String dbId = SequenceUtil.getUUID();
-		map.put("dbId", dbId);
+		String agentAndServer = StringUtils.join(parameterMap.get("agentAndServer"));
+		map.put("id", dbId);
+		map.put("name", StringUtils.join(parameterMap.get("name")));
+		map.put("driver", StringUtils.join(parameterMap.get("driver")));
+		map.put("url", StringUtils.join(parameterMap.get("url")));
+		map.put("user", StringUtils.join(parameterMap.get("user")));
+		map.put("pass", StringUtils.join(parameterMap.get("pass")));
 		return dataBaseConfigService.add(agentAndServer,map);
 	}
 	
@@ -45,17 +64,27 @@ public class DataBaseConfigController {
 	 * 修改
 	 */
 	@RequestMapping(value="/modify",method=RequestMethod.POST)
-	public boolean modify(String agentAndServer,String dbId,HashMap map) throws Exception{
-		return dataBaseConfigService.modify(agentAndServer,dbId,map);
+	public boolean modify(HttpServletRequest req) throws Exception{
+		Map<String, String[]> parameterMap = req.getParameterMap();
+		HashMap map = new HashMap<>();
+		String agentAndServer = StringUtils.join(parameterMap.get("agentAndServer"));
+		String id = StringUtils.join(parameterMap.get("id"));
+		map.put("name", StringUtils.join(parameterMap.get("name")));
+		map.put("driver", StringUtils.join(parameterMap.get("driver")));
+		map.put("url", StringUtils.join(parameterMap.get("url")));
+		map.put("user", StringUtils.join(parameterMap.get("user")));
+		map.put("pass", StringUtils.join(parameterMap.get("pass")));
+		return dataBaseConfigService.modify(agentAndServer,id,map);
+		
 	}
 	
 	/**
 	 * 删除
 	 */
-	@RequestMapping(value="/remove",method=RequestMethod.POST)
-	public boolean remove(String agentAndServer,String dbId) throws Exception{
+	@RequestMapping(value="/remove",method=RequestMethod.PUT)
+	public boolean remove(String agentAndServer,String id) throws Exception{
 		
-		return dataBaseConfigService.remove(agentAndServer,dbId);
+		return dataBaseConfigService.remove(agentAndServer,id);
 	}
 	
 	/**

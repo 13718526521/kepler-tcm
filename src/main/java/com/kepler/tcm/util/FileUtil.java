@@ -25,7 +25,6 @@ import java.sql.Blob;
 import java.sql.Clob;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -34,11 +33,7 @@ import javax.sql.rowset.serial.SerialBlob;
 import javax.sql.rowset.serial.SerialClob;
 import javax.sql.rowset.serial.SerialException;
 
-import org.assertj.core.util.DateUtil;
 import org.springframework.web.multipart.MultipartFile;
-
-import com.kepler.tcm.common.constants.ConfigConstant;
-import com.netflix.discovery.util.SystemUtil;
 
 
 

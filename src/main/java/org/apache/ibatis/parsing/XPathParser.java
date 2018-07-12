@@ -41,7 +41,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
-import com.kepler.tcm.util.DefaultStringUtils;
+import com.kepler.tcm.util.DefaultStringUtil;
 import com.kepler.tcm.util.PropertyUtil;
 
 
@@ -315,9 +315,9 @@ public class XPathParser {
 			String key = null;
 			while (iterator.hasNext()) {
 				key = (String) iterator.next();
-				s = s.replace("#" + key + "#",DefaultStringUtils.nullToString(resMap.get(key)));
-				s = s.replace("#" + key.toLowerCase() + "#",DefaultStringUtils.nullToString(resMap.get(key)));
-				s = s.replace("#" + key.toUpperCase() + "#",DefaultStringUtils.nullToString(resMap.get(key)));
+				s = s.replace("#" + key + "#",DefaultStringUtil.nullToString(resMap.get(key)));
+				s = s.replace("#" + key.toLowerCase() + "#",DefaultStringUtil.nullToString(resMap.get(key)));
+				s = s.replace("#" + key.toUpperCase() + "#",DefaultStringUtil.nullToString(resMap.get(key)));
 			}
 		}else{
 			throw new Exception("请查看是否存在application配置文件");

@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 
-import com.kepler.tcm.util.DefaultStringUtils;
+import com.kepler.tcm.util.DefaultStringUtil;
 /**
  * 登录时添加新的自定义参数      如有新的参数可在这里自行添加
  * @author wangsp
@@ -29,7 +29,7 @@ public class SimpleWebAuthenticationDetails extends WebAuthenticationDetails {
 		//子类处理参数
 		Map paramMap = request.getParameterMap();
 		//将参数map转换
-		params = DefaultStringUtils.getParam(paramMap);
+		params = DefaultStringUtil.getParam(paramMap);
 		
 	}
 	

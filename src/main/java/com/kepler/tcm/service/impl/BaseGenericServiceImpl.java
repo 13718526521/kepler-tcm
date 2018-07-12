@@ -12,7 +12,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.kepler.tcm.dao.BaseGenericMapper;
 import com.kepler.tcm.service.BaseGenericService;
-import com.kepler.tcm.util.DefaultStringUtils;
+import com.kepler.tcm.util.DefaultStringUtil;
 
 public abstract class BaseGenericServiceImpl< T, PK extends Serializable> 
 	implements BaseGenericService< T, PK> {
@@ -125,7 +125,7 @@ public abstract class BaseGenericServiceImpl< T, PK extends Serializable>
 	public Map<String, Object> queryPage(int pageNum , int pageSize , T t,String  orderBy){
 		Map<String, Object> result = new HashMap<String, Object>();
 		
-		Page<T> page = PageHelper.startPage(pageNum,pageSize,DefaultStringUtils.camelToUnderline(orderBy));
+		Page<T> page = PageHelper.startPage(pageNum,pageSize,DefaultStringUtil.camelToUnderline(orderBy));
 		result.put("rows", baseGenericMapper.queryPage(t));
 		result.put("total",page.getTotal());
 		

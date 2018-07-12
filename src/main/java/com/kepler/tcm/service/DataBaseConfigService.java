@@ -6,13 +6,13 @@ import java.util.Map;
 
 public interface DataBaseConfigService {
 	
-	boolean getConnection(String agentAndServer,HashMap map) throws Exception;
+	String getConnection(String agentAndServer,HashMap map) throws Exception;
 
 	boolean add(String agentAndServer,HashMap map) throws Exception;
 
-	boolean modify(String agentAndServer,String dbId, HashMap map) throws Exception;
+	boolean modify(String agentAndServer,String id, HashMap map) throws Exception;
 
-	boolean remove(String agentAndServer,String dbId) throws Exception;
+	boolean remove(String agentAndServer,String id) throws Exception;
 
 	Map pages(String agentAndServer,String name, int pageNum, int pageSize);
 

@@ -1,8 +1,5 @@
 package com.kepler.tcm.service.impl;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,15 +16,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.alibaba.fastjson.JSONObject;
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.StringUtil;
-import com.jayway.jsonpath.Criteria;
 import com.kepler.tcm.dao.BaseGenericMapper;
 import com.kepler.tcm.dao.SysUserMapper;
 import com.kepler.tcm.domain.SysUser;
 import com.kepler.tcm.service.SysUserService;
-import com.kepler.tcm.util.DefaultStringUtils;
 import com.kepler.tcm.util.KeplerUtils;
 @Service
 public class SysUserServiceImpl extends BaseGenericServiceImpl<SysUser , String>

@@ -54,7 +54,7 @@ public class PropertyUtil {
 	public static String getPropertiesValue(String propertiesname, String key){
 		String back = "";
 		try {
-			back = DefaultStringUtils.nullToString(ResourceBundle.getBundle(propertiesname).getString(key));
+			back = DefaultStringUtil.nullToString(ResourceBundle.getBundle(propertiesname).getString(key));
 		} catch (Exception e) {
 			System.out.println("获取"+propertiesname+".properties文件的"+key+"的值失败");
 		}

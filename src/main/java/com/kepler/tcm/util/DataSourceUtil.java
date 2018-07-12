@@ -210,7 +210,7 @@ public class DataSourceUtil {
 		    }else{
 		    	url = url.replace("[port]", port);
 		    }
-		    Connection con = DriverManager.getConnection(url , userName , DefaultStringUtils.nullToString(password) );
+		    Connection con = DriverManager.getConnection(url , userName , DefaultStringUtil.nullToString(password) );
 		    return con;
 	    }catch(ClassNotFoundException e){   
 		    System.out.println("找不到驱动程序类 ，加载驱动失败");   
@@ -242,9 +242,9 @@ public class DataSourceUtil {
 		Iterator<String> iter = paramsMap.keySet().iterator();
 		while (iter.hasNext()) {
 		    key = iter.next();
-		    paramSql = paramSql.replace("#"+key+"#", DefaultStringUtils.nullToString(paramsMap.get(key)));
-		    paramSql = paramSql.replace("#"+key.toLowerCase()+"#", DefaultStringUtils.nullToString(paramsMap.get(key)));
-		    paramSql = paramSql.replace("#"+key.toUpperCase()+"#", DefaultStringUtils.nullToString(paramsMap.get(key)));
+		    paramSql = paramSql.replace("#"+key+"#", DefaultStringUtil.nullToString(paramsMap.get(key)));
+		    paramSql = paramSql.replace("#"+key.toLowerCase()+"#", DefaultStringUtil.nullToString(paramsMap.get(key)));
+		    paramSql = paramSql.replace("#"+key.toUpperCase()+"#", DefaultStringUtil.nullToString(paramsMap.get(key)));
 		}
 		try {
 			stmt = conn.createStatement();

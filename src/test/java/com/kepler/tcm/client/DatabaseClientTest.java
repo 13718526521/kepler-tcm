@@ -36,7 +36,7 @@ public class DatabaseClientTest {
 		//{id : "id",name ： "" ,driver : "" , url : "",user : "",pass:""}
 
 		HashMap map = new HashMap();
-		map.put("id", "1002");
+		map.put("id", "1001");
 		map.put("name", "testDatabase01");
 		map.put("driver", "com.mysql.jdbc.Driver");
 		map.put("url", "jdbc:mysql://172.16.3.49:31318/kepler_core");

@@ -20,8 +20,8 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<!-- <java.version>1.8</java.version> -->
-		<java.version>1.7</java.version>
+		<java.version>1.8</java.version>
+<!-- 		<java.version>1.7</java.version> -->
 		<spring-cloud.version>Dalston.RELEASE</spring-cloud.version>
 	</properties>
 
@@ -329,8 +329,6 @@
 		<!-- 配管中心客户端依赖 ,默认会自动读取配管中心，要使用本地配置，请注释 -->
 		<!-- <dependency> <groupId>org.springframework.cloud</groupId> <artifactId>spring-cloud-config-client</artifactId> 
 			</dependency> -->
-
-
 	</dependencies>
 
 	<dependencyManagement>

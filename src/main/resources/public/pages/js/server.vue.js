@@ -34,10 +34,61 @@ var initFunc = function(){
 	return {
 		dataManage: function(agentName,serverName,started){
 			if(started=='true'){
-				window.location.href="tasks.html?server="+agentName+"@"+serverName;		
+				window.location.href="plugins.html?server="+agentName+"@"+serverName;		
 			}else{
 				window.location.href="server.html";
 			}
+		},
+		startServer: function(agentName,serverName){
+			 $.ajax({
+	              type: "post",
+	              url: util.agent().baseUrl + "/server/start",
+	              data: {"agentName":agentName,"serverName":serverName},
+	              success: function(data) {
+	            	  if(data.CODE==1){
+	            		 alert(data.MESSAGE);
+	            	  }else{
+		         		 layer.msg("启动成功", { time: 1000 });
+	            	  }
+	              },
+	      		error: function() {
+	      			alert('请求失败');
+	    		}
+	          });
+		},
+		stopServer: function(agentName,serverName){
+			 $.ajax({
+	              type: "post",
+	              url: util.agent().baseUrl + "/server/stop",
+	              data: {"agentName":agentName,"serverName":serverName},
+	              success: function(data) {
+	            	  if(data.CODE==1){
+	            		 alert(data.MESSAGE);
+	            	  }else{
+		         		 layer.msg("停止成功", { time: 1000 });
+	            	  }
+	              },
+	      		error: function() {
+	      			alert('请求失败');
+	    		}
+	          });
+		},
+		restartServer: function(agentName,serverName){
+			 $.ajax({
+	              type: "post",
+	              url: util.agent().baseUrl + "/server/restart",
+	              data: {"agentName":agentName,"serverName":serverName},
+	              success: function(data) {
+	            	  if(data.CODE==1){
+	            		 alert(data.MESSAGE);
+	            	  }else{
+		         		 layer.msg("重启成功", { time: 1000 });
+	            	  }
+	              },
+	      		error: function() {
+	      			alert('请求失败');
+	    		}
+	          });
 		},
 		dataChange: function(agentName,agentmemo,serverName,port,memo,monitorPort,monitorInterval){
 			$(".application-new-modal .modal-title").text('应用服务器 - 修改');
@@ -67,7 +118,7 @@ var initFunc = function(){
 					return;
 				}
 				 $.ajax({
-		              type: "get",
+		              type: "post",
 		              url: util.agent().baseUrl + "/server/edit",
 		              data: {"agentName":sub_Data.agentName,"serverName":sub_Data.serverName,"autoRestart":sub_Data.autoRestart,"monitorInterval":sub_Data.monitorInterval,"serverPort":sub_Data.serverPort,"monitorPort":sub_Data.monitorPort,"memo":sub_Data.memo},
 		              success: function(data) {
@@ -90,6 +141,50 @@ var initFunc = function(){
 	}
 }();
 
+function agentedit(oldAgent,edit_agent,edit_port,edit_memo){
+	 $.ajax({
+         type: "post",
+         url: util.agent().baseUrl + "/agent/edit",
+         data: {"oldagent":oldAgent,"agent":edit_agent,"port":edit_port,"memo":edit_memo},
+         success: function(data) {
+       	  if(data.CODE==1){
+        		 alert(data.MESSAGE);
+        	     setTimeout(function () {
+        	    	 $("#agent-addChange .close").click();
+        	    	 }, 1000);  
+        	  }else{
+         		 layer.msg("修改成功", { time: 1000 });
+         		 $("#agent-addChange .close").click();
+        	  }
+         },
+ 		error: function() {
+ 			alert('请求失败');
+		}
+         });
+}
+
+function agentdelete(agentName){
+	 $.ajax({
+         type: "post",
+         url: util.agent().baseUrl + "/agent/delete",
+         data: {"agentName":agentName},
+         success: function(data) {
+       	  if(data.CODE==1){
+       		  alert(data.MESSAGE);
+        	      setTimeout(function () {
+        	    	  $("#agent-deleteChange .close").click();
+        	    	  }, 1000);  
+        	  }else{
+         		 layer.msg("删除成功", { time: 1000 });
+         		  $("#agent-deleteChange .close").click();
+        	  }
+         },
+ 		error: function() {
+ 			alert('请求失败');
+		}
+         });
+}
+
 $(".agent-add-btn").click(function() {
 	$(".agent-new-modal .modal-title").text('代理服务器 - 新增');
 		$("#agent").val("");
@@ -100,9 +195,9 @@ function formData(agentName,agentmemo,hrefIndex){
 	var str='';
     var tabData;
 	 $.ajax({
-         type: "get",
+         type: "post",
          url: util.agent().baseUrl + "/server/querystate",
-         data: {"agentName":"127.0.0.1:1098"},
+         data: {"agentName":agentName},
          async: false,
          success: function(data) {
         	 tabData = data.data;
@@ -139,10 +234,10 @@ function formData(agentName,agentmemo,hrefIndex){
 							'<td>'+tabData[i].monitorInterval+'秒'+'</td>'+
 							'<td>'+
 							'<span class="fa fa-arrows-alt dataManage" onclick="initFunc.dataManage(\''+agentName+'\',\''+tabData[i].serverName+'\',\''+tabData[i].started+'\')" title="管理" style=" padding-right: 5px;">'+'</span>'+
+							'<span class="fa fa-play-circle startServer" onclick="initFunc.startServer(\''+agentName+'\',\''+tabData[i].serverName+'\')" title="启动" data-toggle="modal" style=" padding-right: 5px;">'+'</span>'+
+							'<span class="fa fa-stop stopServer" onclick="initFunc.stopServer(\''+agentName+'\',\''+tabData[i].serverName+'\')" title="停止" data-toggle="modal" style=" padding-right: 5px;">'+'</span>'+
+							'<span class="fa fa-repeat restartServer" onclick="initFunc.restartServer(\''+agentName+'\',\''+tabData[i].serverName+'\')" title="重启" data-toggle="modal" style=" padding-right: 5px;">'+'</span>'+
 							'<span class="fa fa-edit dataChange" onclick="initFunc.dataChange(\''+agentName+'\',\''+agentmemo+'\',\''+tabData[i].serverName+'\',\''+tabData[i].port+'\',\''+tabData[i].memo+'\',\''+tabData[i].monitorPort+'\',\''+tabData[i].monitorInterval+'\')" title="修改" data-toggle="modal" data-target=".application-new-modal" style="color: green;padding-right: 5px;">'+'</span>'+
-							'<span class="fa fa-play-circle startServer" @click="startServer(tabtr.agentName,tabtr.serverName)" title="启动" data-toggle="modal" data-target=".info-modal"  style=" padding-right: 5px;">'+'</span>'+
-							'<span class="fa fa-stop stopServer" @click="stopServer(tabtr.agentName,tabtr.serverName)" title="停止" data-toggle="modal" data-target=".info-modal" style=" padding-right: 5px;">'+'</span>'+
-							'<span class="fa fa-repeat restartServer" @click="restartServer(tabtr.agentName,tabtr.serverName)" title="重启" data-toggle="modal" data-target=".info-modal"  style=" padding-right: 5px;">'+'</span>'+
 						'</td>'+
 					'</tr>';
         	 }
@@ -169,7 +264,7 @@ $('.agent-new-modal button[type=submit]').unbind('click').click(
 				return;
 			}
 		  $.ajax({
-              type: "get",
+              type: "post",
               url: util.agent().baseUrl + "/agent/add",
               data: {"agent":sub_Data.agent,"port":sub_Data.port,"memo":sub_Data.memo},
               success: function(data) {
@@ -219,11 +314,11 @@ function init(index) {
 										'<span>'+
 											'代理服务器'+
 										'</span>'+
-										'<span style="margin-left: 10px;">'+arr[i].agentName+'</span>'+
+										'<span style="margin-left: 10px;"><font color="orange">'+arr[i].agentName+'</font></span>'+
 											'<span style="margin-left: 10px;">'+
 												'-'+
 											'</span>'+
-											'<span>'+arr[i].memo+'</span>'+
+											'<span><font color="teal">'+arr[i].memo+'</font></span>'+
 											'</h4>'+
 											'<a href="#accordion_'+arr[i].id+'" aria-expanded="false" aria-controls="accordion_'+arr[i].id+'" value="'+arr[i].id+'" value2="'+arr[i].agentName+'" value3="'+arr[i].memo+'" value4="'+arr[i].state_message+'" value5="'+arr[i].state_code+'" class="accordion-title accordionTitle js-accordionTrigger">'+
 												'隐藏'+
@@ -258,10 +353,10 @@ function init(index) {
 										'<span>'+
 											'代理服务器'+
 										'</span>'+
-										'<span style="margin-left: 10px;">'+arr[i].agentName+'</span>'+'<span style="margin-left: 10px;">'+
+										'<span style="margin-left: 10px;"><font color="orange">'+arr[i].agentName+'</font></span>'+'<span style="margin-left: 10px;">'+
 											'-'+
 										'</span>'+
-										'<span>'+arr[i].memo+'</span>'+
+										'<span><font color="teal">'+arr[i].memo+'</font></span>'+
 											'</h4>'+
 												'<a href="#accordion_'+arr[i].id+'"  aria-expanded="false" aria-controls="accordion_'+arr[i].id+'" value="'+arr[i].id+'" value2="'+arr[i].agentName+'" value3="'+arr[i].memo+'" value4="'+arr[i].state_message+'" value5="'+arr[i].state_code+'" class="accordion-title accordionTitle js-accordionTrigger">'+
 													'显示'+
@@ -307,25 +402,7 @@ function init(index) {
 						var edit_agent=$("#agent").val();
 						var edit_port=$("#port").val();
 						var edit_memo=$("#memo").val();
-					 $.ajax({
-			              type: "get",
-			              url: util.agent().baseUrl + "/agent/edit",
-			              data: {"oldagent":oldAgent,"agent":edit_agent,"port":edit_port,"memo":edit_memo},
-			              success: function(data) {
-			            	  if(data.CODE==1){
-			             		 alert(data.MESSAGE);
-			             	     setTimeout(function () {
-			             	    	 $("#agent-addChange .close").click();
-			             	    	 }, 1000);  
-			             	  }else{
-			 	         		 layer.msg("修改成功", { time: 1000 });
-			 	         		 $("#agent-addChange .close").click();
-			             	  }
-			              },
-			      		error: function() {
-			      			alert('请求失败');
-			    		}
-				          });
+						agentedit(oldAgent,edit_agent,edit_port,edit_memo);
 					});
 				});
 				$(".accordion .agent-delete-btn").click(function() {
@@ -335,25 +412,7 @@ function init(index) {
 					value=id+" "+"("+agentName+")"+" ";
 					$(".agent-delete-modal .modal-body>div:nth-child(2)").text(value);
 					$(".agent-delete-modal button[type=submit]").unbind('click').click(function() {
-						 $.ajax({
-				              type: "get",
-				              url: util.agent().baseUrl + "/agent/delete",
-				              data: {"agentName":agentName},
-				              success: function(data) {
-				            	  if(data.CODE==1){
-				            		  alert(data.MESSAGE);
-				             	      setTimeout(function () {
-				             	    	  $("#agent-deleteChange .close").click();
-				             	    	  }, 1000);  
-				             	  }else{
-				 	         		 layer.msg("删除成功", { time: 1000 });
-				 	         		  $("#agent-deleteChange .close").click();
-				             	  }
-				              },
-				      		error: function() {
-				      			alert('请求失败');
-				    		}
-					          });
+						agentdelete(agentName);
 					});
 				});
 				$(".accordion .application-add-btn").click(function() {
@@ -385,7 +444,7 @@ function init(index) {
 									return;
 								}
 								 $.ajax({
-						              type: "get",
+						              type: "post",
 						              url: util.agent().baseUrl + "/server/add",
 						              data: {"agentName":sub_Data.agentName,"serverName":sub_Data.serverName,"autoRestart":sub_Data.autoRestart,"monitorInterval":sub_Data.monitorInterval,"serverPort":sub_Data.serverPort,"monitorPort":sub_Data.monitorPort,"memo":sub_Data.memo},
 						              success: function(data) {

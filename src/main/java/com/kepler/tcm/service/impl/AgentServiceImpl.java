@@ -1,6 +1,8 @@
 package com.kepler.tcm.service.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,8 +36,8 @@ public class AgentServiceImpl implements AgentService {
 	/* log.info("getRequestURL对应的路径为"+request.getRequestURL()); */
 	/* log.info(this.getClass().getClassLoader().getResource("").getPath()); */
 	@Override
-	public Map<String, Object> add(HttpServletRequest request, HttpServletResponse response,
-			String agentName, String memo) throws Exception {
+	public Map<String, Object> add(String agentName, String memo) throws Exception {
+		long startTime = System.currentTimeMillis();
 		if (agentConfig == null)
 			getIntence();
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -52,22 +54,23 @@ public class AgentServiceImpl implements AgentService {
 				map.put("MESSAGE", "失败");
 			}
 		}
+		long endTime = System.currentTimeMillis();
+		log.info("agent-add程序运行时间："+(endTime-startTime)+"ms");
 		return map;
 		
 	}
 
 	private void getIntence() {
 		try {
-			agentConfig = new AgentConfig(this.getClass().getClassLoader()
-					.getResource("").getPath(), "agent.conf");
+			agentConfig = new AgentConfig(this.getClass().getClassLoader().getResource("").getPath(), "agent.conf");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
 	@Override
-	public Map<String, Object> query(HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
+	public Map<String, Object> query() throws Exception {
+		long startTime = System.currentTimeMillis();
 		if (agentConfig == null)
 			getIntence();
 		List<ProxyServer> list = new ArrayList<ProxyServer>();
@@ -90,13 +93,14 @@ public class AgentServiceImpl implements AgentService {
 			map.put("size", agentConfig.size());
 			map.put("MESSAGE", "成功");
 		}
+		long endTime = System.currentTimeMillis();
+		log.info("agent-query程序运行时间："+(endTime-startTime)+"ms");
 		return map;
 	}
 
 	@Override
-	public Map<String, Object> edit(HttpServletRequest request,
-			HttpServletResponse response, String oldagent, String agentName,
-			String memo) throws Exception {
+	public Map<String, Object> edit(String oldagent, String agentName,String memo) throws Exception {
+		long startTime = System.currentTimeMillis();
 		if (agentConfig == null)
 			getIntence();
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -113,12 +117,14 @@ public class AgentServiceImpl implements AgentService {
 				map.put("MESSAGE", "失败");
 			}
 		}
+		long endTime = System.currentTimeMillis();
+		log.info("agent-edit程序运行时间："+(endTime-startTime)+"ms");
 		return map;
 	}
 
 	@Override
-	public Map<String, Object> delete(HttpServletRequest request,
-			HttpServletResponse response, String agentName) throws Exception {
+	public Map<String, Object> delete(String agentName) throws Exception {
+		long startTime = System.currentTimeMillis();
 		if (agentConfig == null)
 			getIntence();
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -130,14 +136,15 @@ public class AgentServiceImpl implements AgentService {
 			map.put("CODE", 1);
 			map.put("MESSAGE", "失败");
 		}
+		long endTime = System.currentTimeMillis();
+		log.info("agent-delete程序运行时间："+(endTime-startTime)+"ms");
 		return map;
 	}
 
 	@Override
-	public Map<String, Object> connect(HttpServletRequest request,
-			HttpServletResponse response, String agent, String port)
-			throws Exception {
+	public Map<String, Object> connect(String agent, String port) throws Exception {
 		HashMap<String, Object> map = new HashMap<String, Object>();
+		long startTime = System.currentTimeMillis();
 		RemoteAgent remoteAgent = null;
 		try {
 			remoteAgent = new AgentClient().getAgent(agent, port);
@@ -148,12 +155,15 @@ public class AgentServiceImpl implements AgentService {
 			map.put("CODE", 1);
 			map.put("MESSAGE", "失败");
 		}
+		long endTime = System.currentTimeMillis();
+		log.info("agent-connect程序运行时间："+(endTime-startTime)+"ms");
 		return map;
+		
 	}
 	
 	@Override
-	public Map querystate(HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
+	public Map querystate() throws Exception {
+		long startTime = System.currentTimeMillis();
 		if (agentConfig == null)
 			getIntence();
 		List<Agent> list = new ArrayList<Agent>();
@@ -169,7 +179,7 @@ public class AgentServiceImpl implements AgentService {
 				Agent agent= new Agent();
 				agent.setId((i+1) + "");
 				agent.setAgentName(agentConfig.getName(i));
-				state_map=connect(request,response,agentConfig.getName(i).split(":")[0],agentConfig.getName(i).split(":")[1]);
+				state_map=connect(agentConfig.getName(i).split(":")[0],agentConfig.getName(i).split(":")[1]);
 				agent.setState_code(state_map.get("CODE").toString());
 				agent.setState_message(state_map.get("MESSAGE").toString());
 				agent.setMemo(agentConfig.getValue(i));
@@ -180,6 +190,8 @@ public class AgentServiceImpl implements AgentService {
 			map.put("size", agentConfig.size());
 			map.put("MESSAGE", "成功");
 		}
+		long endTime = System.currentTimeMillis();
+		log.info("agent-querystate程序运行时间："+(endTime-startTime)+"ms");
 		return map;
 	}
 }

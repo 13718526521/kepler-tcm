@@ -1,6 +1,5 @@
 package com.kepler.tcm.web.controller;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,65 +21,82 @@ public class ServerController {
 	@Autowired
 	private ServerService serverService;
 
-	private static final Logger log = LoggerFactory.getLogger(ServerController.class);
+	private static final Logger log = LoggerFactory
+			.getLogger(ServerController.class);
 
 	@RequestMapping(value = "/query", method = RequestMethod.GET)
-	public Map<String, Object> query(HttpServletRequest request, HttpServletResponse response,String agentName) throws Exception {
-		 return serverService.query(request, response,agentName);
+	public Map<String, Object> query(String agentName) throws Exception {
+		return serverService.query(agentName);
 	}
-	@RequestMapping(value = "/querystate", method = RequestMethod.GET)
-	public Map<String, Object> querystate(HttpServletRequest request, HttpServletResponse response,String agentName) throws Exception {
-		 return serverService.querystate(request, response,agentName);
+
+	@RequestMapping(value = "/querystate", method = RequestMethod.POST)
+	public Map<String, Object> querystate(String agentName) throws Exception {
+		return serverService.querystate(agentName);
 	}
-	
-	@RequestMapping(value = "/add", method = RequestMethod.GET)
-	public Map<String, Object> add(HttpServletRequest request, HttpServletResponse response,String agentName,String serverName,String autoRestart,String monitorInterval,String serverPort,String monitorPort,String memo) throws Exception {
-		 return serverService.add(request, response,agentName,serverName,autoRestart,monitorInterval,serverPort,monitorPort,memo);
+
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	public Map<String, Object> add(String agentName, String serverName,
+			String autoRestart, String monitorInterval, String serverPort,
+			String monitorPort, String memo) throws Exception {
+		return serverService.add(agentName, serverName, autoRestart,
+				monitorInterval, serverPort, monitorPort, memo);
 	}
-	
-	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public Map<String, Object> edit(HttpServletRequest request, HttpServletResponse response,String agentName,String serverName,String autoRestart,String monitorInterval,String serverPort,String monitorPort,String memo) throws Exception {
-		 return serverService.edit(request, response,agentName,serverName,autoRestart,monitorInterval,serverPort,monitorPort,memo);
+
+	@RequestMapping(value = "/edit", method = RequestMethod.POST)
+	public Map<String, Object> edit(HttpServletRequest request,
+			HttpServletResponse response, String agentName, String serverName,
+			String autoRestart, String monitorInterval, String serverPort,
+			String monitorPort, String memo) throws Exception {
+		return serverService.edit(agentName, serverName, autoRestart,
+				monitorInterval, serverPort, monitorPort, memo);
 	}
-	
+
 	@RequestMapping(value = "/get", method = RequestMethod.GET)
-	public Map<String, Object> get(HttpServletRequest request, HttpServletResponse response,String agentName,String serverName) throws Exception {
-		 return serverService.get(request, response,agentName,serverName);
+	public Map<String, Object> get(String agentName, String serverName)
+			throws Exception {
+		return serverService.get(agentName, serverName);
 	}
-	
-	@RequestMapping(value = "/start", method = RequestMethod.GET)
-	public Map<String, Object> start(HttpServletRequest request, HttpServletResponse response,String agentName,String serverName) throws Exception {
-		 return serverService.start(request, response,agentName,serverName);
+
+	@RequestMapping(value = "/start", method = RequestMethod.POST)
+	public Map<String, Object> start(String agentName, String serverName)
+			throws Exception {
+		return serverService.start(agentName, serverName);
 	}
-	
-	@RequestMapping(value = "/restart", method = RequestMethod.GET)
-	public Map<String, Object> restart(HttpServletRequest request, HttpServletResponse response,String agentName,String serverName) throws Exception {
-		 return serverService.restart(request, response,agentName,serverName);
+
+	@RequestMapping(value = "/restart", method = RequestMethod.POST)
+	public Map<String, Object> restart(String agentName, String serverName)
+			throws Exception {
+		return serverService.restart(agentName, serverName);
 	}
-	
-	@RequestMapping(value = "/stop", method = RequestMethod.GET)
-	public Map<String, Object> stop(HttpServletRequest request, HttpServletResponse response,String agentName,String serverName) throws Exception {
-		 return serverService.stop(request, response,agentName,serverName);
+
+	@RequestMapping(value = "/stop", method = RequestMethod.POST)
+	public Map<String, Object> stop(String agentName, String serverName)
+			throws Exception {
+		return serverService.stop(agentName, serverName);
 	}
-	
-	@RequestMapping(value = "/started", method = RequestMethod.GET)
-	public boolean started(HttpServletRequest request, HttpServletResponse response,String agentName,String serverName) throws Exception {
-		 return serverService.started(request, response,agentName,serverName);
+
+	@RequestMapping(value = "/started", method = RequestMethod.POST)
+	public boolean started(String agentName, String serverName)
+			throws Exception {
+		return serverService.started(agentName, serverName);
 	}
 
 	@RequestMapping(value = "/serverhost", method = RequestMethod.GET)
-	public Map<String, Object> serverhost(HttpServletRequest request, HttpServletResponse response,String agentName,String serverName) throws Exception {
-		 return serverService.serverhost(request, response,agentName,serverName);
+	public Map<String, Object> serverhost(String agentName, String serverName)
+			throws Exception {
+		return serverService.serverhost(agentName, serverName);
 	}
-	
+
 	@RequestMapping(value = "/serverport", method = RequestMethod.GET)
-	public Map<String, Object> serverport(HttpServletRequest request, HttpServletResponse response,String agentName,String serverName) throws Exception {
-		 return serverService.serverport(request, response,agentName,serverName);
+	public Map<String, Object> serverport(String agentName, String serverName)
+			throws Exception {
+		return serverService.serverport(agentName, serverName);
 	}
-	
+
 	@RequestMapping(value = "/monitorport", method = RequestMethod.GET)
-	public Map<String, Object> monitorport(HttpServletRequest request, HttpServletResponse response,String agentName,String serverName) throws Exception {
-		 return serverService.monitorport(request, response,agentName,serverName);
+	public Map<String, Object> monitorport(String agentName, String serverName)
+			throws Exception {
+		return serverService.monitorport(agentName, serverName);
 	}
 
 }

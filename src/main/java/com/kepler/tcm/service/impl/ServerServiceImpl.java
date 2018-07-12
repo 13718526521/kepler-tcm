@@ -4,13 +4,9 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +22,8 @@ public class ServerServiceImpl implements ServerService {
 	private static final Logger log  = LoggerFactory.getLogger(ServerServiceImpl.class);
 	
 	@Override
-	public Map<String, Object> query(HttpServletRequest request,HttpServletResponse response,String agentName) throws Exception {
+	public Map<String, Object> query(String agentName) throws Exception {
+			long startTime = System.currentTimeMillis();
 			List<ServerInfo> list = new ArrayList<ServerInfo>();
 			HashMap<String, Object> map=new HashMap<String, Object>();
 			ServerClient serverClient=new ServerClient(agentName);
@@ -48,11 +45,14 @@ public class ServerServiceImpl implements ServerService {
 				log.info("异常信息为:"+sw.toString());
 				e.printStackTrace();
 			}
+			long endTime = System.currentTimeMillis();
+			log.info("server-query程序运行时间："+(endTime-startTime)+"ms");
 			return map;
 	}
 	
 	@Override
-	public Map<String, Object> querystate(HttpServletRequest request,HttpServletResponse response,String agentName) throws Exception {
+	public Map<String, Object> querystate(String agentName) throws Exception {
+		long startTime = System.currentTimeMillis();
 		ServerClient serverClient=new ServerClient(agentName);
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -67,7 +67,7 @@ public class ServerServiceImpl implements ServerService {
 				data_map.put("monitorPort",  serverInfo.monitorPort);
 				data_map.put("monitorInterval",  serverInfo.monitorInterval);
 				data_map.put("memo",  serverInfo.memo);
-				Boolean flag=started(request, response, agentName, serverInfo.serverName);
+				Boolean flag=started(agentName, serverInfo.serverName);
 				data_map.put("started", flag);
 				list.add(i, data_map);
 			}
@@ -78,11 +78,14 @@ public class ServerServiceImpl implements ServerService {
 			map.put("CODE", 1);
 			map.put("MESSAGE", "失败");
 		}
+		long endTime = System.currentTimeMillis();
+		log.info("server-querystate程序运行时间："+(endTime-startTime)+"ms");
 		return map;
 	}
 	
 	@Override
-	public Map<String, Object> add(HttpServletRequest request,HttpServletResponse response, String agentName,String serverName,String autoRestart,String monitorInterval,String serverPort,String monitorPort,String memo) throws Exception {
+	public Map<String, Object> add( String agentName,String serverName,String autoRestart,String monitorInterval,String serverPort,String monitorPort,String memo) throws Exception {
+			long startTime = System.currentTimeMillis();
 			ServerClient serverClient=new ServerClient(agentName);
 			HashMap<String, Object> param_map=new HashMap<String, Object>();
 			HashMap<String, Object> map=new HashMap<String, Object>();
@@ -99,11 +102,14 @@ public class ServerServiceImpl implements ServerService {
 				map.put("CODE",1);
 				map.put("MESSAGE","失败");
 			}
+			long endTime = System.currentTimeMillis();
+			log.info("server-add程序运行时间："+(endTime-startTime)+"ms");	
 			return map;
 	}
 	
 	@Override
-	public Map<String, Object> edit(HttpServletRequest request,HttpServletResponse response, String agentName, String serverName,String autoRestart, String monitorInterval, String serverPort,String monitorPort, String memo) throws Exception {
+	public Map<String, Object> edit( String agentName, String serverName,String autoRestart, String monitorInterval, String serverPort,String monitorPort, String memo) throws Exception {
+		long startTime = System.currentTimeMillis();
 		ServerClient serverClient=new ServerClient(agentName);
 		HashMap<String, Object> param_map=new HashMap<String, Object>();
 		HashMap<String, Object> map=new HashMap<String, Object>();
@@ -120,12 +126,14 @@ public class ServerServiceImpl implements ServerService {
 			map.put("CODE",1);
 			map.put("MESSAGE","失败");
 		}
+		long endTime = System.currentTimeMillis();
+		log.info("server-edit程序运行时间："+(endTime-startTime)+"ms");
 		return map;
 	}
 	
 	@Override
-	public Map<String, Object> get(HttpServletRequest request,
-			HttpServletResponse response, String agentName,String serverName) throws Exception {
+	public Map<String, Object> get(String agentName,String serverName) throws Exception {
+		long startTime = System.currentTimeMillis();
 		ServerClient serverClient=new ServerClient(agentName);
 		HashMap<String, Object> map=new HashMap<String, Object>();
 		RemoteServer remoteServer = null;
@@ -142,13 +150,15 @@ public class ServerServiceImpl implements ServerService {
 			map.put("CODE", 1);
 			map.put("MESSAGE", "失败");
 		}
+		long endTime = System.currentTimeMillis();
+		log.info("server-get程序运行时间："+(endTime-startTime)+"ms");
 		return map;
 	}
 
 	@Override
-	public Map<String, Object> start(HttpServletRequest request,
-			HttpServletResponse response, String agentName, String serverName)
+	public Map<String, Object> start(String agentName, String serverName)
 			throws Exception {
+		long startTime = System.currentTimeMillis();
 		HashMap<String, Object> map=new HashMap<String, Object>();
 		ServerClient serverClient=new ServerClient(agentName);
 		try {
@@ -159,13 +169,15 @@ public class ServerServiceImpl implements ServerService {
 			map.put("CODE", 1);
 			map.put("MESSAGE", "失败");
 		}
+		long endTime = System.currentTimeMillis();
+		log.info("server-start程序运行时间："+(endTime-startTime)+"ms");
 		return map;
 	}
 
 	@Override
-	public Map<String, Object> restart(HttpServletRequest request,
-			HttpServletResponse response, String agentName, String serverName)
+	public Map<String, Object> restart(String agentName, String serverName)
 			throws Exception {
+		long startTime = System.currentTimeMillis();
 		ServerClient serverClient=new ServerClient(agentName);
 		HashMap<String, Object> map=new HashMap<String, Object>();
 		try {
@@ -176,13 +188,15 @@ public class ServerServiceImpl implements ServerService {
 			map.put("CODE", 1);
 			map.put("MESSAGE", "失败");
 		}
+		long endTime = System.currentTimeMillis();
+		log.info("server-restart程序运行时间："+(endTime-startTime)+"ms");
 		return map;
 	}
 
 	@Override
-	public Map<String, Object> stop(HttpServletRequest request,
-			HttpServletResponse response, String agentName, String serverName)
+	public Map<String, Object> stop(String agentName, String serverName)
 			throws Exception {
+		long startTime = System.currentTimeMillis();
 		HashMap<String, Object> map=new HashMap<String, Object>();
 		ServerClient serverClient=new ServerClient(agentName);
 		try {
@@ -193,21 +207,22 @@ public class ServerServiceImpl implements ServerService {
 			map.put("CODE", 1);
 			map.put("MESSAGE", "失败");
 		}
+		long endTime = System.currentTimeMillis();
+		log.info("server-stop程序运行时间："+(endTime-startTime)+"ms");
 		return map;
 	}
 
 	@Override
-	public boolean started(HttpServletRequest request,
-			HttpServletResponse response, String agentName, String serverName)
+	public boolean started(String agentName, String serverName)
 			throws Exception {
 		ServerClient serverClient=new ServerClient(agentName);
 		return serverClient.serverStarted(serverName);
 	}
 
 	@Override
-	public Map<String, Object> serverhost(HttpServletRequest request,
-			HttpServletResponse response, String agentName, String serverName)
+	public Map<String, Object> serverhost(String agentName, String serverName)
 			throws Exception {
+		long startTime = System.currentTimeMillis();
 		ServerClient serverClient=new ServerClient(agentName);
 		HashMap<String, Object> map=new HashMap<String, Object>();
 		try {
@@ -219,13 +234,15 @@ public class ServerServiceImpl implements ServerService {
 			map.put("CODE", 1);
 			map.put("MESSAGE", "失败");
 		}
+		long endTime = System.currentTimeMillis();
+		log.info("server-serverhost程序运行时间："+(endTime-startTime)+"ms");
 		return map;
 	}
 
 	@Override
-	public Map<String, Object> serverport(HttpServletRequest request,
-			HttpServletResponse response, String agentName, String serverName)
+	public Map<String, Object> serverport(String agentName, String serverName)
 			throws Exception {
+		long startTime = System.currentTimeMillis();
 		HashMap<String, Object> map=new HashMap<String, Object>();
 		ServerClient serverClient=new ServerClient(agentName);
 		try {
@@ -237,13 +254,15 @@ public class ServerServiceImpl implements ServerService {
 			map.put("CODE", 1);
 			map.put("MESSAGE", "失败");
 		}
+		long endTime = System.currentTimeMillis();
+		log.info("server-serverport程序运行时间："+(endTime-startTime)+"ms");
 		return map;
 	}
 
 	@Override
-	public Map<String, Object> monitorport(HttpServletRequest request,
-			HttpServletResponse response, String agentName, String serverName)
+	public Map<String, Object> monitorport(String agentName, String serverName)
 			throws Exception {
+		long startTime = System.currentTimeMillis();
 		HashMap<String, Object> map=new HashMap<String, Object>();
 		ServerClient serverClient=new ServerClient(agentName);
 		try {
@@ -255,6 +274,8 @@ public class ServerServiceImpl implements ServerService {
 			map.put("CODE", 1);
 			map.put("MESSAGE", "失败");
 		}
+		long endTime = System.currentTimeMillis();
+		log.info("server-monitorport程序运行时间："+(endTime-startTime)+"ms");
 		return map;
 	}
 

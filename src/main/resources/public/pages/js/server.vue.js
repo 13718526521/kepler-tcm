@@ -475,7 +475,7 @@ function init(index) {
 							});
 				});
 			}else{
-				alert('暂时没有数据');
+				$(".accordion").append('<div class="no-data" style="width:calc(100% - 20px);"><p></p><h4>暂时没有数据</h4></div>');
 			}
 		},
 		error:function(){

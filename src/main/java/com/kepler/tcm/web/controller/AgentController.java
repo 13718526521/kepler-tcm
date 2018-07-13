@@ -59,27 +59,25 @@ public class AgentController {
 	}
 	
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
-	public Map<String, Object> test() throws Exception {
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("path", this.getClass().getClassLoader().getResource("").getPath());
-		map.put("path1", this.getClass().getResource("").getPath());
-		map.put("path2", AgentController.class.getResource("").getPath());
-		map.put("path3", AgentController.class.getResource("agent.conf"));
-		map.put("path4", AgentController.class.getResource("/agent.conf"));
-		map.put("path5", AgentController.class.getResource("/"));
-		map.put("path6", AgentController.class.getResource("agent.conf").getPath());
-		map.put("path7", AgentController.class.getResource("/agent.conf").getPath());
-		map.put("path8", AgentController.class.getResource("/").getPath());
-		map.put("path9", AgentController.class.getResource("").getPath());
-		map.put("path10", AgentController.class.getClassLoader().getResource("/"));
-		map.put("path11", AgentController.class.getClassLoader().getResource("/agent.conf"));
-		map.put("path12", AgentController.class.getClassLoader().getResource("agent.conf").getPath());
-		map.put("path13", AgentController.class.getClassLoader().getResource("/").getPath());
-		map.put("path14", AgentController.class.getClassLoader().getResource("/agent.conf").getPath());
-		map.put("path15", AgentController.class.getClassLoader().getResource("agent.conf"));
-		map.put("path16", Thread.currentThread().getContextClassLoader().getResource("agent.conf"));
-		map.put("path17", Thread.currentThread().getContextClassLoader().getResource("agent.conf").getPath());
-		return map;
+	public void test() throws Exception {
+		log.info("path:"+this.getClass().getClassLoader().getResource("").getPath());
+		log.info("path1:"+this.getClass().getResource("").getPath());
+		log.info("path2:"+AgentController.class.getResource("").getPath());
+		log.info("path3:"+AgentController.class.getResource("agent.conf"));
+		log.info("path4:"+AgentController.class.getResource("/agent.conf"));
+		log.info("path5:"+AgentController.class.getResource("/"));
+		log.info("path6:"+AgentController.class.getResource("agent.conf").getPath());
+		log.info("path7:"+AgentController.class.getResource("/agent.conf").getPath());
+		log.info("path8:"+AgentController.class.getResource("/").getPath());
+		log.info("path9:"+AgentController.class.getResource("").getPath());
+		log.info("path10:"+AgentController.class.getClassLoader().getResource("/"));
+		log.info("path11:"+AgentController.class.getClassLoader().getResource("/agent.conf"));
+		log.info("path12:"+AgentController.class.getClassLoader().getResource("agent.conf").getPath());
+		log.info("path13:"+AgentController.class.getClassLoader().getResource("/").getPath());
+		log.info("path14:"+AgentController.class.getClassLoader().getResource("/agent.conf").getPath());
+		log.info("path15:"+AgentController.class.getClassLoader().getResource("agent.conf"));
+		log.info("path16:"+Thread.currentThread().getContextClassLoader().getResource("agent.conf"));
+		log.info("path17:"+Thread.currentThread().getContextClassLoader().getResource("agent.conf").getPath());
 	}
 
 }

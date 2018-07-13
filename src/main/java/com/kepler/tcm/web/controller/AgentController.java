@@ -1,5 +1,6 @@
 package com.kepler.tcm.web.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kepler.tcm.service.AgentService;
+import com.kepler.tcm.service.impl.AgentServiceImpl;
 
 @RestController
 @RequestMapping(value = "/agent")
@@ -54,6 +56,30 @@ public class AgentController {
 	@RequestMapping(value = "/querystate", method = RequestMethod.GET)
 	public Map<String, Object> querystate() throws Exception {
 		return agentService.querystate();
+	}
+	
+	@RequestMapping(value = "/test", method = RequestMethod.GET)
+	public Map<String, Object> test() throws Exception {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("path", this.getClass().getClassLoader().getResource("").getPath());
+		map.put("path1", this.getClass().getResource("").getPath());
+		map.put("path2", AgentController.class.getResource("").getPath());
+		map.put("path3", AgentController.class.getResource("agent.conf"));
+		map.put("path4", AgentController.class.getResource("/agent.conf"));
+		map.put("path5", AgentController.class.getResource("/"));
+		map.put("path6", AgentController.class.getResource("agent.conf").getPath());
+		map.put("path7", AgentController.class.getResource("/agent.conf").getPath());
+		map.put("path8", AgentController.class.getResource("/").getPath());
+		map.put("path9", AgentController.class.getResource("").getPath());
+		map.put("path10", AgentController.class.getClassLoader().getResource("/"));
+		map.put("path11", AgentController.class.getClassLoader().getResource("/agent.conf"));
+		map.put("path12", AgentController.class.getClassLoader().getResource("agent.conf").getPath());
+		map.put("path13", AgentController.class.getClassLoader().getResource("/").getPath());
+		map.put("path14", AgentController.class.getClassLoader().getResource("/agent.conf").getPath());
+		map.put("path15", AgentController.class.getClassLoader().getResource("agent.conf"));
+		map.put("path16", Thread.currentThread().getContextClassLoader().getResource("agent.conf"));
+		map.put("path17", Thread.currentThread().getContextClassLoader().getResource("agent.conf").getPath());
+		return map;
 	}
 
 }

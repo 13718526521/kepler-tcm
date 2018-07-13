@@ -62,7 +62,7 @@ public class AgentServiceImpl implements AgentService {
 
 	private void getIntence() {
 		try {
-			agentConfig = new AgentConfig(this.getClass().getClassLoader().getResource("").getPath(), "agent.conf");
+			agentConfig = new AgentConfig(AgentServiceImpl.class.getClassLoader().getResource("").getPath(), "agent.conf");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

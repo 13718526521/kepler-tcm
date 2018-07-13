@@ -60,9 +60,7 @@ public class AgentController {
 	
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
 	public void test() throws Exception {
-		log.info("path1:"+AgentServiceImpl.class.getResource("/").getPath());
-		log.info("path2:"+AgentServiceImpl.class.getResource("").getPath());
-		log.info("path3:"+AgentServiceImpl.class.getClassLoader().getResource("agent.conf").getPath());
+		log.info("path:"+AgentServiceImpl.class.getClassLoader().getResource("agent.conf").getPath());
 	}
 
 }

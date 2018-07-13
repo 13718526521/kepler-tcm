@@ -62,7 +62,7 @@ public class AgentServiceImpl implements AgentService {
 
 	private void getIntence() {
 		try {
-			agentConfig = new AgentConfig(this.getClass().getResource("/").getPath(), "agent.conf");
+			agentConfig = new AgentConfig("/data01/app/work/kepler-tcm/lib", "agent.conf");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

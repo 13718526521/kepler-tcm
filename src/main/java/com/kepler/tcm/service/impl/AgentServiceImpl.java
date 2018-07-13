@@ -62,7 +62,10 @@ public class AgentServiceImpl implements AgentService {
 
 	private void getIntence() {
 		try {
-			agentConfig = new AgentConfig("/data01/app/work/kepler-tcm/lib", "agent.conf");
+			String path = this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
+			int firstIndex = path.lastIndexOf(System.getProperty("path.separator")) + 1;
+			String agent_path = path.substring(firstIndex,path.lastIndexOf("/kepler-tcm.jar"));
+			agentConfig = new AgentConfig(agent_path, "agent.conf");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

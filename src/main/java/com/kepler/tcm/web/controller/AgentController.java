@@ -64,18 +64,8 @@ public class AgentController {
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
 	public void test() throws Exception {
 		log.info("path:"+AgentServiceImpl.class.getClassLoader().getResource("agent.conf").getPath());
-		log.info("-----");
-		String path = this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
-		log.info("path:"+path);
-		log.info("-----");
-		int firstIndex = path.lastIndexOf(System.getProperty("path.separator")) + 1;
-		log.info("path.separator:"+System.getProperty("path.separator"));
-		log.info("-----");
-		int lastIndex = path.lastIndexOf(File.separator) + 1;
-		log.info("File.separator:"+File.separator);
-		log.info("-----");
-		String new_path = path.substring(firstIndex, lastIndex);
-		log.info("path:"+new_path);
+		log.info("path:"+this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
+		log.info("path:"+this.getClass().getProtectionDomain().getCodeSource().getLocation().getFile());
 	}
 
 }

@@ -49,6 +49,7 @@ var initFunc = function(){
 	            		 alert(data.MESSAGE);
 	            	  }else{
 		         		 layer.msg("启动成功", { time: 1000 });
+		         		init(1);
 	            	  }
 	              },
 	      		error: function() {
@@ -66,6 +67,7 @@ var initFunc = function(){
 	            		 alert(data.MESSAGE);
 	            	  }else{
 		         		 layer.msg("停止成功", { time: 1000 });
+		         		init(1);
 	            	  }
 	              },
 	      		error: function() {
@@ -83,6 +85,7 @@ var initFunc = function(){
 	            		 alert(data.MESSAGE);
 	            	  }else{
 		         		 layer.msg("重启成功", { time: 1000 });
+		         		init(1);
 	            	  }
 	              },
 	      		error: function() {
@@ -130,6 +133,7 @@ var initFunc = function(){
 		            	  }else{
 			         		 layer.msg("修改成功", { time: 1000 });
 			         		 $("#application-addChange .close").click();
+			         		init(1);
 		            	  }
 		              },
 		      		error: function() {
@@ -155,6 +159,7 @@ function agentedit(oldAgent,edit_agent,edit_port,edit_memo){
         	  }else{
          		 layer.msg("修改成功", { time: 1000 });
          		 $("#agent-addChange .close").click();
+         		init(1);
         	  }
          },
  		error: function() {
@@ -177,6 +182,7 @@ function agentdelete(agentName){
         	  }else{
          		 layer.msg("删除成功", { time: 1000 });
          		  $("#agent-deleteChange .close").click();
+         		 init(1);
         	  }
          },
  		error: function() {
@@ -276,6 +282,7 @@ $('.agent-new-modal button[type=submit]').unbind('click').click(
             	  }else{
 	         		 layer.msg("添加成功", { time: 1000 });
 	         		 $("#agent-addChange .close").click();
+	         		 init(1);
             	  }
               },
       		error: function() {
@@ -329,7 +336,7 @@ function init(index) {
 														'</span>'+
 															'修改'+
 													'</button>'+
-														'<button  type="button" class="btn btn-blue agent-delete-btn" data-toggle="modal" data-target=".agent-delete-modal" value="'+arr[i].q+'" value2="'+arr[i].agentName+'" value3="'+arr[i].memo+'" value4="'+arr[i].state_message+'" value5="'+arr[i].state_code+'">'+
+														'<button  type="button" class="btn btn-blue agent-delete-btn" data-toggle="modal" data-target=".agent-delete-modal" value="'+arr[i].id+'" value2="'+arr[i].agentName+'" value3="'+arr[i].memo+'" value4="'+arr[i].state_message+'" value5="'+arr[i].state_code+'">'+
 															'<span class="glyphicon glyphicon-trash" style="padding-right:5px;">'+
 															'</span>'+
 																'删除'+
@@ -403,6 +410,7 @@ function init(index) {
 						var edit_port=$("#port").val();
 						var edit_memo=$("#memo").val();
 						agentedit(oldAgent,edit_agent,edit_port,edit_memo);
+						init(1);
 					});
 				});
 				$(".accordion .agent-delete-btn").click(function() {
@@ -413,6 +421,7 @@ function init(index) {
 					$(".agent-delete-modal .modal-body>div:nth-child(2)").text(value);
 					$(".agent-delete-modal button[type=submit]").unbind('click').click(function() {
 						agentdelete(agentName);
+						init(1);
 					});
 				});
 				$(".accordion .application-add-btn").click(function() {
@@ -456,6 +465,7 @@ function init(index) {
 						            	  }else{
 							         		 layer.msg("添加成功", { time: 1000 });
 							         		 $("#application-addChange .close").click();
+							         		init(1);
 						            	  }
 						              },
 						      		error: function() {

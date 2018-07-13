@@ -60,24 +60,9 @@ public class AgentController {
 	
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
 	public void test() throws Exception {
-		log.info("path:"+this.getClass().getClassLoader().getResource("").getPath());
-		log.info("path1:"+this.getClass().getResource("").getPath());
-		log.info("path2:"+AgentController.class.getResource("").getPath());
-		log.info("path3:"+AgentController.class.getResource("agent.conf"));
-		log.info("path4:"+AgentController.class.getResource("/agent.conf"));
-		log.info("path5:"+AgentController.class.getResource("/"));
-		log.info("path6:"+AgentController.class.getResource("agent.conf").getPath());
-		log.info("path7:"+AgentController.class.getResource("/agent.conf").getPath());
-		log.info("path8:"+AgentController.class.getResource("/").getPath());
-		log.info("path9:"+AgentController.class.getResource("").getPath());
-		log.info("path10:"+AgentController.class.getClassLoader().getResource("/"));
-		log.info("path11:"+AgentController.class.getClassLoader().getResource("/agent.conf"));
-		log.info("path12:"+AgentController.class.getClassLoader().getResource("agent.conf").getPath());
-		log.info("path13:"+AgentController.class.getClassLoader().getResource("/").getPath());
-		log.info("path14:"+AgentController.class.getClassLoader().getResource("/agent.conf").getPath());
-		log.info("path15:"+AgentController.class.getClassLoader().getResource("agent.conf"));
-		log.info("path16:"+Thread.currentThread().getContextClassLoader().getResource("agent.conf"));
-		log.info("path17:"+Thread.currentThread().getContextClassLoader().getResource("agent.conf").getPath());
+		log.info("path1:"+AgentServiceImpl.class.getResource("/").getPath());
+		log.info("path2:"+AgentServiceImpl.class.getResource("").getPath());
+		log.info("path3:"+AgentServiceImpl.class.getClassLoader().getResource("agent.conf").getPath());
 	}
 
 }

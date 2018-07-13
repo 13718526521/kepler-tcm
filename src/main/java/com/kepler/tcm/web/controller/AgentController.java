@@ -1,11 +1,14 @@
 package com.kepler.tcm.web.controller;
 
+import java.io.File;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -61,6 +64,18 @@ public class AgentController {
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
 	public void test() throws Exception {
 		log.info("path:"+AgentServiceImpl.class.getClassLoader().getResource("agent.conf").getPath());
+		log.info("-----");
+		String path = this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
+		log.info("path:"+path);
+		log.info("-----");
+		int firstIndex = path.lastIndexOf(System.getProperty("path.separator")) + 1;
+		log.info("path.separator:"+System.getProperty("path.separator"));
+		log.info("-----");
+		int lastIndex = path.lastIndexOf(File.separator) + 1;
+		log.info("File.separator:"+File.separator);
+		log.info("-----");
+		String new_path = path.substring(firstIndex, lastIndex);
+		log.info("path:"+new_path);
 	}
 
 }

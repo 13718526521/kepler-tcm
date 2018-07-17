@@ -60,6 +60,20 @@ var initFunc = function(){
 	return {
 		dataManage: function(agentName,serverName,started){
 			if(started=='true'){
+				window.location.href="database_config.html?server="+agentName+"@"+serverName;		
+			}else{
+				window.location.href="server.html";
+			}
+		},
+		taskManage: function(agentName,serverName,started){
+			if(started=='true'){
+				window.location.href="tasks.html?server="+agentName+"@"+serverName;		
+			}else{
+				window.location.href="server.html";
+			}
+		},
+		pluginManage: function(agentName,serverName,started){
+			if(started=='true'){
 				window.location.href="plugins.html?server="+agentName+"@"+serverName;		
 			}else{
 				window.location.href="server.html";
@@ -220,7 +234,7 @@ function agentconnectmsg(id,agentName){
 	if(str=='fa fa-remove'){
 		 val=$("#agent_flag_"+id).attr("value");
 		 alert(val);
-	}else if(str=='fa fa-question'){
+	}else if(str=='fa fa-server'){
 		alert('未验证连接状态');
 	}else{
 		alert('连接成功');
@@ -298,7 +312,9 @@ function formData(agentName,agentmemo,hrefIndex){
 							'<td>'+tabData[i].monitorPort+'</td>'+
 							'<td>'+tabData[i].monitorInterval+'秒'+'</td>'+
 							'<td>'+
-							'<span class="fa fa-arrows-alt dataManage" onclick="initFunc.dataManage(\''+agentName+'\',\''+tabData[i].serverName+'\',\''+tabData[i].started+'\')" title="管理" style=" padding-right: 5px;">'+'</span>'+
+							'<span class="fa fa-tasks taskManage" onclick="initFunc.taskManage(\''+agentName+'\',\''+tabData[i].serverName+'\',\''+tabData[i].started+'\')" title="任务管理" style=" padding-right: 5px;">'+'</span>'+
+							'<span class="fa fa-database dataManage" onclick="initFunc.dataManage(\''+agentName+'\',\''+tabData[i].serverName+'\',\''+tabData[i].started+'\')" title="数据库配置" style=" padding-right: 5px;">'+'</span>'+
+							'<span class="fa fa-plug pluginManage" onclick="initFunc.pluginManage(\''+agentName+'\',\''+tabData[i].serverName+'\',\''+tabData[i].started+'\')" title="插件管理" style=" padding-right: 5px;">'+'</span>'+
 							'<span class="fa fa-play-circle startServer" onclick="initFunc.startServer(\''+agentName+'\',\''+tabData[i].serverName+'\')" title="启动" data-toggle="modal" style=" padding-right: 5px;">'+'</span>'+
 							'<span class="fa fa-stop stopServer" onclick="initFunc.stopServer(\''+agentName+'\',\''+tabData[i].serverName+'\')" title="停止" data-toggle="modal" style=" padding-right: 5px;">'+'</span>'+
 							'<span class="fa fa-repeat restartServer" onclick="initFunc.restartServer(\''+agentName+'\',\''+tabData[i].serverName+'\')" title="重启" data-toggle="modal" style=" padding-right: 5px;">'+'</span>'+
@@ -364,7 +380,7 @@ function init(index) {
 						html='<dl>'+
 								'<dt class="active">'+
 									'<h4 class="activity-title">'+
-										'<i class="fa fa-question" id="agent_flag_'+arr[i].id+'" style="margin-right: 10px;color:black;" onclick=agentconnectmsg(\''+arr[i].id+'\',\''+arr[i].agentName+'\')>'+
+										'<i class="fa fa-server" id="agent_flag_'+arr[i].id+'" style="margin-right: 10px;color:black;" onclick=agentconnectmsg(\''+arr[i].id+'\',\''+arr[i].agentName+'\')>'+
 										'</i>'+
 										'<span>'+
 											'代理服务器'+
@@ -403,7 +419,7 @@ function init(index) {
 						html +='<dl>'+
 								'<dt class="">'+
 									'<h4 class="activity-title">'+
-										'<i class="fa fa-question" id="agent_flag_'+arr[i].id+'" style="margin-right: 10px;color:black;" onclick=agentconnectmsg(\''+arr[i].id+'\',\''+arr[i].agentName+'\')>'+
+										'<i class="fa fa-server" id="agent_flag_'+arr[i].id+'" style="margin-right: 10px;color:black;" onclick=agentconnectmsg(\''+arr[i].id+'\',\''+arr[i].agentName+'\')>'+
 										'</i>'+
 										'<span>'+
 											'代理服务器'+

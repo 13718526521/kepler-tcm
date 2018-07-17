@@ -1,14 +1,7 @@
 package com.kepler.tcm.web.controller;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,76 +77,6 @@ public class PluginController {
 	public Map<String, Object> uploadedit(String agentAndServer,Plugin plugin, MultipartFile[] file)
 			throws Exception {
 		return pluginService.uploadedit(agentAndServer,plugin, file);
-	}
-
-	public static boolean uploadIStream(String rootPath, String fileName,
-			InputStream inputStream) {
-		boolean flag = false;
-		if (StringUtils.isAnyBlank(rootPath, fileName)) {
-			return flag;
-		}
-		if (inputStream == null) {
-			return flag;
-		}
-		File dir = new File(rootPath);
-		if (!dir.exists()) {
-			dir.mkdirs();
-		}
-		FileOutputStream os = null;
-		BufferedOutputStream bos = null;
-		BufferedInputStream bis = null;
-		try {
-			os = new FileOutputStream(new File(dir, fileName));
-			bos = new BufferedOutputStream(os);
-			bis = new BufferedInputStream(inputStream);
-			int b = -1;
-			while ((b = bis.read()) != -1) {
-				bos.write(b);
-			}
-			flag = true;
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (bos != null) {
-					bos.close();
-				}
-				if (os != null) {
-					os.close();
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		return flag;
-	}
-
-	@RequestMapping(value = "/test", method = RequestMethod.POST)
-	public void test(Plugin plugin, MultipartFile[] file, String[] className)
-			throws Exception {
-		log.info("Pluginid:" + plugin.getPluginid());
-		log.info("PluginName:" + plugin.getPluginName());
-		log.info("PluginMemo:" + plugin.getPluginMemo());
-		log.info("EntryClass:" + plugin.getEntryClass());
-		log.info("Error:" + plugin.getError());
-		log.info("Version:" + plugin.getVersion());
-		log.info("PluginPath:" + plugin.getPluginPath());
-		log.info("FileList:" + plugin.getFileList());
-		log.info("--------------------");
-		log.info("length:" + file.length);
-		log.info("Bytes:" + file[0].getBytes());
-		log.info("Class:" + file[0].getClass());
-		log.info("ContentType:" + file[0].getContentType());
-		log.info("InputStream:" + file[0].getInputStream());
-		log.info("Name:" + file[0].getName());
-		log.info("OriginalFilename:" + file[0].getOriginalFilename());
-		log.info(""+ file[0].getOriginalFilename().substring((file[0].getOriginalFilename().lastIndexOf(".") + 1)));
-		log.info(""+ file[1].getOriginalFilename().substring((file[1].getOriginalFilename().lastIndexOf(".") + 1)));
-		log.info("Size:" + file[0].getSize());
-		log.info("className:" + className[0]);
-		log.info("className:" + className[1]);
-		uploadIStream("F:/test", file[0].getOriginalFilename(),file[0].getInputStream());
-		uploadIStream("F:/test", file[1].getOriginalFilename(),file[1].getInputStream());
 	}
 
 }

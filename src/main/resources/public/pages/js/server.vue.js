@@ -62,21 +62,21 @@ var initFunc = function(){
 			if(started=='true'){
 				window.location.href="database_config.html?server="+agentName+"@"+serverName;		
 			}else{
-				window.location.href="server.html";
+				alert('应用服务器尚未启动，请先启动！');
 			}
 		},
 		taskManage: function(agentName,serverName,started){
 			if(started=='true'){
 				window.location.href="tasks.html?server="+agentName+"@"+serverName;		
 			}else{
-				window.location.href="server.html";
+				alert('应用服务器尚未启动，请先启动！');
 			}
 		},
 		pluginManage: function(agentName,serverName,started){
 			if(started=='true'){
 				window.location.href="plugins.html?server="+agentName+"@"+serverName;		
 			}else{
-				window.location.href="server.html";
+				alert('应用服务器尚未启动，请先启动！');
 			}
 		},
 		startServer: function(agentName,serverName){
@@ -303,7 +303,8 @@ function formData(agentName,agentmemo,hrefIndex){
 					}else{
 						i_class_flag="fa fa-stop";
 						i_color_flag="red";
-						href_flag="javascript:return false;";
+						/*href_flag="javascript:return false;";*/
+						href_flag="javascript:alert('应用服务器尚未启动，请先启动！');";
 					}
         		 str +='<tr>'+
 							'<td>'+'<a href="'+href_flag+'">'+'<i class="'+i_class_flag+'" style="margin-right: 5px;color: '+i_color_flag+';">'+'</i>'+tabData[i].serverName+'</a>'+'</td>'+
@@ -312,12 +313,12 @@ function formData(agentName,agentmemo,hrefIndex){
 							'<td>'+tabData[i].monitorPort+'</td>'+
 							'<td>'+tabData[i].monitorInterval+'秒'+'</td>'+
 							'<td>'+
-							'<span class="fa fa-tasks taskManage" onclick="initFunc.taskManage(\''+agentName+'\',\''+tabData[i].serverName+'\',\''+tabData[i].started+'\')" title="任务管理" style=" padding-right: 5px;">'+'</span>'+
-							'<span class="fa fa-database dataManage" onclick="initFunc.dataManage(\''+agentName+'\',\''+tabData[i].serverName+'\',\''+tabData[i].started+'\')" title="数据库配置" style=" padding-right: 5px;">'+'</span>'+
-							'<span class="fa fa-plug pluginManage" onclick="initFunc.pluginManage(\''+agentName+'\',\''+tabData[i].serverName+'\',\''+tabData[i].started+'\')" title="插件管理" style=" padding-right: 5px;">'+'</span>'+
-							'<span class="fa fa-play-circle startServer" onclick="initFunc.startServer(\''+agentName+'\',\''+tabData[i].serverName+'\')" title="启动" data-toggle="modal" style=" padding-right: 5px;">'+'</span>'+
-							'<span class="fa fa-stop stopServer" onclick="initFunc.stopServer(\''+agentName+'\',\''+tabData[i].serverName+'\')" title="停止" data-toggle="modal" style=" padding-right: 5px;">'+'</span>'+
-							'<span class="fa fa-repeat restartServer" onclick="initFunc.restartServer(\''+agentName+'\',\''+tabData[i].serverName+'\')" title="重启" data-toggle="modal" style=" padding-right: 5px;">'+'</span>'+
+							'<span class="fa fa-tasks taskManage" onclick="initFunc.taskManage(\''+agentName+'\',\''+tabData[i].serverName+'\',\''+tabData[i].started+'\')" title="任务管理" style=" padding-right: 5px;color:rgb(0,49,79);">'+'</span>'+
+							'<span class="fa fa-database dataManage" onclick="initFunc.dataManage(\''+agentName+'\',\''+tabData[i].serverName+'\',\''+tabData[i].started+'\')" title="数据库配置" style=" padding-right: 5px;color:rgb(186,40,53);">'+'</span>'+
+							'<span class="fa fa-plug pluginManage" onclick="initFunc.pluginManage(\''+agentName+'\',\''+tabData[i].serverName+'\',\''+tabData[i].started+'\')" title="插件管理" style=" padding-right: 5px;color:rgb(203,203,56);">'+'</span>'+
+							'<span class="fa fa-play-circle startServer" onclick="initFunc.startServer(\''+agentName+'\',\''+tabData[i].serverName+'\')" title="启动" data-toggle="modal" style=" padding-right: 5px;color:rgb(3,22,52);">'+'</span>'+
+							'<span class="fa fa-stop stopServer" onclick="initFunc.stopServer(\''+agentName+'\',\''+tabData[i].serverName+'\')" title="停止" data-toggle="modal" style=" padding-right: 5px;color:rgb(153,102,202);">'+'</span>'+
+							'<span class="fa fa-repeat restartServer" onclick="initFunc.restartServer(\''+agentName+'\',\''+tabData[i].serverName+'\')" title="重启" data-toggle="modal" style=" padding-right: 5px;color:rgb(254,102,101);">'+'</span>'+
 							'<span class="fa fa-edit dataChange" onclick="initFunc.dataChange(\''+agentName+'\',\''+agentmemo+'\',\''+tabData[i].serverName+'\',\''+tabData[i].port+'\',\''+tabData[i].memo+'\',\''+tabData[i].monitorPort+'\',\''+tabData[i].monitorInterval+'\')" title="修改" data-toggle="modal" data-target=".application-new-modal" style="color: green;padding-right: 5px;">'+'</span>'+
 						'</td>'+
 					'</tr>';
@@ -380,7 +381,7 @@ function init(index) {
 						html='<dl>'+
 								'<dt class="active">'+
 									'<h4 class="activity-title">'+
-										'<i class="fa fa-server" id="agent_flag_'+arr[i].id+'" style="margin-right: 10px;color:black;" onclick=agentconnectmsg(\''+arr[i].id+'\',\''+arr[i].agentName+'\')>'+
+										'<i class="fa fa-server" id="agent_flag_'+arr[i].id+'" style="margin-right: 10px;color:rgb(42,195,193);" onclick=agentconnectmsg(\''+arr[i].id+'\',\''+arr[i].agentName+'\')>'+
 										'</i>'+
 										'<span>'+
 											'代理服务器'+
@@ -419,7 +420,7 @@ function init(index) {
 						html +='<dl>'+
 								'<dt class="">'+
 									'<h4 class="activity-title">'+
-										'<i class="fa fa-server" id="agent_flag_'+arr[i].id+'" style="margin-right: 10px;color:black;" onclick=agentconnectmsg(\''+arr[i].id+'\',\''+arr[i].agentName+'\')>'+
+										'<i class="fa fa-server" id="agent_flag_'+arr[i].id+'" style="margin-right: 10px;color:rgb(42,195,193);" onclick=agentconnectmsg(\''+arr[i].id+'\',\''+arr[i].agentName+'\')>'+
 										'</i>'+
 										'<span>'+
 											'代理服务器'+

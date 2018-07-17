@@ -18,7 +18,7 @@
 	<script src="../base/jquery/jquery-1.11.0.min.js"></script>
 	<script src="../base/layer/layer.js"></script>
 	<script src="../js/skin.js"></script>
-	<title>添加插件</title>
+	<title>编辑插件</title>
 	<style>
 		html,body{height: 100%;}
 		body{font-size: 12px;background: #F5F5F5;}
@@ -384,32 +384,31 @@
 
 <body>
     <div class="content">
-   	 <form id="pluginForm">
+   	 <form id="pluginFormedit">
         <fieldset style="margin-top: 0px;">
             <legend>从class或jar文件中获取插件信息：</legend>
            	 <div class="form-group" style="width: auto">
 				<label class="label-text">插件ID：</label>
-				<input type="text" name="pluginid" class="form-control" id="pluginid"/>
-				<input type="checkbox"/><span class="checkbox-text">自动生成ID</span>
+				<input type="text" class="form-control" id="pluginid" name="pluginid" readonly="readonly" style="background-color: rgb(210,210,210);"/>
 		    </div>
         	<div class="form-group" style="width: auto">
 				<label class="label-text">插件名称：</label>
-				<input type="text" name="pluginName" class="form-control" id="pluginName"/>
+				<input type="text" class="form-control" id="pluginName" name="pluginName"/>
 			</div>
 			<div class="form-group" style="width: auto">
 		   		<label class="label-text">入口类：</label>
-				<input type="text" name="entryClass" class="form-control" id="entryClass"/>
+				<input type="text" class="form-control" id="entryClass" name="entryClass"/>
 			</div>
 			<div class="form-group" style="width: auto">
 				<label class="label-text">说明：</label>
-		 		<input type="text" name="pluginMemo" class="form-control" id="pluginMemo"/>
+		 		<input type="text" class="form-control" id="pluginMemo" name="pluginMemo"/>
 			</div>
         </fieldset>
         <fieldset style="margin-top: 0px;">
         	<legend></legend>
        		 <div class="form-group" style="width: auto">
 				<label>插件包含的文件：</label>
-				<a href="javascript:;" id="addfield" onclick="">添加文件</a>
+				<a href="#" id="addfield" onclick="">添加文件</a>
 			</div>
 			<div class="form-group" style="width: auto">
 				<label>注：上传class、jar文件不用指定服务器保存路径；其它文件需要指定服务器保存路径，如com/test/my.properties。</label>
@@ -441,6 +440,6 @@
 <script src="../js/util.js"></script>
 <script src="../js/common.js"></script>
 <script src="../base/jsonanalyze/js/analyze.js"></script>
-<script src="../js/plugins_add.vue.js"></script> 
+<script src="../js/plugins_edit.vue.js"></script> 
 
 </html>

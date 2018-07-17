@@ -2,7 +2,7 @@ $(function() {
 	
 	init(1);
 	
-	 $(".accordion").on("click","dt>a",function(e){
+	$(".accordion").on("click","dt>a",function(e){
 		 var hrefN = $(this).attr("href").slice(1),
 		 current_dl=$(this).parent().parent(),
 		 val2=$(this).attr("value2"),
@@ -27,6 +27,32 @@ $(function() {
 	            $(this).parent("dt").parent().find("dd").removeClass("active");
 		 }
 	 });
+	 
+	setInterval(function(){
+		$.ajax({
+	        type: "get",
+	        url: util.agent().baseUrl + "/agent/query",
+	        data: {},
+	        success: function(data) {
+	        	if(data.CODE==0){
+	        		arr=data.data;
+		        	for (var i in arr){
+		        		id=arr[i].id;
+		        		agentName=arr[i].agentName;
+						agent=agentName.split(":")[0];
+						port=agentName.split(":")[1];
+						agentconnect(id,agent,port);
+		        	}
+	        	}else{
+	        		alert('暂时没有数据');
+	        	}
+	        },
+			error: function() {
+				alert('请求失败');
+			}
+	    });
+		init(1);
+	}, 60000);
     
 });
 
@@ -49,7 +75,7 @@ var initFunc = function(){
 	            		 alert(data.MESSAGE);
 	            	  }else{
 		         		 layer.msg("启动成功", { time: 1000 });
-		         		init(1);
+		         		 init(1);
 	            	  }
 	              },
 	      		error: function() {
@@ -159,13 +185,46 @@ function agentedit(oldAgent,edit_agent,edit_port,edit_memo){
         	  }else{
          		 layer.msg("修改成功", { time: 1000 });
          		 $("#agent-addChange .close").click();
-         		init(1);
+         		 init(1);
         	  }
          },
  		error: function() {
  			alert('请求失败');
 		}
          });
+}
+function agentconnect(id,agent,port){
+	$.ajax({
+        type: "post",
+        url: util.agent().baseUrl + "/agent/connect",
+        data: {"agent":agent,"port":port},
+        success: function(data) {
+        	if(data.CODE==1){
+        		document.getElementById("agent_flag_"+id).setAttribute("class","fa fa-remove");
+        		document.getElementById("agent_flag_"+id).setAttribute("style","margin-right: 10px;color:red;");
+        		document.getElementById("agent_flag_"+id).setAttribute("value",data.MESSAGE);
+        	}else{
+        		document.getElementById("agent_flag_"+id).setAttribute("class","fa fa-check");
+        		document.getElementById("agent_flag_"+id).setAttribute("style","margin-right: 10px;color:green;");
+        		document.getElementById("agent_btn_"+id).disabled="";
+        	}
+        },
+		error: function() {
+			alert('请求失败');
+		}
+    });
+}
+
+function agentconnectmsg(id,agentName){
+	var str=document.getElementById("agent_flag_"+id).className;
+	if(str=='fa fa-remove'){
+		 val=$("#agent_flag_"+id).attr("value");
+		 alert(val);
+	}else if(str=='fa fa-question'){
+		alert('未验证连接状态');
+	}else{
+		alert('连接成功');
+	}
 }
 
 function agentdelete(agentName){
@@ -293,30 +352,19 @@ $('.agent-new-modal button[type=submit]').unbind('click').click(
 function init(index) {
 	$.ajax({
 		type: "get",
-		url: util.agent().baseUrl + "/agent/querystate",
+		url: util.agent().baseUrl + "/agent/query",
 		async: true,
 		success: function(data) {
 			var arr = new Array();
-			var i_class,i_color;
 			if(data.CODE==0){
 				arr=data.data;
 				html ='';
-				str='';
 				for (var i in arr){
-					if(arr[i].state_code=='0'){
-						i_class="fa fa-check";
-						i_color="green";
-						btn_flag='';
-					}else{
-						i_class="fa fa-remove";
-						i_color="red";
-						btn_flag='disabled="disabled"';
-					}
 					if(arr[i].id=='1'){
 						html='<dl>'+
 								'<dt class="active">'+
 									'<h4 class="activity-title">'+
-										'<i class="'+i_class+'" style="margin-right: 10px;color: '+i_color+';">'+
+										'<i class="fa fa-question" id="agent_flag_'+arr[i].id+'" style="margin-right: 10px;color:black;" onclick=agentconnectmsg(\''+arr[i].id+'\',\''+arr[i].agentName+'\')>'+
 										'</i>'+
 										'<span>'+
 											'代理服务器'+
@@ -327,23 +375,23 @@ function init(index) {
 											'</span>'+
 											'<span><font color="teal">'+arr[i].memo+'</font></span>'+
 											'</h4>'+
-											'<a href="#accordion_'+arr[i].id+'" aria-expanded="false" aria-controls="accordion_'+arr[i].id+'" value="'+arr[i].id+'" value2="'+arr[i].agentName+'" value3="'+arr[i].memo+'" value4="'+arr[i].state_message+'" value5="'+arr[i].state_code+'" class="accordion-title accordionTitle js-accordionTrigger">'+
+											'<a href="#accordion_'+arr[i].id+'" aria-expanded="false" aria-controls="accordion_'+arr[i].id+'" value="'+arr[i].id+'" value2="'+arr[i].agentName+'" value3="'+arr[i].memo+'" class="accordion-title accordionTitle js-accordionTrigger">'+
 												'隐藏'+
 											'</a>'+
 												'<div class="ope-btn">'+
-													'<button  type="button" class="btn btn-blue agent-edit-btn" data-toggle="modal" data-target=".agent-new-modal" value="'+arr[i].id+'" value2="'+arr[i].agentName+'" value3="'+arr[i].memo+'" value4="'+arr[i].state_message+'" value5="'+arr[i].state_code+'" style="margin-right:5px;">'+
+													'<button  type="button" class="btn btn-blue agent-edit-btn" data-toggle="modal" data-target=".agent-new-modal" value="'+arr[i].id+'" value2="'+arr[i].agentName+'" value3="'+arr[i].memo+'" style="margin-right:5px;">'+
 														'<span class="glyphicon glyphicon-edit" style="padding-right:5px;">'+
 														'</span>'+
 															'修改'+
 													'</button>'+
-														'<button  type="button" class="btn btn-blue agent-delete-btn" data-toggle="modal" data-target=".agent-delete-modal" value="'+arr[i].id+'" value2="'+arr[i].agentName+'" value3="'+arr[i].memo+'" value4="'+arr[i].state_message+'" value5="'+arr[i].state_code+'">'+
+														'<button  type="button" class="btn btn-blue agent-delete-btn" data-toggle="modal" data-target=".agent-delete-modal" value="'+arr[i].id+'" value2="'+arr[i].agentName+'" value3="'+arr[i].memo+'" >'+
 															'<span class="glyphicon glyphicon-trash" style="padding-right:5px;">'+
 															'</span>'+
 																'删除'+
 															'</button>'+
 												'</div>'+
 													'<div class="opt-btn2">'+
-														'<button  type="button" '+btn_flag+' class="btn btn-blue application-add-btn" data-toggle="modal" data-target=".application-new-modal" value="'+arr[i].id+'" value2="'+arr[i].agentName+'" value3="'+arr[i].memo+'" value4="'+arr[i].state_message+'" value5="'+arr[i].state_code+'">'+
+														'<button  type="button" id="agent_btn_'+arr[i].id+'" disabled="disabled" class="btn btn-blue application-add-btn" data-toggle="modal" data-target=".application-new-modal" value="'+arr[i].id+'" value2="'+arr[i].agentName+'" value3="'+arr[i].memo+'" >'+
 															'<span class="glyphicon glyphicon-plus" style="padding-right:5px;">'+'</span>'+'添加应用服务器'+'</button>'+
 													'</div>'+
 											'</dt>'+
@@ -355,7 +403,7 @@ function init(index) {
 						html +='<dl>'+
 								'<dt class="">'+
 									'<h4 class="activity-title">'+
-										'<i class="'+i_class+'" style="margin-right: 10px;color: '+i_color+';">'+
+										'<i class="fa fa-question" id="agent_flag_'+arr[i].id+'" style="margin-right: 10px;color:black;" onclick=agentconnectmsg(\''+arr[i].id+'\',\''+arr[i].agentName+'\')>'+
 										'</i>'+
 										'<span>'+
 											'代理服务器'+
@@ -365,23 +413,23 @@ function init(index) {
 										'</span>'+
 										'<span><font color="teal">'+arr[i].memo+'</font></span>'+
 											'</h4>'+
-												'<a href="#accordion_'+arr[i].id+'"  aria-expanded="false" aria-controls="accordion_'+arr[i].id+'" value="'+arr[i].id+'" value2="'+arr[i].agentName+'" value3="'+arr[i].memo+'" value4="'+arr[i].state_message+'" value5="'+arr[i].state_code+'" class="accordion-title accordionTitle js-accordionTrigger">'+
+												'<a href="#accordion_'+arr[i].id+'"  aria-expanded="false" aria-controls="accordion_'+arr[i].id+'" value="'+arr[i].id+'" value2="'+arr[i].agentName+'" value3="'+arr[i].memo+'" class="accordion-title accordionTitle js-accordionTrigger">'+
 													'显示'+
 												'</a>'+
 													'<div class="ope-btn">'+
-														'<button  type="button" class="btn btn-blue agent-edit-btn" data-toggle="modal" data-target=".agent-new-modal" value="'+arr[i].id+'" value2="'+arr[i].agentName+'" value3="'+arr[i].memo+'" value4="'+arr[i].state_message+'" value5="'+arr[i].state_code+'" style="margin-right:5px;">'+
+														'<button  type="button" class="btn btn-blue agent-edit-btn" data-toggle="modal" data-target=".agent-new-modal" value="'+arr[i].id+'" value2="'+arr[i].agentName+'" value3="'+arr[i].memo+'" style="margin-right:5px;">'+
 															'<span class="glyphicon glyphicon-edit" style="padding-right:5px;">'+
 																'</span>'+
 																	'修改'+
 														'</button>'+
-																'<button  type="button" class="btn btn-blue agent-delete-btn" data-toggle="modal" data-target=".agent-delete-modal" value="'+arr[i].id+'" value2="'+arr[i].agentName+'" value3="'+arr[i].memo+'" value4="'+arr[i].state_message+'" value5="'+arr[i].state_code+'">'+
+																'<button  type="button" class="btn btn-blue agent-delete-btn" data-toggle="modal" data-target=".agent-delete-modal" value="'+arr[i].id+'" value2="'+arr[i].agentName+'" value3="'+arr[i].memo+'" >'+
 																	'<span class="glyphicon glyphicon-trash" style="padding-right:5px;">'+
 																	'</span>'+
 																		'删除'+
 																'</button>'+
 															'</div>'+
 																'<div class="opt-btn2">'+
-																	'<button  type="button" '+btn_flag+' class="btn btn-blue application-add-btn" data-toggle="modal" data-target=".application-new-modal" value="'+arr[i].id+'" value2="'+arr[i].agentName+'" value3="'+arr[i].memo+'" value4="'+arr[i].state_message+'" value5="'+arr[i].state_code+'">'+
+																	'<button  type="button" id="agent_btn_'+arr[i].id+'" disabled="disabled" class="btn btn-blue application-add-btn" data-toggle="modal" data-target=".application-new-modal" value="'+arr[i].id+'" value2="'+arr[i].agentName+'" value3="'+arr[i].memo+'" >'+
 																		'<span class="glyphicon glyphicon-plus" style="padding-right:5px;">'+
 																		'</span>'+
 																			'添加应用服务器'+
@@ -475,7 +523,7 @@ function init(index) {
 							});
 				});
 			}else{
-				$(".accordion").append('<div class="no-data" style="width:calc(100% - 20px);"><p></p><h4>暂时没有数据</h4></div>');
+				$(".accordion").empty().append('<div class="no-data" style="width:calc(100% - 20px);"><p></p><h4>暂时没有数据</h4></div>');
 			}
 		},
 		error:function(){

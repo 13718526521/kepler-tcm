@@ -41,7 +41,7 @@ public class ServerServiceImpl implements ServerService {
 				StringWriter sw = new StringWriter();
 				e.printStackTrace(new PrintWriter(sw, true));  
 				map.put("CODE", 1);
-				map.put("MESSAGE", sw.toString());
+				map.put("MESSAGE", e.getMessage());
 				log.info("异常信息为:"+sw.toString());
 				e.printStackTrace();
 			}
@@ -76,7 +76,7 @@ public class ServerServiceImpl implements ServerService {
 			map.put("data", list);
 		} catch (Exception e) {
 			map.put("CODE", 1);
-			map.put("MESSAGE", "失败");
+			map.put("MESSAGE", e.getMessage());
 		}
 		long endTime = System.currentTimeMillis();
 		log.info("server-querystate程序运行时间："+(endTime-startTime)+"ms");
@@ -100,7 +100,7 @@ public class ServerServiceImpl implements ServerService {
 				map.put("MESSAGE","成功");
 			} catch (Exception e) {
 				map.put("CODE",1);
-				map.put("MESSAGE","失败");
+				map.put("MESSAGE",e.getMessage());
 			}
 			long endTime = System.currentTimeMillis();
 			log.info("server-add程序运行时间："+(endTime-startTime)+"ms");	
@@ -124,7 +124,7 @@ public class ServerServiceImpl implements ServerService {
 			map.put("MESSAGE","成功");
 		} catch (Exception e) {
 			map.put("CODE",1);
-			map.put("MESSAGE","失败");
+			map.put("MESSAGE",e.getMessage());
 		}
 		long endTime = System.currentTimeMillis();
 		log.info("server-edit程序运行时间："+(endTime-startTime)+"ms");
@@ -148,7 +148,7 @@ public class ServerServiceImpl implements ServerService {
 			}
 		} catch (Exception e) {
 			map.put("CODE", 1);
-			map.put("MESSAGE", "失败");
+			map.put("MESSAGE",e.getMessage());
 		}
 		long endTime = System.currentTimeMillis();
 		log.info("server-get程序运行时间："+(endTime-startTime)+"ms");
@@ -167,7 +167,7 @@ public class ServerServiceImpl implements ServerService {
 			map.put("MESSAGE", "成功");
 		} catch (Exception e) {
 			map.put("CODE", 1);
-			map.put("MESSAGE", "失败");
+			map.put("MESSAGE", e.getMessage());
 		}
 		long endTime = System.currentTimeMillis();
 		log.info("server-start程序运行时间："+(endTime-startTime)+"ms");
@@ -186,7 +186,7 @@ public class ServerServiceImpl implements ServerService {
 			map.put("MESSAGE", "成功");
 		} catch (Exception e) {
 			map.put("CODE", 1);
-			map.put("MESSAGE", "失败");
+			map.put("MESSAGE", e.getMessage());
 		}
 		long endTime = System.currentTimeMillis();
 		log.info("server-restart程序运行时间："+(endTime-startTime)+"ms");
@@ -205,7 +205,7 @@ public class ServerServiceImpl implements ServerService {
 			map.put("MESSAGE", "成功");
 		} catch (Exception e) {
 			map.put("CODE", 1);
-			map.put("MESSAGE", "失败");
+			map.put("MESSAGE", e.getMessage());
 		}
 		long endTime = System.currentTimeMillis();
 		log.info("server-stop程序运行时间："+(endTime-startTime)+"ms");
@@ -232,7 +232,7 @@ public class ServerServiceImpl implements ServerService {
 			map.put("data", result);
 		} catch (Exception e) {
 			map.put("CODE", 1);
-			map.put("MESSAGE", "失败");
+			map.put("MESSAGE", e.getMessage());
 		}
 		long endTime = System.currentTimeMillis();
 		log.info("server-serverhost程序运行时间："+(endTime-startTime)+"ms");
@@ -252,7 +252,7 @@ public class ServerServiceImpl implements ServerService {
 			map.put("data", result);
 		} catch (Exception e) {
 			map.put("CODE", 1);
-			map.put("MESSAGE", "失败");
+			map.put("MESSAGE", e.getMessage());
 		}
 		long endTime = System.currentTimeMillis();
 		log.info("server-serverport程序运行时间："+(endTime-startTime)+"ms");
@@ -272,7 +272,7 @@ public class ServerServiceImpl implements ServerService {
 			map.put("data", result);
 		} catch (Exception e) {
 			map.put("CODE", 1);
-			map.put("MESSAGE", "失败");
+			map.put("MESSAGE", e.getMessage());
 		}
 		long endTime = System.currentTimeMillis();
 		log.info("server-monitorport程序运行时间："+(endTime-startTime)+"ms");

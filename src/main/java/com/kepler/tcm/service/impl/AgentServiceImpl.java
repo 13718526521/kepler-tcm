@@ -51,7 +51,7 @@ public class AgentServiceImpl implements AgentService {
 				map.put("MESSAGE", "成功");
 			} catch (Exception e) {
 				map.put("CODE", 1);
-				map.put("MESSAGE", "失败");
+				map.put("MESSAGE", e.getMessage());
 			}
 		}
 		long endTime = System.currentTimeMillis();
@@ -117,7 +117,7 @@ public class AgentServiceImpl implements AgentService {
 				map.put("MESSAGE", "成功");
 			} catch (Exception e) {
 				map.put("CODE", 1);
-				map.put("MESSAGE", "失败");
+				map.put("MESSAGE", e.getMessage());
 			}
 		}
 		long endTime = System.currentTimeMillis();
@@ -137,7 +137,7 @@ public class AgentServiceImpl implements AgentService {
 			map.put("MESSAGE", "成功");
 		} catch (Exception e) {
 			map.put("CODE", 1);
-			map.put("MESSAGE", "失败");
+			map.put("MESSAGE", e.getMessage());
 		}
 		long endTime = System.currentTimeMillis();
 		log.info("agent-delete程序运行时间："+(endTime-startTime)+"ms");
@@ -156,7 +156,7 @@ public class AgentServiceImpl implements AgentService {
 			map.put("data", remoteAgent);
 		} catch (Exception e) {
 			map.put("CODE", 1);
-			map.put("MESSAGE", "失败");
+			map.put("MESSAGE", e.getMessage());
 		}
 		long endTime = System.currentTimeMillis();
 		log.info("agent-connect程序运行时间："+(endTime-startTime)+"ms");

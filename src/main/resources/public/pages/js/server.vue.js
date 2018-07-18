@@ -27,6 +27,29 @@ $(function() {
 	            $(this).parent("dt").parent().find("dd").removeClass("active");
 		 }
 	 });
+	
+	$.ajax({
+        type: "get",
+        url: util.agent().baseUrl + "/agent/query",
+        data: {},
+        success: function(data) {
+        	if(data.CODE==0){
+        		arr=data.data;
+	        	for (var i in arr){
+	        		id=arr[i].id;
+	        		agentName=arr[i].agentName;
+					agent=agentName.split(":")[0];
+					port=agentName.split(":")[1];
+					agentconnect(id,agent,port);
+	        	}
+        	}else{
+        		alert('暂时没有数据');
+        	}
+        },
+		error: function() {
+			alert('请求失败');
+		}
+    });
 	 
 	setInterval(function(){
 		$.ajax({

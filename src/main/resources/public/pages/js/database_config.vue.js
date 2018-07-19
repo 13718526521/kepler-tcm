@@ -1,7 +1,7 @@
 var server,dbName,dbDriver,dbUrl,dbUser,dbPass,type,overId;
 $(function() {
 	
-	server = localStorage.server;
+	server = GetQueryString("server");
 	
     $(".pagleft input").on("change", function() {
         this.value = this.value.replace(/[^0-9]+/, '');
@@ -87,7 +87,7 @@ var vm = new Vue({
 			data.url = vm.tabData[ind].url;
 			data.user = vm.tabData[ind].user;
 			data.pass = vm.tabData[ind].pass;
-			data.agentAndServer="127.0.0.1:1098@server01";
+			data.agentAndServer=server;
 			console.log(data);
 			$.ajax({
 				type: "post",
@@ -130,7 +130,7 @@ var vm = new Vue({
 			//确定删除
 			$(".delete-modal button[type=submit]").click(function() {
 				$(".loading").show();
-				var agentAndServer="127.0.0.1:1098@server01";
+				var agentAndServer=server;
 				$.ajax({
 					type: "put",
 					url: util.agent().baseUrl + "/dataBaseConfig/remove.json",
@@ -182,8 +182,7 @@ $(".new-modal button[type=submit]").click(function() {
 	data.url = dbUrl;
 	data.user = dbUser;
 	data.pass = dbPass;
-	//data.agentAndServer=server;
-	data.agentAndServer="127.0.0.1:1098@server01";
+	data.agentAndServer=server;
 	if(type==1){
 	    
 		$.ajax({
@@ -235,6 +234,13 @@ $(".new-modal button[type=submit]").click(function() {
 	
 });
 
+function GetQueryString(name) {
+	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+	var r = window.location.search.substr(1).match(reg);
+	if (r != null)
+		return unescape(r[2]);
+	return null;
+}
 
 function init(index) {
 	var params = {};
@@ -243,13 +249,14 @@ function init(index) {
 	}
 	params.pageNum = index-1;
     params.pageSize = $(".pagleft input").val();
-    params.agentAndServer="127.0.0.1:1098@server01";
+    params.agentAndServer=server;
 	$.ajax({
 		type: "get",
 		url: util.agent().baseUrl+"/dataBaseConfig/pages.json",
 		async: true,
 		data: params,
 		success: function(data) {
+			console.log(data);
 			if(data.error!=null&&data.error!=undefined){
 				$(".loading").hide();
 	            layer.msg("请求异常", {

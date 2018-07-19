@@ -16,4 +16,6 @@ public interface DataBaseConfigService {
 
 	Map pages(String agentAndServer,String name, int pageNum, int pageSize);
 
+	List findAll(String agentAndServer);
+
 }

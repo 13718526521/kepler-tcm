@@ -1,6 +1,7 @@
 package com.kepler.tcm.service;
 
 import java.util.HashMap;
+import java.util.List;
 
 public interface TasksService {
 
@@ -15,5 +16,9 @@ public interface TasksService {
 	void startTask(String agentAndServer,String taskId) throws Exception;
 
 	void stopTask(String agentAndServer, String taskId) throws Exception;
+
+	List findAll(String agentAndServer) throws Exception;
+
+	boolean isTaskStarted(String agentAndServer, String taskId);
 	
 }

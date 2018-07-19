@@ -1,3 +1,436 @@
+var agentName;
+$(function(){
+	
+	agentName = getUrlParam("agentName");
+	
+	//迭代数据库下拉框
+	dataSelect1();
+	dataSelect2();
+	//迭代插件下拉框
+	plugSelect();
+	//迭代左侧菜单栏
+	tasksTitle();
+	
+})
+
+//获取url地址参数
+function getUrlParam(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+    var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+    if (r != null) return unescape(r[2]);
+    return null; //返回参数值
+}
+
+function dataSelect1(){
+	
+	$.ajax({
+        type: "get",
+        data:{"agentAndServer":agentName},
+        url: util.agent().baseUrl + "/dataBaseConfig/findAll",
+        success: function(data) {
+            var html = [];
+            
+            	html.push(
+                    '<label class="label-text">*数据库：</label>',
+					'<select id="databaseId" class="form-control required activeType" v-model="codeTypeId" data-toggle="popover" data-placement="bottom" data-content="">',
+					'<option value="">-- 请选择 --</option>'
+            	)
+            	for(var i in data){
+            		html.push('<option value=',data[i].id,'>',data[i].name,'</option>')
+            	}
+            	html.push('</select>',
+            			  '<div class="trangle" style="left:calc(35% + 120px)"></div>',
+            			  '<label>(主要)</label>')
+            			$("#dataSelect1").append(html.join(''));
+            
+        },
+        error: function(e) {
+            $(".loading").hide();
+        }
+    });
+}
+
+function dataSelect2(){
+	
+	$.ajax({
+        type: "get",
+        data:{"agentAndServer":agentName},
+        url: util.agent().baseUrl + "/dataBaseConfig/findAll",
+        success: function(data) {
+            var html = [];
+            
+            	html.push(
+					'<select id="standbyDatabaseId" class="form-control required activeType" style="margin-left: 15px;" v-model="codeTypeId" data-toggle="popover" data-placement="bottom" data-content="">',
+					'<option value="">-- 请选择 --</option>'
+            	)
+            	for(var i in data){
+            		html.push('<option value=',data[i].id,'>',data[i].name,'</option>')
+            	}
+            	html.push('</select>',
+            			  '<div class="trangle" style="left:calc(57%)"></div>',
+            			  '<label>(备用)</label>')
+            			$("#dataSelect2").append(html.join(''));
+            
+        },
+        error: function(e) {
+            $(".loading").hide();
+        }
+    });
+}
+
+function plugSelect(){
+	
+	$.ajax({
+        type: "get",
+        data:{"agentAndServer":agentName},
+        url: util.agent().baseUrl + "/plugin/query",
+        success: function(data) {
+            var html = [];
+            
+            	html.push(
+            		'<label class="label-text">*引用插件：</label>',	
+					'<select id="pluginId" class="form-control required activeType" v-model="codeTypeId" data-toggle="popover" data-placement="bottom" data-content="">',
+					'<option value="">-- 请选择 --</option>'
+            	)
+            	for(var i in data.data){
+            		html.push('<option value=',data.data[i].id,'>',data.data[i].PluginName,'</option>')
+            	}
+            	html.push('</select>',
+            			  '<div class="trangle"></div>')
+            			$("#plugSelect").append(html.join(''));
+            
+        },
+        error: function(e) {
+            $(".loading").hide();
+        }
+    });
+}
+//计划栏设置disable
+function opt(){
+	$("input[name='opt1']").attr("disabled",true);
+	$("input[name='opt2']").attr("disabled",true);
+	$("input[name='opt3']").attr("disabled",true);
+	$("input[name='opt4']").attr("disabled",true);
+}
+
+function opt1(){
+	$("input[name='opt1']").attr("disabled",false);
+	$("input[name='opt2']").attr("disabled",true);
+	$("input[name='opt3']").attr("disabled",true);
+	$("input[name='opt4']").attr("disabled",true);
+}
+
+function opt2(){
+	$("input[name='opt1']").attr("disabled",true);
+	$("input[name='opt2']").attr("disabled",false);
+	$("input[name='opt3']").attr("disabled",true);
+	$("input[name='opt4']").attr("disabled",true);
+}
+
+function opt3(){
+	$("input[name='opt1']").attr("disabled",true);
+	$("input[name='opt2']").attr("disabled",true);
+	$("input[name='opt3']").attr("disabled",false);
+	$("input[name='opt4']").attr("disabled",true);
+}
+
+function opt4(){
+	$("input[name='opt1']").attr("disabled",true);
+	$("input[name='opt2']").attr("disabled",true);
+	$("input[name='opt3']").attr("disabled",true);
+	$("input[name='opt4']").attr("disabled",false);
+}
+
+//设置任务监控报警栏disabled
+function opts(){
+	$("input[name='opts1']").attr("disabled",true);
+}
+
+function opts1(){
+	$("input[name='opts1']").attr("disabled",false);
+}
+
+function opts2(){
+	$("input[name='opts1']").attr("disabled",true);
+}
+//迭代左侧菜单栏
+function tasksTitle(){
+	$.ajax({
+        type: "get",
+        data:{"agentAndServer":agentName},
+        url: util.agent().baseUrl + "/tasks/findAll",
+        success: function(data) {
+        	
+            var html = [];
+            	for(var i in data){
+            		html.push(
+                    		'<li>',
+                    		'<span class="opt-point"></span>',
+        		   	            '<input value=',data[i].taskID,' value2=',data[i].state,' type="checkbox" />'
+                    	)
+            		if(data[i].state == 0){
+            			html.push('<span class="opt-picture"><i class="fa fa-play" aria-hidden="true"></i></span>',
+            					'<span class="opt-text">',data[i].taskName,'</span>',
+            					'</li>')
+            		}else{
+            			html.push('<span class="opt-picture"><i class="fa fa-pause" aria-hidden="true"></i></span>',
+            					'<span class="opt-text">',data[i].taskName,'</span>',
+            					'</li>')
+            		}
+            		
+            	}
+            			$("#tasksTitle").empty().append(html.join(''));
+            
+        },
+        error: function(e) {
+            $(".loading").hide();
+        }
+    });
+}
+//新建按钮
+//获取新增输入参数
+function addParams(){
+	var params={};
+	params.taskName = $("#taskName").val();
+	//获取运行状态单选框的值
+	var disabled = $("input[name='disabled']:checked").val();
+	if(disabled == 0){
+		params.disabled = 0;
+		params.autoRun = 1;
+	}else{
+		params.disabled = 1;
+		params.autoRun = 2;
+	}
+	params.pluginId = $("#pluginId").val();
+	//params.EntryClass = $('#pluginId').find("option:selected").attr("value2");
+	params.databaseId = $("#databaseId").val();
+	params.standbyDatabaseId = $("#standbyDatabaseId").val();
+	//获取计划栏单选框的值
+	var radio1 = $("input[name='opt']:checked").val();
+	//初始化参数
+	params.year = ""; 
+	params.month = "";
+	params.day = "";
+	params.hour = "";
+	params.minute = "";
+	params.second = "";
+	params.mxf = "";
+	params.mxt = "";
+	params.hour4 = "";
+	params.minute4 = "";
+	params.second4 = "";
+	params.cron = "";
+	if(radio1==1){
+		params.planType = 1;
+	}else if(radio1==2){
+		params.planType = 2;
+		params.year = $("#year").val();
+		params.month = $("#month").val();
+		params.day = $("#day").val();
+		params.hour = $("#hour").val();
+		params.minute = $("#minute").val();
+		params.second = $("#second").val();
+	}else if(radio1==3){
+		params.planType = 3;
+		params.mxf = $("#mxf").val();
+	}else if(radio1==4){
+		params.planType = 4;
+		params.mxt = $("#mxt").val();
+		params.hour4 = $("#hour4").val();
+		params.minute4 = $("#minute4").val();
+		params.second4 = $("#second4").val();
+	}else{
+		params.planType = 5;
+		params.cron = $("#cron").val();
+	}
+	params.logType = 2;
+	params.logLevel = $("#logLevel").val();
+	params.logLevel2 = $("#logLevel2").val();
+	params.taskTimeout = $("#taskTimeout").val();
+	params.logBackNums = $("#logBackNums").val();
+	params.logMaxSize = $("#logMaxSize").val();
+	//获取任务监控报警栏复选框是否选中
+	params.taskAlert = "";
+	params.alertType = "";
+	params.keepAlertTime = "";
+	params.notSuccAlert = "";
+	params.notSuccTime = "";
+	params.failAlert = "";
+	if($("input[id='taskAlert']").is(':checked')){
+		params.taskAlert = $("#taskAlert").val();
+		
+		//获取任务监控报警栏单选框的值
+		var radio2 = $("input[name='opts']:checked").val();
+		if(radio2==0){
+			params.alertType = 0;
+		}else if(radio2==1){
+			params.alertType = 1;
+			params.keepAlertTime = $("#keepAlertTime").val();
+		}else{
+			params.alertType = 2;
+		}
+		if($("input[id='notSuccAlert']").is(':checked')){
+			params.notSuccAlert = $("#notSuccAlert").val();
+			params.notSuccTime = $("#notSuccTime").val();
+		}
+		if($("input[id='failAlert']").is(':checked')){
+			params.failAlert = $("#failAlert").val();
+		}
+	}
+	return params;
+}
+//新建提交
+$(".submit").click(function(){
+	var params = {};
+	params = addParams();
+	params.agentAndServer = agentName;
+	console.log(params);
+	$.ajax({
+		type: "post",
+		url: util.agent().baseUrl + "/tasks/add.json",
+		data: params,
+		async: true,
+		success: function() {
+			layer.msg("新建成功", {
+				time: 1000
+			});
+	
+			//init(1);
+		},
+		error :function(){
+			layer.msg("新建失败", {
+				time: 1000
+			});
+		}
+    });
+})
+
+//启动任务
+$("#start").click(function(){
+		var arr = new Array();
+		var arr1 = new Array();
+		var suc = "";
+		var err = "";
+        //获取复选框选中的值
+        $("#tasksTitle :checkbox:checked").each(function(i){
+            arr[i] = $(this).val();
+            arr1[i] = $(this).attr("value2");
+        });
+        console.log(arr1);
+        if(arr == null || arr.length == 0){
+        	layer.msg("请先选择要启动的任务", {
+				time: 1000
+			});
+        	return ;
+        }
+        for(var i in arr1){
+        	if(arr1[i] == 0){
+        		layer.msg("存在已启动的任务", {
+    				time: 1000
+    			});
+        		return ;
+        	}
+        }
+        for(var j in arr){
+        	$.ajax({
+        		type: "post",
+        		url: util.agent().baseUrl + "/tasks/startTask.json",
+        		data: {"agentAndServer":agentName,"taskId":arr[j]},
+        		async: false,
+        		success: function(data) {
+        			if(data == 0){
+        				$.ajax({
+        					type: "post",
+        					url: util.agent().baseUrl + "/tasks/isTaskStarted.json",
+        					data: {"agentAndServer":agentName,"taskId":arr[j]},
+        					async: false,
+        					success: function(data) {
+        						if(data){
+        							suc = suc + arr[j] + "~";
+        						}else{
+        							err = err + arr[j] + "~";
+        						}
+        					}
+        			    });
+        			}else{
+        				err = err + arr[j] + "~";
+        			}
+        		}
+            });
+        }
+        if(suc!=""&&suc!=null){
+        	layer.msg(suc+"任务已启动", {
+				time: 1000
+			});
+        }
+        
+        if(err!=""&&err!=null){
+        	setTimeout(function(){
+            	layer.msg(err+"启动任务失败", {
+    				time: 1000
+    			});
+    		  },2000);
+        }
+        tasksTitle();
+})
+
+//停止任务
+$("#stop").click(function(){
+		var arr = new Array();
+		var arr1 = new Array();
+		var suc = "";
+		var err = "";
+        //获取复选框选中的值
+        $("#tasksTitle :checkbox:checked").each(function(i){
+            arr[i] = $(this).val();
+            arr1[i] = $(this).attr("value2");
+        });
+        console.log(arr1);
+        if(arr == null || arr.length == 0){
+        	layer.msg("请先选择要停止的任务", {
+				time: 1000
+			});
+        	return ;
+        }
+        for(var i in arr1){
+        	if(arr1[i] == 1){
+        		layer.msg("存在已停止的任务", {
+    				time: 1000
+    			});
+        		return ;
+        	}
+        }
+        for(var j in arr){
+        	$.ajax({
+        		type: "post",
+        		url: util.agent().baseUrl + "/tasks/stopTask.json",
+        		data: {"agentAndServer":agentName,"taskId":arr[j]},
+        		async: false,
+        		success: function(data) {
+        			if(data == 0){
+        				suc = suc + arr[j] + "~";
+        			}else{
+        				err = err + arr[j] + "~";
+        			}
+        		}
+            });
+        }
+        if(suc!=""&&suc!=null){
+        	layer.msg(suc+"任务已停止", {
+				time: 1000
+			});
+        }
+        
+        if(err!=""&&err!=null){
+        	setTimeout(function(){
+            	layer.msg(err+"停止任务失败", {
+    				time: 1000
+    			});
+    		  },2000);
+        }
+        tasksTitle();
+})
+
 //表格数据及分页
 var vm = new Vue({
 	el: "#app",
@@ -97,7 +530,6 @@ var vm = new Vue({
 
 function init(index) {
 	var params = {};
-	console.log(util.agent().baseUrl);
 	$.ajax({
 		type: "get",
 		url: util.agent().baseUrl+"/view/js/tasks.json",
@@ -107,7 +539,6 @@ function init(index) {
 			if(data.length>0&&data!=undefined){
 				vm.tabData = data;
         		vm.current = index;
-                console.log(vm.allpage);
         		$("#app .no-data").remove();
         	}else{
         		vm.current = 0;
@@ -118,120 +549,6 @@ function init(index) {
 		}
 	});
 }
-// 提交
-$(function() {
-	
-	init(1);
-    
-});
 
 
-var initFunc = function(){
-	return {
-		// 鼠标悬浮于表单元素，提示信息
-		formEleHover: function(){
-			$(".required").hover(function() {
-		        if($(this).val() == '') {
-		            $(this).popover('show');
-		        }
-		    }, function() {
-		        $(this).popover('hide');
-		    });
-		},
-		// 单选按钮
-		iradioSquare: function(){
-			$(".blacklistCon .iradio_square").click(function(e){
-				 e.preventDefault();
-				 if(!$(this).hasClass("selected")) $(this).addClass("selected").siblings(".selected").removeClass("selected");
-			 });
-		},
-		// 添加
-		addDlFunc: function(add_dl_index,add_a_href){
-			var dl_html = '';
 
-			    dl_html = '<dl>'+
-							    '<dt class="active">'+
-									'<h4 class="activity-title"><span class="activity-ico icon_4g"></span><span>上传文件测试'+add_dl_index+'</span></h4>'+
-									'<a href="#accordion'+add_dl_index+'"  aria-expanded="false" aria-controls="accordion'+add_dl_index+'" class="accordion-title accordionTitle js-accordionTrigger">完成</a>	'+
-								'</dt>'+
-								'<dd class="accordion-content accordionItem is-collapsed active"  id="accordion'+add_dl_index+'" aria-hidden="true">'+
-									'<div class="form-content" id="formContent'+add_dl_index+'">'+
-									   	'<form>'+
-										    '<div class="form-inline">'+
-												'<div class="form-group form-group-2">'+
-													'<label class="control-label"><img src="../../icons/img_must.png" style="margin-right: 6px;"/>外呼活动id：</label>'+
-													'<input class="form-control required" type="text" ata-container="body" data-toggle="popover" data-placement="right" data-content="请输入活动id" placeholder="请输入活动id"/>'+
-												'</div>'+
-												'<div class="form-group form-group-2">'+
-													'<label class="control-label"><img src="../../icons/img_must.png" style="margin-right: 6px;"/>文件上传时间：</label>'+
-													'<input class="form-control required" type="text" id="startTime'+add_dl_index+'" style="background: url(\'../../icons/btn_rl.png\') no-repeat right 6px center;background-color: #fff;background-size: auto 60%" onFocus="WdatePicker({dateFmt:\'yyyyMMdd\',maxDate:\'#F{$dp.$D(\\\'startTime'+add_dl_index+'\\\')}\'})" ata-container="body" data-toggle="popover" data-placement="right" data-content="请选择有效日期" placeholder="请选择有效日期"/>'+
-												'</div>'+
-												'<div class="clear"></div>	'+
-											'</div>	'+
-											'<div class="form-inline">'+
-												'<div class="form-group form-group-2">'+
-													'<label class="control-label"><img src="../../icons/img_must.png" style="margin-right: 6px;"/>接口秘钥：</label>'+
-													'<input class="form-control required" type="text" ata-container="body" data-toggle="popover" data-placement="right" data-content="请输入接口秘钥" placeholder="请输入接口秘钥"/>'+
-												'</div>'+
-												'<div class="form-group form-group-2 blacklistCon">'+
-													'<label class="control-label"><img src="../../icons/img_must.png" style="margin-right: 6px;"/>上传文件名时间：</label>'+
-													'<div style="height: 38px;padding: 8px 12px;line-height: 1.42857143;display: inline-block">'+
-														'<label class="iradio_square iradio_square_1 selected"  title="以传入的upDate时间命名"><input value="1" type="radio" style="display: none;"></label><span class="radio-txt">输入时间</span>'+
-														'<label class="iradio_square iradio_square_1" title="以当前系统时间命名"><input value="0" type="radio" style="display: none;"></label><span class="radio-txt">当前系统时间</span>'+
-													'</div>'+
-												'</div>'+
-												'<div class="clear"></div>	'+
-											'</div>'+
-											'<div class="form-inline">'+
-											    '<div class="form-group form-group-1">'+
-													'<label class="control-label"><img src="../../icons/img_must.png" style="margin-right: 6px;"/>响应结果：</label>'+
-												    '<textarea class="form-control required" ata-container="body" data-toggle="popover" data-placement="right" data-content="请填写响应结果" placeholder="请填写响应结果..."></textarea>'+
-												'</div>'+
-											    '<div class="clear"></div>	'+
-											'</div>'+
-											'<div class="form-inline sum-con">'+
-												'<button style="margin-right:0px" class="btn btn-blue ope-btn" type="button" id="submitBtn'+add_dl_index+'">提交</button>'+
-											'</div>'+
-										'</form>'+
-									'</div>'+
-								'</dd>'+
-								'<div class="clear"></div>	'+
-					     '</dl>';
-
-			  // 关闭之前已打开的文件项
-			 if($(".content-body .accordion dt>a").attr("href") != add_a_href){
-				 $(".content-body .accordion dt>a").html("修改");
-				 $(".content-body .accordion dt>a").parent("dt").removeClass("active");
-				 $(".content-body .accordion dt>a").parent("dt").siblings("dd").removeClass("active");
-			 }
-			 $(".content-body .accordion").append(dl_html);
-
-			initFunc.formEleHover();
-		    initFunc.iradioSquare();
-
-		    // 提交
-			 $(".sum-con>button").click(function(){
-				 initFunc.submitFunc();
-			 });
-		},
-		// 提交
-		submitFunc: function(){
-			console.log(111)
-		}
-	}
-}();
-function getNowFormatDate() {
-    var date = new Date();
-    var seperator1 = "-";
-    var year = date.getFullYear();
-    var month = date.getMonth() + 1;
-    var strDate = date.getDate();
-    if (month >= 1 && month <= 9) {
-        month = "0" + month;
-    }
-    if (strDate >= 0 && strDate <= 9) {
-        strDate = "0" + strDate;
-    }
-    var currentdate = year + "" + month + "" + strDate;
-    return currentdate;
-}

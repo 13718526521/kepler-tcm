@@ -112,6 +112,28 @@ public class DataBaseConfigServiceImpl implements DataBaseConfigService{
 		}
 	}
 
+	@Override
+	public List findAll(String agentAndServer) {
+		DatabaseClient d = new DatabaseClient(agentAndServer);
+		String[] database;
+		List list = new ArrayList<>();
+		try {
+			database = d.getDatabase();
+			if(database == null|| database.length==0) {
+				return null;
+			}
+			for(String dbId : database) {
+				list.add(d.getDatabasePropertyById(dbId));
+			}
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+
 	
 
 }

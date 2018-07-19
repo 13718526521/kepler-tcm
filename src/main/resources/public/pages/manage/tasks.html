@@ -11,7 +11,7 @@
 	<link href="../base/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
 	<link href="../base/layer/skin/default/layer.css" rel="stylesheet" />
 	<link href="../css/baseall.css" rel="stylesheet" />
-	<link href="../css/tasks2.css" rel="stylesheet" />
+	<link href="../css/tasks.css" rel="stylesheet" />
 	<link href="../base/jsonanalyze/css/jsonanalysis.css" rel="stylesheet" />
 	<script src="../base/jquery/jquery-1.11.0.min.js"></script>
 	<script src="../base/layer/layer.js"></script>
@@ -34,11 +34,10 @@
 	        <dl>
 				<dt class="active">
 					<h4 class="activity-title"><span class="activity-ico icon_4g"></span><span>应用1</span></h4>
-					<a href="#accordion1"  aria-expanded="false" aria-controls="accordion1" class="accordion-title accordionTitle js-accordionTrigger">完成</a>	
 					<div class="ope-btn">
 					    <button  type="button" class="btn btn-blue query-btn"><span class="glyphicon glyphicon-search"></span> 全选</button>
-					    <button  type="button" class="btn btn-blue query-btn"><span class="glyphicon glyphicon-search"></span> 启动</button>
-					    <button  type="button" class="btn btn-blue query-btn"><span class="glyphicon glyphicon-search"></span> 停止</button>
+					    <button  id="start" type="button" class="btn btn-blue query-btn"><span class="glyphicon glyphicon-search"></span> 启动</button>
+					    <button id="stop" type="button" class="btn btn-blue query-btn"><span class="glyphicon glyphicon-search"></span> 停止</button>
 					    <button  type="button" class="btn btn-blue query-btn"><span class="glyphicon glyphicon-search"></span> 终止</button>
 					    <button  type="button" class="btn btn-blue query-btn"><span class="glyphicon glyphicon-search"></span> 删除</button>
 					</div>
@@ -51,8 +50,8 @@
 				<dd class="accordion-content accordionItem is-collapsed active"  id="accordion1" aria-hidden="true">
 					<div class="form-content" id="formContent1">
 					   	<div class="tasks-list">
-					   	    <ul>
-					   	        <li>
+					   	    <ul id="tasksTitle">
+					   	        <!-- <li>
 					   	            <span class="opt-point"></span>
 					   	            <input type="checkbox" />
 					   	            <span class="opt-picture"><i class="fa fa-play" aria-hidden="true"></i></span>
@@ -81,7 +80,7 @@
 					   	            <input type="checkbox" />
 					   	            <span class="opt-picture"><i class="fa fa-play" aria-hidden="true"></i></span>
 					   	            <span class="opt-text">task5</span>
-					   	        </li>
+					   	        </li> -->
 					   	    </ul>
 					   	</div>
 					   	<span class="shuxian"></span>
@@ -96,99 +95,99 @@
 					            <legend>常规</legend>
 					            <div class="form-group" style="width: auto">
 								<label class="label-text">*任务名称：</label>
-								<input type="text" class="form-control"/>
-								<input type="checkbox"/><span class="checkbox-text">自动运行</span>
-								<input type="checkbox"/><span class="checkbox-text">禁止运行</span>
+								<input id="taskName" type="text" class="form-control"/>
+								<input type="radio" name="disabled" value="0"/><span class="checkbox-text">自动运行</span>
+								<input type="radio" name="disabled" value="1"/><span class="checkbox-text">禁止运行</span>
 							    </div>
-					        <div class="form-group" style="width: auto">
-								<label class="label-text">*引用插件：</label>
+					        <div class="form-group" id = "plugSelect" style="width: auto">
+								<!-- <label class="label-text">*引用插件：</label>
 								<select class="form-control required activeType" v-model="codeTypeId" data-toggle="popover" data-placement="bottom" data-content=""/>
 								<option value="">-- 请选择 --</option>
 								</select>
-								<div class="trangle"></div>
+								<div class="trangle"></div> -->
 							</div>
-							<div class="form-group form-group-22">
-							    <label class="label-text">*数据库：</label>
+							<div class="form-group form-group-22" id = "dataSelect1">
+							    <!-- <label class="label-text">*数据库：</label>
 								<select class="form-control required activeType" v-model="codeTypeId" data-toggle="popover" data-placement="bottom" data-content=""/>
 								<option value="">-- 请选择 --</option>
 								</select>
 								<div class="trangle" style="left:calc(35% + 120px)"></div>
-								<label>(主要)</label>
+								<label>(主要)</label> -->
 							</div>
-							<div class="form-group form-group-22">
-								<select class="form-control required activeType" style="margin-left: 15px;" v-model="codeTypeId" data-toggle="popover" data-placement="bottom" data-content=""/>
+							<div class="form-group form-group-22" id = "dataSelect2">
+								<!-- <select class="form-control required activeType" style="margin-left: 15px;" v-model="codeTypeId" data-toggle="popover" data-placement="bottom" data-content=""/>
 								<option value="">-- 请选择 --</option>
 								</select>
 								<div class="trangle" style="left:calc(57%)"></div>
-								<label>(备用)</label>
+								<label>(备用)</label> -->
 							</div>
 					        </fieldset>
 					         <fieldset>
-					            <legend>计划</legend>
-					            <div class="form-group" style="width: auto;margin-top: 0px;">
-							    <label style="margin-bottom: 5px">时间格式示例：2049年12月31日 23时59分59秒</label>
+				            <legend>计划</legend>
+				            <div class="form-group" style="width: auto;margin-top: 0px;">
+						    <label style="margin-bottom: 5px">时间格式示例：2049年12月31日 23时59分59秒</label>
+						    </div>
+							<div class="form-group" style="width: auto">
+								<input value="1" type="radio" name="opt" onclick="opt()"></label><span class="radio checkbox-text">&nbsp&nbsp立即执行</span>
 							</div>
 							<div class="form-group" style="width: auto">
-								<input type="radio" name="opt"></label><span class="radio checkbox-text">&nbsp&nbsp立即执行</span>
-							</div>
-							<div class="form-group" style="width: auto">
-								<input value="1" type="radio" name="opt"></label><span class="radio checkbox-text">&nbsp&nbsp定时执行</span>
-								<input type="text" class="form-time"/>
+								<input value="2" type="radio" name="opt" onclick="opt1()"></label><span class="radio checkbox-text">&nbsp&nbsp定时执行</span>
+								<input id="year" type="text" class="form-time" name="opt1" disabled/>
 								<label>年</label>
-								<input type="text" class="form-time"/>
+								<input id="month" type="text" class="form-time" name="opt1" disabled/>
 								<label>月</label>
-								<input type="text" class="form-time"/>
+								<input id="day" type="text" class="form-time" name="opt1" disabled/>
 								<label>日</label>
-								<input type="text" class="form-time"/>
+								<input id="hour" type="text" class="form-time" name="opt1" disabled/>
 								<label>时</label>
-								<input type="text" class="form-time"/>
+								<input id="minute" type="text" class="form-time" name="opt1" disabled/>
 								<label>分</label>
-								<input type="text" class="form-time"/>
+								<input id="second" type="text" class="form-time" name="opt1" disabled/>
 								<label>秒</label>
 							</div>
 							<div class="form-group" style="width: auto">
-								<input value="1" type="radio" name="opt"></label><span class="radio checkbox-text">&nbsp&nbsp每</span>
-								<input type="text" class="form-time"/>
+								<input value="3" type="radio" name="opt" onclick="opt2()"></label><span class="radio checkbox-text">&nbsp&nbsp每</span>
+								<input id="mxf" type="text" class="form-time" name="opt2" disabled/>
 								<label>分钟执行一次</label>
 							</div>
 							<div class="form-group" style="width: auto">
-								<input value="1" type="radio" name="opt"></label><span class="radio checkbox-text">&nbsp&nbsp每</span>
-								<input type="text" class="form-time"/>
+								<input value="4" type="radio" name="opt" onclick="opt3()"></label><span class="radio checkbox-text">&nbsp&nbsp每</span>
+								<input id="mxt" type="text" class="form-time" name="opt3" disabled/>
 								<label>天执行一次 ，每次执行于</label>
-								<input type="text" class="form-time"/>
+								<input id="hour4" type="text" class="form-time" name="opt3" disabled/>
 								<label>时</label>
-								<input type="text" class="form-time"/>
+								<input id="minute4" type="text" class="form-time" name="opt3" disabled/>
 								<label>分</label>
-								<input type="text" class="form-time"/>
+								<input id="second4" type="text" class="form-time" name="opt3" disabled/>
 								<label>秒</label>
 							</div>
 							<div class="form-group" style="width: auto">
-								<input value="1" type="radio" name="opt"></label><span class="radio checkbox-text">&nbsp&nbspCron表达式</span>
-								<input type="text" class="form-time-cron"/>
+								<input value="5" type="radio" name="opt" onclick="opt4()"></label><span class="radio checkbox-text">&nbsp&nbspCron表达式</span>
+								<input id="cron" type="text" class="form-time-cron" name="opt4" disabled/>
 								<a value="start" href="javascript:void(0)" @click="audio()" style="color:red;">表达式说明</a>
 							</div>
 					         </fieldset>
 					         <fieldset>
 					            <legend>
-					                <input type="checkbox"/><span class="checkbox-text">任务监控报警</span>
+					                <input id="taskAlert" type="checkbox" value="1"/><span class="checkbox-text">任务监控报警</span>
 					            </legend>
 					            <div class="form-group" style="width: auto">
 							    <label>出错报警方式:</label>
-							    <input value="1" type="radio" name="opt2"></label><span class="radio checkbox-text">&nbsp&nbsp报警一次</span>&nbsp&nbsp&nbsp&nbsp
-							    <input value="1" type="radio" name="opt2"></label><span class="radio checkbox-text">&nbsp&nbsp保持报警</span>
-							    <input type="text" class="form-time"/>
+							    <input value="0" type="radio" name="opts" onclick="opts()"></label><span class="radio checkbox-text">&nbsp&nbsp报警一次</span>&nbsp&nbsp&nbsp&nbsp
+							    <input value="1" type="radio" name="opts" onclick="opts1()"></label><span class="radio checkbox-text">&nbsp&nbsp保持报警</span>
+							    <input id="keepAlertTime" type="text" class="form-time" name="opts1" disabled/>
 								<label>分钟</label>
 								&nbsp&nbsp&nbsp&nbsp
-							    <input value="1" type="radio" name="opt2"></label><span class="radio checkbox-text">&nbsp&nbsp一直报警</span>
+							    <input value="2" type="radio" name="opts" onclick="opts2()"></label><span class="radio checkbox-text">&nbsp&nbsp一直报警</span>
 							</div>
 							<div class="form-group" style="width: auto">
-								<input value="1" type="checkbox"></label><span class="radio checkbox-text">&nbsp&nbsp立即执行</span>
+								<input id="notSuccAlert" value="1" type="checkbox"></label><span class="radio checkbox-text">&nbsp&nbsp立即执行</span>
 								<label> 成功记录数报警。 在</label>
-								<input value="10" type="text" class="form-time"/>
+								<input id="notSuccTime" value="10" type="text" class="form-time"/>
 								<label>分钟内”成功记录数“（succNum）没有增加则报警</label>
 							</div>
 							<div class="form-group" style="width: auto">
-								<input value="1" type="checkbox" kind="Group"></label><span class="radio checkbox-text">&nbsp&nbsp错误记录报警。 错误记录数（failNum）只要变化则报警</span>
+								<input id="failAlert" value="1" type="checkbox" kind="Group"></label><span class="radio checkbox-text">&nbsp&nbsp错误记录报警。 错误记录数（failNum）只要变化则报警</span>
 							</div>
 					         </fieldset>
 					         <fieldset>
@@ -198,28 +197,36 @@
 							</div>
 							<div class="form-group" style="width: auto">
 								<label> 保留</label>
-								<input type="text" class="form-time"/>
+								<input id="logBackNums" type="text" class="form-time"/>
 								<label>个日志， 每个日志最大容量为 </label>
-								<input type="text" class="form-time"/>
+								<input id="logMaxSize" type="text" class="form-time"/>
 								<label>兆 ， </label>
 							</div>
 							<div class="form-group form-group-2" >
 								<label>“日志一”输出级别为 </label>
-								<select class="form-control required activeType" v-model="codeTypeId" data-toggle="popover" data-placement="bottom" data-content="请选择有效活动"/>
-								<option value="">-- DEBUG --</option>
+								<select id="logLevel" class="form-control required activeType" v-model="codeTypeId" data-toggle="popover" data-placement="bottom" data-content="请选择有效活动"/>
+								<option value="DEBUG">-- DEBUG --</option>
+								<option value="INFO">-- INFO --</option>
+								<option value="WARN">-- WARN --</option>
+								<option value="ERROR">-- ERROR --</option>
+								<option value="FATAL">-- FATAL --</option>
 								</select>
 								<div class="trangle"></div>
 							</div>
 							<div class="form-group form-group-2" >
 								<label>“日志二”输出级别为 </label>
-								<select class="form-control required activeType" v-model="codeTypeId" data-toggle="popover" data-placement="bottom" data-content="请选择有效活动"/>
-								<option value="">-- ERROR --</option>
+								<select id="logLevel2" class="form-control required activeType" v-model="codeTypeId" data-toggle="popover" data-placement="bottom" data-content="请选择有效活动"/>
+								<option value="DEBUG">-- DEBUG --</option>
+								<option value="INFO">-- INFO --</option>
+								<option value="WARN">-- WARN --</option>
+								<option value="ERROR">-- ERROR --</option>
+								<option value="FATAL">-- FATAL --</option>
 								</select>
 								<div class="trangle"></div>
 							</div>
 							<div class="form-group" style="width: auto;clear:both">
 								<label> 单次任务超时设置：</label>
-								<input type="text" class="form-time"/>
+								<input id="taskTimeout" type="text" class="form-time"/>
 								<label>分钟</label>
 							</div>
 					         </fieldset>
@@ -227,100 +234,6 @@
 								<button type="reset" class="btn btn-default btn-sm reset" data-dismiss="modal">取消</button>
 								<button type="submit" class="btn btn-blue submit"  data-dismiss="modal">确定</button>
 							</div>
-					   	</div>
-					   	<div class="tasks-content tasks-listenter" id="listenter">
-					   	    <div>
-					   	        <h4 class="task-title">任务运行监控</h4>
-					   	        <span><i class="fa fa-bullhorn" aria-hidden="true"></i></span>
-					   	        <a value="start" style="margin-right: 10px;" href="javascript:void(0)" @click="audio()">声音报警</a>
-					   	        <a value="start" href="javascript:void(0)" @click="audio()">清除所有错误</a>
-					   	    </div>
-					   	    <div>
-					   	        <form class="form-cont">
-					   	            <div class="form-inline">
-										<div class="form-group form-group-1">
-											<label class="control-label">当前的内存使用情况：</label>
-										    <div class="form-control">
-										        总共 <span>231936</span> K, 使用 <span>20290</span> K, 剩余 <span>211646</span> K
-										    </div>
-										</div>
-										<div class="form-group form-group-1">
-											<label class="control-label">2小时来的内存情况：</label>
-										    <div class="form-control">
-										        最小内存 <span>2744</span> K, 最大内存 <span>66665</span> K
-										    </div>
-										</div>
-										<div class="clear"></div>	
-									</div>
-					   	        </form>
-					   	        <div id="app">
-					   	            <table style="font-size:13px;margin-top: 10px;width: 100%;" border="0" class="table table-hover  tab-own" cellpadding="0" cellspacing="0">
-										<thead>
-										<tr>
-											<th>ID</th>
-											<th>任务名称</th>
-										    <th>当前状态</th>
-											<th>最后运行时间</th>
-											<th>统计</th>
-											<th>其他</th>
-										</tr>
-										</thead>
-										<tbody>
-											<tr v-for="(tabtr,index) in tabData">
-												<td>{{index+1}}</td>
-												<td>{{tabtr.f}}</td>
-								                <td>运行</td>
-								                <td>2018-06-27 10:22:18</td>
-								                <td>成功:{{tabtr.a}}|失败:{{tabtr.b}}|等待:{{tabtr.c}}|忽略:{{tabtr.d}}</td>
-								                <td>{{tabtr.e}}</td>
-					                        </tr>
-										</tbody>
-									</table>
-					   	        </div>
-					   	    </div>
-					   	</div>
-					</div>
-				</dd>
-				<div class="clear"></div>				
-			</dl>
-			<dl>
-				<dt>
-					<h4 class="activity-title"><span class="activity-ico icon_4g"></span><span>应用1</span></h4>
-					<a href="#accordion1"  aria-expanded="false" aria-controls="accordion1" class="accordion-title accordionTitle js-accordionTrigger">完成</a>	
-					<div class="ope-btn">
-					    <button  type="button" class="btn btn-blue query-btn"><span class="glyphicon glyphicon-search"></span> 全选</button>
-					    <button  type="button" class="btn btn-blue query-btn"><span class="glyphicon glyphicon-search"></span> 启动</button>
-					    <button  type="button" class="btn btn-blue query-btn"><span class="glyphicon glyphicon-search"></span> 停止</button>
-					    <button  type="button" class="btn btn-blue query-btn"><span class="glyphicon glyphicon-search"></span> 终止</button>
-					    <button  type="button" class="btn btn-blue query-btn"><span class="glyphicon glyphicon-search"></span> 删除</button>
-					</div>
-					<div class="opt-btn2">
-					    <button  type="button" class="btn btn-blue query-btn"><span class="glyphicon glyphicon-search"></span> 新建任务</button>
-					    <button  type="button" class="btn btn-blue query-btn"><span class="glyphicon glyphicon-search"></span> 监控任务</button>
-					</div>
-									
-				</dt>
-				<dd class="accordion-content accordionItem is-collapsed"  id="accordion1" aria-hidden="true">
-					<div class="form-content" id="formContent1">
-					   	<div class="tasks-list">
-					   	    <ul>
-					   	        <li>
-					   	            <span class="opt-point"></span>
-					   	            <input type="checkbox" />
-					   	            <span class="opt-picture"><i class="fa fa-play" aria-hidden="true"></i></span>
-					   	            <span class="opt-text">task1</span>
-					   	        </li>
-					   	        <li>
-					   	            <span class="opt-point"></span>
-					   	            <input type="checkbox" />
-					   	            <span class="opt-picture"><i class="fa fa-pause" aria-hidden="true"></i></span>
-					   	            <span class="opt-text">task2</span>
-					   	        </li>
-					   	    </ul>
-					   	</div>
-					   	<span class="shuxian"></span>
-					   	<div class="tasks-content tasks-new" id="newTask">
-					   	    
 					   	</div>
 					   	<div class="tasks-content tasks-listenter" id="listenter">
 					   	    <div>

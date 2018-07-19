@@ -2,6 +2,7 @@ package com.kepler.tcm.web.controller;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -94,4 +95,14 @@ public class DataBaseConfigController {
 	public Map pages(String agentAndServer,String name,int pageNum,int pageSize){
 		return dataBaseConfigService.pages(agentAndServer,name,pageNum,pageSize);
 	}
+	
+	/**
+	 * 查询所有数据库信息
+	 */
+	@RequestMapping(value="/findAll",method=RequestMethod.GET)
+	public List findAll(String agentAndServer){
+		return dataBaseConfigService.findAll(agentAndServer);
+	}
+	
+	
 }

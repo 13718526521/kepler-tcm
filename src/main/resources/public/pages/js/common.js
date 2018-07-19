@@ -3,7 +3,7 @@ util.ajaxTimeout();
 //用户中心设置
 
 if(!window.localStorage.user) {
-	$.ajax({
+	/*$.ajax({
 		type: "get",
 		url: util.agent().baseUrl + "/sysUser/sessionUser.json",
 		dataType: "json",
@@ -18,7 +18,7 @@ if(!window.localStorage.user) {
 				}
 			}
 		}
-	});
+	});*/
 }
 
 //皮肤数据

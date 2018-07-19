@@ -47,7 +47,6 @@ $(function() {
         	}
         },
 		error: function() {
-			alert('请求失败');
 		}
     });
 	 
@@ -71,7 +70,6 @@ $(function() {
 	        	}
 	        },
 			error: function() {
-				alert('请求失败');
 			}
 	    });
 		init(1);
@@ -116,7 +114,6 @@ var initFunc = function(){
 	            	  }
 	              },
 	      		error: function() {
-	      			alert('请求失败');
 	    		}
 	          });
 		},
@@ -134,7 +131,6 @@ var initFunc = function(){
 	            	  }
 	              },
 	      		error: function() {
-	      			alert('请求失败');
 	    		}
 	          });
 		},
@@ -152,7 +148,6 @@ var initFunc = function(){
 	            	  }
 	              },
 	      		error: function() {
-	      			alert('请求失败');
 	    		}
 	          });
 		},
@@ -200,7 +195,6 @@ var initFunc = function(){
 		            	  }
 		              },
 		      		error: function() {
-		      			alert('请求失败');
 		    		}
 		          });
             });
@@ -226,7 +220,6 @@ function agentedit(oldAgent,edit_agent,edit_port,edit_memo){
         	  }
          },
  		error: function() {
- 			alert('请求失败');
 		}
          });
 }
@@ -247,7 +240,6 @@ function agentconnect(id,agent,port){
         	}
         },
 		error: function() {
-			alert('请求失败');
 		}
     });
 }
@@ -282,7 +274,6 @@ function agentdelete(agentName){
         	  }
          },
  		error: function() {
- 			alert('请求失败');
 		}
          });
 }
@@ -353,7 +344,6 @@ function formData(agentName,agentmemo,hrefIndex){
 	'</dd>';
          },
  		error: function() {
- 			alert('请求失败');
 		}
      });
 return str;
@@ -385,7 +375,6 @@ $('.agent-new-modal button[type=submit]').unbind('click').click(
             	  }
               },
       		error: function() {
-      			alert('请求失败');
     		}
           });
 		});
@@ -557,7 +546,6 @@ function init(index) {
 						            	  }
 						              },
 						      		error: function() {
-						      			alert('请求失败');
 						    		}
 						          });
 							});
@@ -567,7 +555,6 @@ function init(index) {
 			}
 		},
 		error:function(){
-			alert('请求失败');
         }
 	});
 }

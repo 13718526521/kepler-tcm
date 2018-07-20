@@ -159,8 +159,8 @@ function tasksTitle(){
         type: "get",
         data:{"agentAndServer":agentName},
         url: util.agent().baseUrl + "/tasks/findAll",
+        async: false,
         success: function(data) {
-        	
             var html = [];
             	for(var i in data){
             		html.push(
@@ -188,6 +188,37 @@ function tasksTitle(){
     });
 }
 //新建按钮
+$("#newAdd").click(function(){
+	$("#listenter").hide();
+	$("#newTask").show();
+	$("#taskName").val("");
+	$("#pluginId").val("");
+	$("#databaseId").val("");
+	$("#standbyDatabaseId").val("");
+	$("#year").val("");
+	$("#month").val("");
+	$("#day").val("");
+	$("#hour").val("");
+	$("#minute").val("");
+	$("#second").val("");
+	$("#mxf").val("");
+	$("#mxt").val("");
+	$("#hour4").val("");
+	$("#minute4").val("");
+	$("#second4").val("");
+	$("#cron").val("");
+	$("#logLevel").val("");
+	$("#logLevel2").val("");
+	$("#taskTimeout").val("");
+	$("#logBackNums").val("");
+	$("#logMaxSize").val("");
+	$("#taskAlert").val("");
+	$("#keepAlertTime").val("");
+	$("#notSuccAlert").val("");
+	$("#notSuccTime").val("");
+	$("#failAlert").val("");
+})
+
 //获取新增输入参数
 function addParams(){
 	var params={};
@@ -281,10 +312,10 @@ function addParams(){
 }
 //新建提交
 $(".submit").click(function(){
+	
 	var params = {};
 	params = addParams();
 	params.agentAndServer = agentName;
-	console.log(params);
 	$.ajax({
 		type: "post",
 		url: util.agent().baseUrl + "/tasks/add.json",
@@ -303,6 +334,9 @@ $(".submit").click(function(){
 			});
 		}
     });
+	tasksTitle();
+	$("#newTask").hide();
+	$("#listenter").show();
 })
 
 //启动任务
@@ -316,7 +350,6 @@ $("#start").click(function(){
             arr[i] = $(this).val();
             arr1[i] = $(this).attr("value2");
         });
-        console.log(arr1);
         if(arr == null || arr.length == 0){
         	layer.msg("请先选择要启动的任务", {
 				time: 1000
@@ -385,7 +418,6 @@ $("#stop").click(function(){
             arr[i] = $(this).val();
             arr1[i] = $(this).attr("value2");
         });
-        console.log(arr1);
         if(arr == null || arr.length == 0){
         	layer.msg("请先选择要停止的任务", {
 				time: 1000
@@ -430,6 +462,100 @@ $("#stop").click(function(){
         }
         tasksTitle();
 })
+
+//删除任务
+$("#remove").click(function(){
+		var arr = new Array();
+		var suc = "";
+		var err = "";
+        //获取复选框选中的值
+        $("#tasksTitle :checkbox:checked").each(function(i){
+            arr[i] = $(this).val();
+        });
+        if(arr == null || arr.length == 0){
+        	layer.msg("请先选择要删除的任务", {
+				time: 1000
+			});
+        	return ;
+        }
+        for(var j in arr){
+        	$.ajax({
+        		type: "post",
+        		url: util.agent().baseUrl + "/tasks/remove.json",
+        		data: {"agentAndServer":agentName,"taskId":arr[j]},
+        		async: false,
+        		success: function(data) {
+        			if(data == 0){
+        				suc = suc + arr[j] + "~";
+        			}else{
+        				err = err + arr[j] + "~";
+        			}
+        		}
+            });
+        }
+        if(suc!=""&&suc!=null){
+        	layer.msg("任务已删除", {
+				time: 1000
+			});
+        }
+        
+        if(err!=""&&err!=null){
+        	setTimeout(function(){
+            	layer.msg(err+"删除任务失败", {
+    				time: 1000
+    			});
+    		  },2000);
+        }
+        tasksTitle();
+})
+
+//监控任务
+$("#monitor").click(function(){
+	$("#newTask").hide();
+	$("#listenter").show();
+	taskRun();
+	init(1);
+})
+
+//任务运行监控迭代
+function taskRun(){
+	var agentName1 = agentName.split("@");
+	var aName = agentName1[0];
+	var sName = agentName1[1];
+	$.ajax({
+        type: "get",
+        data:{"agentName":aName,"serverName":sName},
+        url: util.agent().baseUrl + "/server/memoInfo",
+        async: false,
+        success: function(data) {
+            var html = [];
+        		html.push(
+        			'	<div class="form-group form-group-1">                                                ',
+					'		<label class="control-label">当前的内存使用情况：</label>                        ',
+					'	    <div class="form-control">                                                       ',
+					'	        总共 <span>',data.data.total,'</span> K, 使用 <span>',data.data.use,'</span> K, 剩余 <span>',data.data.free,'</span> K',
+					'	    </div>                                                                           ',
+					'	</div>                                                                               ',
+					'	<div class="form-group form-group-1">                                                ',
+					'		<label class="control-label">2小时来的内存情况：</label>                         ',
+					'	    <div class="form-control">                                                       ',
+					'	        最小内存 <span>',data.data.min,'</span> K, 最大内存 <span>',data.data.max,'</span> K                  ',
+					'	    </div>                                                                           ',
+					'    </div>                                                                              ',
+					'<div class="clear"></div>		                                                         '
+        		)
+        			$("#taskRunTop").empty().append(html.join(''));
+        },
+        error: function(e) {
+            $(".loading").hide();
+        }
+    });
+}
+//定时器  实时查看监控数据
+setInterval(function(){
+	taskRun();
+	init(1);
+},5000)
 
 //表格数据及分页
 var vm = new Vue({
@@ -481,64 +607,34 @@ var vm = new Vue({
 			
 			//这里可以发送ajax请求
 			init(index);
-		},
-		start: function(){
-			layer.msg("已启动", {
-				time: 1000
-			});
-		},
-		stop: function(){
-			layer.msg("已停止", {
-				time: 1000
-			});
-		},
-		termination: function(){
-			layer.msg("已终止", {
-				time: 1000
-			});
-		},
-        //修改
-		updatask: function(ind) {
-        	
-        	
-        	window.location.href="tasks_add.html?a=2";
-        },
-        //删除
-        tabDelete: function() {
-			$(".delete-modal .modal-title").text('是否删除？');
-			//确定删除
-			$(".delete-modal button[type=submit]").click(function() {
-				$(".loading").show();
-				/*$.ajax({
-					type: "put",
-					url: util.agent().baseUrl + "/custom/update.json",
-					data: {"isDeleted" : 2,"id" : id},
-					async: true,
-					success: function() {
-						layer.msg("删除成功", {
-							time: 1000
-						});
-
-						init(1);
-					}
-				});*/
-			});
-
-		},
+		}
 	}
 });
 
 function init(index) {
 	var params = {};
+	params.pageNum = index-1;
+    params.pageSize = 10;
+    params.agentAndServer=agentName;
 	$.ajax({
 		type: "get",
-		url: util.agent().baseUrl+"/view/js/tasks.json",
+		url: util.agent().baseUrl + "/tasks/pages",
 		async: true,
 		data: params,
 		success: function(data) {
-			if(data.length>0&&data!=undefined){
-				vm.tabData = data;
-        		vm.current = index;
+			console.log(data)
+			if(data.error!=null&&data.error!=undefined){
+				$(".loading").hide();
+	            layer.msg("请求异常", {
+	                time : 1500
+	            });
+			}
+			vm.tabData = data.data;               
+            vm.showItem = 5;
+            vm.allpage = data.totalPages;
+            vm.totalNum = data.totalCount;
+			if(data.data.length>0&&data!=undefined){
+				vm.current = index;
         		$("#app .no-data").remove();
         	}else{
         		vm.current = 0;

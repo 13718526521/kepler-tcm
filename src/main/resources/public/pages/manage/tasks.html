@@ -39,11 +39,11 @@
 					    <button  id="start" type="button" class="btn btn-blue query-btn"><span class="glyphicon glyphicon-search"></span> 启动</button>
 					    <button id="stop" type="button" class="btn btn-blue query-btn"><span class="glyphicon glyphicon-search"></span> 停止</button>
 					    <button  type="button" class="btn btn-blue query-btn"><span class="glyphicon glyphicon-search"></span> 终止</button>
-					    <button  type="button" class="btn btn-blue query-btn"><span class="glyphicon glyphicon-search"></span> 删除</button>
+					    <button id="remove"  type="button" class="btn btn-blue query-btn"><span class="glyphicon glyphicon-search"></span> 删除</button>
 					</div>
 					<div class="opt-btn2">
-					    <button  type="button" class="btn btn-blue query-btn"><span class="glyphicon glyphicon-search"></span> 新建任务</button>
-					    <button  type="button" class="btn btn-blue query-btn"><span class="glyphicon glyphicon-search"></span> 监控任务</button>
+					    <button id="newAdd"  type="button" class="btn btn-blue query-btn"><span class="glyphicon glyphicon-search"></span> 新建任务</button>
+					    <button id="monitor"  type="button" class="btn btn-blue query-btn"><span class="glyphicon glyphicon-search"></span> 监控任务</button>
 					</div>
 									
 				</dt>
@@ -244,7 +244,7 @@
 					   	    </div>
 					   	    <div>
 					   	        <form class="form-cont">
-					   	            <div class="form-inline">
+					   	            <div class="form-inline" id="taskRunTop">
 										<div class="form-group form-group-1">
 											<label class="control-label">当前的内存使用情况：</label>
 										    <div class="form-control">
@@ -275,14 +275,33 @@
 										<tbody>
 											<tr v-for="(tabtr,index) in tabData">
 												<td>{{index+1}}</td>
-												<td>{{tabtr.f}}</td>
-								                <td>运行</td>
-								                <td>2018-06-27 10:22:18</td>
-								                <td>成功:{{tabtr.a}}|失败:{{tabtr.b}}|等待:{{tabtr.c}}|忽略:{{tabtr.d}}</td>
-								                <td>{{tabtr.e}}</td>
+												<td>{{tabtr.taskName}}</td>
+								                <td v-if = "tabtr.state == 0">运行中</td>
+								                <td v-else>已停止</td>
+								                <td>{{tabtr.lastRuntime}}</td>
+								                <td>成功:{{tabtr.taskMessage.succNum}}|失败:{{tabtr.taskMessage.failNum}}|等待:{{tabtr.taskMessage.waitNum}}|忽略:{{tabtr.passNum}}</td>         
+								                <td>{{tabtr.taskMessage.other}}</td>
 					                        </tr>
 										</tbody>
 									</table>
+									<!-- <div class="pagleft" v-cloak>
+										共{{totalNum}}条数据 每页显示&nbsp;<input type="text" value="10" class="form-control" />&nbsp;条数据 第{{current}}/{{allpage}}页
+									</div>
+									<ul class="pagination pagination-sm" v-cloak>
+										<li @click="current <= 1 ? '' : (current-- && goto(current))">
+											<a href="#">
+												<</a>
+										</li>
+										<li v-for="index in pages" @click="goto(index)" :class="{'active':current == index}" :key="index">
+											<a href="#">{{index}}</a>
+										</li>
+										<li @click="(allpage != current && allpage != 0) ? (current++ && goto(current++)) : ''">
+											<a href="#">></a>
+										</li>
+										<li>
+											<a href="#">共{{allpage}}页</a>
+										</li>
+									</ul> -->
 					   	        </div>
 					   	    </div>
 					   	</div>

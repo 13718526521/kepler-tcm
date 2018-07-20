@@ -1,6 +1,7 @@
 package com.kepler.tcm.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,10 +38,43 @@ public class TasksServiceImpl implements TasksService{
 	}
 
 	@Override
-	public HashMap pages(String agentAndServer, String name, int pageNum, int pageSize) {
-		
-		
-		return null;
+	public Map pages(String agentAndServer, int pageNum, int pageSize) {
+		TaskClient t = new TaskClient(agentAndServer);
+		Map map = new HashMap<>();
+		try {
+			HashMap tasks = t.getTasks();
+			if(tasks == null || tasks.size() == 0) {
+				return null;
+			}
+			List<Map> list = new ArrayList<>();
+			List<Map> lists = new ArrayList<>();
+			for(Object obj : tasks.keySet()) {
+				String taskId =  (String) obj;
+				Map map1 = new HashMap<>();
+				map1=JSON.parseObject(JSON.toJSONString(tasks.get(taskId)),Map.class);
+				if(t.isTaskStarted(taskId)) {
+					map1.put("state", "0");
+				}else {
+					map1.put("state", "1");
+				}
+				list.add(map1);
+			}
+			Collections.reverse(list);
+			int length = 0;
+			if(pageNum*pageSize+pageSize<=list.size()) {
+				length = pageNum*pageSize+pageSize;
+			}else {
+				length = list.size();
+			}
+			for(int i= pageNum*pageSize; i<length; i++) {
+				lists.add(list.get(i));
+			}
+			map.put("data", lists);
+		} catch (Exception e) {
+			map.put("error", e.getMessage());
+			return map;
+		}
+		return map;
 	}
 
 	@Override

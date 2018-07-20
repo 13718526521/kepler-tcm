@@ -80,17 +80,24 @@ public class TasksController {
 	 * 删除
 	 */
 	@RequestMapping(value="/remove",method=RequestMethod.POST)
-	public void remove(String agentAndServer,String taskId) throws Exception{
+	public int remove(String agentAndServer,String taskId){
 		
-		tasksService.remove(agentAndServer,taskId);
+		try {
+			tasksService.remove(agentAndServer,taskId);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return 1;
+		}
+		return 0;
 	}
 	
 	/**
 	 * 获取任务列表 分页
 	 */
 	@RequestMapping(value="/pages",method=RequestMethod.GET)
-	public HashMap pages(String agentAndServer,String name,int pageNum,int pageSize){
-		return tasksService.pages(agentAndServer,name,pageNum,pageSize);
+	public Map pages(String agentAndServer,int pageNum,int pageSize){
+		return tasksService.pages(agentAndServer,pageNum,pageSize);
 	}
 	
 	/**

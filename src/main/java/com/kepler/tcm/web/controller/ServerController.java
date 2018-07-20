@@ -98,5 +98,11 @@ public class ServerController {
 			throws Exception {
 		return serverService.monitorport(agentName, serverName);
 	}
-
+	
+	@RequestMapping(value = "/memoInfo", method = RequestMethod.GET)
+	public Map<String, Object> memoInfo(String agentName, String serverName)
+			throws Exception {
+		return serverService.memoInfo(agentName, serverName);
+	}
+	
 }

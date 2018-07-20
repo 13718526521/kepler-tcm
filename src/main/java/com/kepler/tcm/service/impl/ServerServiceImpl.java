@@ -12,9 +12,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSON;
 import com.kepler.tcm.client.ServerClient;
+import com.kepler.tcm.client.TaskClient;
 import com.kepler.tcm.core.agent.ServerInfo;
 import com.kepler.tcm.core.server.RemoteServer;
+import com.kepler.tcm.core.task.RemoteTask;
 import com.kepler.tcm.service.ServerService;
 @Service
 public class ServerServiceImpl implements ServerService {
@@ -279,5 +282,25 @@ public class ServerServiceImpl implements ServerService {
 		return map;
 	}
 
-	
+	@Override
+	public Map<String, Object> memoInfo(String agentName, String serverName)
+			throws Exception {
+		long startTime = System.currentTimeMillis();
+		HashMap<String, Object> map=new HashMap<String, Object>();
+		ServerClient serverClient=new ServerClient(agentName);
+		HashMap hashMap = new HashMap();
+		try {
+			hashMap =serverClient.getMemoInfo(serverName);
+			map.put("CODE", 0);
+			map.put("data", hashMap);
+			map.put("MESSAGE", "成功");
+		} catch (Exception e) {
+			map.put("CODE", 1);
+			map.put("MESSAGE", e.getMessage());
+		}
+		long endTime = System.currentTimeMillis();
+		log.info("server-memoInfo程序运行时间："+(endTime-startTime)+"ms");
+		return map;
+	}
+
 }

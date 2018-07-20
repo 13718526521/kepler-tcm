@@ -29,4 +29,6 @@ public interface ServerService{
 	
 	Map<String, Object> monitorport(String agentName,String serverName) throws Exception;
 	
+	Map<String, Object> memoInfo(String agentName,String serverName) throws Exception;
+	
 }

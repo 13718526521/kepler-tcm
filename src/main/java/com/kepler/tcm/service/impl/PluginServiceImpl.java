@@ -218,18 +218,25 @@ public class PluginServiceImpl implements PluginService {
 		param_map.put("entryClass", plugin.getEntryClass());
 		StringList fileList = new StringList();
 		String path="";
+		String str=plugin.getEntryClass();
+		if (str.indexOf(".")!=-1){
+			 path=str.substring(0, str.lastIndexOf(".")+1).replace(".", "/");
+		}else{
+			path="";
+		}
 		for (int i = 0; i < file.length; i++) {
 			String ext = FileTools.extractFileExt(file[i].getOriginalFilename());
 			if(ext.equalsIgnoreCase(".class")){
-				pluginClient.addPluginFile(file[i].getInputStream(), server, file[i].getOriginalFilename(), 0, -1);
+				pluginClient.addPluginFile(file[i].getInputStream(), server,path, file[i].getOriginalFilename() , 0, -1);
 			}else if(ext.equalsIgnoreCase(".jar")){
-				pluginClient.addPluginFile(file[i].getInputStream(), server, file[i].getOriginalFilename(), 1, -1);
+				pluginClient.addPluginFile(file[i].getInputStream(), server,path, file[i].getOriginalFilename(), 1, -1);
 			}else{
-				pluginClient.addPluginFile(file[i].getInputStream(), server, file[i].getOriginalFilename(), 2, -1);
+				pluginClient.addPluginFile(file[i].getInputStream(), server,path, file[i].getOriginalFilename(), 2, -1);
 			}
 			fileList.setValue(file[i].getOriginalFilename(), file[i].getOriginalFilename());
 		}
 		param_map.put("fileList", fileList.getAllText());
+		log.info(param_map.toString());
 		try {
 			pluginClient.addPlugin(param_map);
 			map.put("CODE",0);
@@ -256,15 +263,21 @@ public class PluginServiceImpl implements PluginService {
 		param_map.put("entryClass", plugin.getEntryClass());
 		StringList fileList = new StringList();
 		String path="";
+		String str=plugin.getEntryClass();
+		if (str.indexOf(".")!=-1){
+			 path=str.substring(0, str.lastIndexOf(".")+1).replace(".", "/");
+		}else{
+			path="";
+		}
 		for (int i = 0; i < file.length; i++) {
 			if(file[i].getOriginalFilename().equals("")){}else{
 				String ext = FileTools.extractFileExt(file[i].getOriginalFilename());
 				if(ext.equalsIgnoreCase(".class")){
-					pluginClient.addPluginFile(file[i].getInputStream(), server, file[i].getOriginalFilename(), 0, -1);
+					pluginClient.addPluginFile(file[i].getInputStream(), server,path, file[i].getOriginalFilename(), 0, -1);
 				}else if(ext.equalsIgnoreCase(".jar")){
-					pluginClient.addPluginFile(file[i].getInputStream(), server, file[i].getOriginalFilename(), 1, -1);
+					pluginClient.addPluginFile(file[i].getInputStream(), server,path, file[i].getOriginalFilename(), 1, -1);
 				}else{
-					pluginClient.addPluginFile(file[i].getInputStream(), server, file[i].getOriginalFilename(), 2, -1);
+					pluginClient.addPluginFile(file[i].getInputStream(), server,path,file[i].getOriginalFilename(), 2, -1);
 				}
 				fileList.setValue(file[i].getOriginalFilename(), file[i].getOriginalFilename());
 			}

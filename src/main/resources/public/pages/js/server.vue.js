@@ -32,6 +32,7 @@ $(function() {
         type: "get",
         url: util.agent().baseUrl + "/agent/query",
         data: {},
+        async: true,
         success: function(data) {
         	if(data.CODE==0){
         		arr=data.data;
@@ -49,33 +50,10 @@ $(function() {
 		error: function() {
 		}
     });
-	 
-	setInterval(function(){
-		$.ajax({
-	        type: "get",
-	        url: util.agent().baseUrl + "/agent/query",
-	        data: {},
-	        success: function(data) {
-	        	if(data.CODE==0){
-	        		arr=data.data;
-		        	for (var i in arr){
-		        		id=arr[i].id;
-		        		agentName=arr[i].agentName;
-						agent=agentName.split(":")[0];
-						port=agentName.split(":")[1];
-						agentconnect(id,agent,port);
-		        	}
-	        	}else{
-	        		alert('暂时没有数据');
-	        	}
-	        },
-			error: function() {
-			}
-	    });
-		init(1);
-	}, 60000);
-    
+	
 });
+
+
 
 var initFunc = function(){
 	return {
@@ -558,3 +536,29 @@ function init(index) {
         }
 	});
 }
+
+
+setInterval(function(){
+	$.ajax({
+        type: "get",
+        url: util.agent().baseUrl + "/agent/query",
+        data: {},
+        success: function(data) {
+        	if(data.CODE==0){
+        		arr=data.data;
+	        	for (var i in arr){
+	        		id=arr[i].id;
+	        		agentName=arr[i].agentName;
+					agent=agentName.split(":")[0];
+					port=agentName.split(":")[1];
+					agentconnect(id,agent,port);
+	        	}
+        	}else{
+        		alert('暂时没有数据');
+        	}
+        },
+		error: function() {
+		}
+    });
+	init(1);
+}, 60000);

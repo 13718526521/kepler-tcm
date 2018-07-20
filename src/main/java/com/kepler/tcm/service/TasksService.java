@@ -2,6 +2,7 @@ package com.kepler.tcm.service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public interface TasksService {
 
@@ -11,7 +12,7 @@ public interface TasksService {
 
 	void remove(String agentAndServer, String taskId) throws Exception;
 
-	HashMap pages(String agentAndServer, String name, int pageNum, int pageSize);
+	Map pages(String agentAndServer, int pageNum, int pageSize);
 
 	void startTask(String agentAndServer,String taskId) throws Exception;
 

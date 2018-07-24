@@ -1,4 +1,4 @@
-var agentName;
+var agentName,tasksTitleData;
 $(function(){
 	
 	agentName = getUrlParam("agentName");
@@ -10,7 +10,12 @@ $(function(){
 	plugSelect();
 	//迭代左侧菜单栏
 	tasksTitle();
-	
+	console.log(tasksTitleData);
+	/*for(var i=0;i<tasksTitleData.length;i++){
+	    $("#",tasksTitleData[i].taskID,"").bind("click",function(event){
+	      console.log($("#",tasksTitleData[i].taskID,"").attr("value"));
+	   });
+	} */ 
 })
 
 //获取url地址参数
@@ -161,6 +166,7 @@ function tasksTitle(){
         url: util.agent().baseUrl + "/tasks/findAll",
         async: false,
         success: function(data) {
+        	tasksTitleData = data;
             var html = [];
             	for(var i in data){
             		html.push(
@@ -170,11 +176,13 @@ function tasksTitle(){
                     	)
             		if(data[i].state == 0){
             			html.push('<span class="opt-picture"><i class="fa fa-play" aria-hidden="true"></i></span>',
-            					'<span class="opt-text">',data[i].taskName,'</span>',
+            					/*'<span onclick="edit()" class="opt-text">',data[i].taskName,'</span>',*/
+            					'<a id=',data[i].taskID,' value=',data[i].taskName,' href="javascript:void(0)" class="opt-text">',data[i].taskName,'</a>',
             					'</li>')
             		}else{
             			html.push('<span class="opt-picture"><i class="fa fa-pause" aria-hidden="true"></i></span>',
-            					'<span class="opt-text">',data[i].taskName,'</span>',
+            					/*'<span onclick="edit()" class="opt-text">',data[i].taskName,'</span>',*/
+            					'<a id=',data[i].taskID,' value=',data[i].taskName,' href="javascript:void(0)" class="opt-text">',data[i].taskName,'</a>',
             					'</li>')
             		}
             		
@@ -187,8 +195,47 @@ function tasksTitle(){
         }
     });
 }
+
+
+//......
+$("#tasksTitle").on("click","li>a",function(){
+	console.log($(this).attr("value"));
+	$("#logTask").show();
+	$("#listenter").hide();
+	$("#newTask").hide();
+	$("#paramsDeploy").hide();
+	$("#editTask").hide();
+})
+
+//运行信息
+function message(){
+	$("#paramsDeploy").hide();
+	$("#editTask").hide();
+	$("#runMessage").show();
+}
+//运行日志
+function logger(){
+	
+}
+
+//参数配置
+function paramsDeploy(){
+	$("#runMessage").hide();
+	$("#editTask").hide();
+	$("#paramsDeploy").show();
+	
+}
+
+//任务属性
+function property(){
+	$("#runMessage").hide();
+	$("#paramsDeploy").hide();
+	$("#editTask").show();
+}
+
 //新建按钮
 $("#newAdd").click(function(){
+	$("#logTask").hide();
 	$("#listenter").hide();
 	$("#newTask").show();
 	$("#taskName").val("");
@@ -320,7 +367,7 @@ $(".submit").click(function(){
 		type: "post",
 		url: util.agent().baseUrl + "/tasks/add.json",
 		data: params,
-		async: true,
+		async: false,
 		success: function() {
 			layer.msg("新建成功", {
 				time: 1000
@@ -338,6 +385,9 @@ $(".submit").click(function(){
 	$("#newTask").hide();
 	$("#listenter").show();
 })
+
+//修改
+
 
 //启动任务
 $("#start").click(function(){
@@ -511,6 +561,7 @@ $("#remove").click(function(){
 
 //监控任务
 $("#monitor").click(function(){
+	$("#logTask").hide();
 	$("#newTask").hide();
 	$("#listenter").show();
 	taskRun();
@@ -552,10 +603,10 @@ function taskRun(){
     });
 }
 //定时器  实时查看监控数据
-setInterval(function(){
+/*setInterval(function(){
 	taskRun();
 	init(1);
-},5000)
+},5000)*/
 
 //表格数据及分页
 var vm = new Vue({
@@ -622,7 +673,6 @@ function init(index) {
 		async: true,
 		data: params,
 		success: function(data) {
-			console.log(data)
 			if(data.error!=null&&data.error!=undefined){
 				$(".loading").hide();
 	            layer.msg("请求异常", {
@@ -633,10 +683,12 @@ function init(index) {
             vm.showItem = 5;
             vm.allpage = data.totalPages;
             vm.totalNum = data.totalCount;
-			if(data.data.length>0&&data!=undefined){
-				vm.current = index;
-        		$("#app .no-data").remove();
-        	}else{
+            if(data.data!=null){
+            	if(data.data.length>0&&data!=undefined){
+    				vm.current = index;
+            		$("#app .no-data").remove();
+            	}
+            }else{
         		vm.current = 0;
         		$("#app table>tbody").empty();
         		$("#app .no-data").remove();

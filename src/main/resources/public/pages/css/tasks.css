@@ -450,3 +450,9 @@ fieldset > legend{
     border-color: rgba(0,0,0,.2)!important;
     border-style: solid;
 }
+.runMessageTr {
+	height: 30px;
+}
+.runMessageTd {
+	width : 100px;
+}

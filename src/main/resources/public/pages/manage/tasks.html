@@ -305,6 +305,228 @@
 					   	        </div>
 					   	    </div>
 					   	</div>
+					   	<div class="tasks-content tasks-listenter" id="logTask">
+					   	    <div>
+					   	        <h4 class="task-title">[taskId]&nbsp名字</h4>
+					   	    </div>
+					   	    <div style="margin-top: 10px">
+					   	        <a onclick="message()" href="javascript:void(0)" class="opt-text">运行信息</a>
+					   	        <a onclick="logger()" href="javascript:void(0)" class="opt-text">运行日志</a>
+					   	        <a onclick="paramsDeploy()" href="javascript:void(0)" class="opt-text">参数配置</a>
+					   	        <a onclick="property()" href="javascript:void(0)" class="opt-text">任务属性</a>
+					   	    </div>
+					   	    <div id="runMessage" style="margin-top: 30px">
+					   	    <table border="1" cellspacing="3" cellpading="3" width="400px" style="border-collapse: collapse;">
+					   	        <tbody>
+					   	             <tr class="runMessageTr">
+					   	                 <td class="runMessageTd">任务名称:</td>
+					   	                 <td>test01</td>
+					   	             </tr>
+					   	             <tr class="runMessageTr">
+					   	                 <td class="runMessageTd">引用插件:</td>
+					   	                 <td>test01</td>
+					   	             </tr>
+					   	             <tr class="runMessageTr">
+					   	                 <td class="runMessageTd">任务启动时间:</td>
+					   	                 <td>test01</td>
+					   	             </tr>
+					   	             <tr class="runMessageTr">
+					   	                 <td class="runMessageTd">最后运行时间:</td>
+					   	                 <td>test01</td>
+					   	             </tr>
+					   	             <tr class="runMessageTr">
+					   	                 <td class="runMessageTd">运行次数:</td>
+					   	                 <td>test01</td>
+					   	             </tr>
+					   	             <tr class="runMessageTr">
+					   	                 <td class="runMessageTd">成功:</td>
+					   	                 <td>test01</td>
+					   	             </tr>
+					   	             <tr class="runMessageTr">
+					   	                 <td class="runMessageTd">失败:</td>
+					   	                 <td>test01</td>
+					   	             </tr>
+					   	             <tr class="runMessageTr">
+					   	                 <td class="runMessageTd">等待:</td>
+					   	                 <td>test01</td>
+					   	             </tr>
+					   	             <tr class="runMessageTr">
+					   	                 <td class="runMessageTd">忽略:</td>
+					   	                 <td>test01</td>
+					   	             </tr>
+					   	        </tbody>
+					   	    </table>
+					   	    </div>
+					   	    <div id="paramsDeploy" style="margin-top: 30px">
+					   	    <table border="1" cellspacing="3" cellpading="3" width="400px" style="border-collapse: collapse;">
+					   	        <tbody>
+					   	             <tr class="runMessageTr">
+					   	                 <td class="runMessageTd">任务名称:</td>
+					   	                 <td>test01</td>
+					   	             </tr>
+					   	             <tr class="runMessageTr">
+					   	                 <td class="runMessageTd">引用插件:</td>
+					   	                 <td>test01</td>
+					   	             </tr>
+					   	             <tr class="runMessageTr">
+					   	                 <td class="runMessageTd">任务启动时间:</td>
+					   	                 <td>test01</td>
+					   	             </tr>
+					   	        </tbody>
+					   	    </table>
+					   	    </div>	
+					   	    <div class="tasks-content tasks-new" style="margin-top: 30px;" id="editTask">
+					   	    <!-- <div class="form-group-3 addHide" style="width: auto">
+					            <span class="checkbox-text"> [00000001] TCM DEMO TASK &nbsp|</span>
+					            <a value="start" style="padding: 5px;" class="checkbox-text" href="javascript:void(0)" @click="audio()">运行信息</a>
+					            <a value="start" style="padding: 5px;" class="checkbox-text" href="javascript:void(0)" @click="audio()">运行日志</a>
+					            <a value="start" style="padding: 5px;" class="checkbox-text" href="javascript:void(0)" @click="audio()">参数配置</a>
+					        </div> -->
+					        <fieldset style="margin-top: 0px;">
+					            <legend>常规</legend>
+					            <div class="form-group" style="width: auto">
+								<label class="label-text">*任务名称：</label>
+								<input id="taskName" type="text" class="form-control"/>
+								<input type="radio" name="disabled" value="0"/><span class="checkbox-text">自动运行</span>
+								<input type="radio" name="disabled" value="1"/><span class="checkbox-text">禁止运行</span>
+							    </div>
+					        <div class="form-group" id = "plugSelect" style="width: auto">
+								<!-- <label class="label-text">*引用插件：</label>
+								<select class="form-control required activeType" v-model="codeTypeId" data-toggle="popover" data-placement="bottom" data-content=""/>
+								<option value="">-- 请选择 --</option>
+								</select>
+								<div class="trangle"></div> -->
+							</div>
+							<div class="form-group form-group-22" id = "dataSelect1">
+							    <!-- <label class="label-text">*数据库：</label>
+								<select class="form-control required activeType" v-model="codeTypeId" data-toggle="popover" data-placement="bottom" data-content=""/>
+								<option value="">-- 请选择 --</option>
+								</select>
+								<div class="trangle" style="left:calc(35% + 120px)"></div>
+								<label>(主要)</label> -->
+							</div>
+							<div class="form-group form-group-22" id = "dataSelect2">
+								<!-- <select class="form-control required activeType" style="margin-left: 15px;" v-model="codeTypeId" data-toggle="popover" data-placement="bottom" data-content=""/>
+								<option value="">-- 请选择 --</option>
+								</select>
+								<div class="trangle" style="left:calc(57%)"></div>
+								<label>(备用)</label> -->
+							</div>
+					        </fieldset>
+					         <fieldset>
+				            <legend>计划</legend>
+				            <div class="form-group" style="width: auto;margin-top: 0px;">
+						    <label style="margin-bottom: 5px">时间格式示例：2049年12月31日 23时59分59秒</label>
+						    </div>
+							<div class="form-group" style="width: auto">
+								<input value="1" type="radio" name="opt" onclick="opt()"></label><span class="radio checkbox-text">&nbsp&nbsp立即执行</span>
+							</div>
+							<div class="form-group" style="width: auto">
+								<input value="2" type="radio" name="opt" onclick="opt1()"></label><span class="radio checkbox-text">&nbsp&nbsp定时执行</span>
+								<input id="year" type="text" class="form-time" name="opt1" disabled/>
+								<label>年</label>
+								<input id="month" type="text" class="form-time" name="opt1" disabled/>
+								<label>月</label>
+								<input id="day" type="text" class="form-time" name="opt1" disabled/>
+								<label>日</label>
+								<input id="hour" type="text" class="form-time" name="opt1" disabled/>
+								<label>时</label>
+								<input id="minute" type="text" class="form-time" name="opt1" disabled/>
+								<label>分</label>
+								<input id="second" type="text" class="form-time" name="opt1" disabled/>
+								<label>秒</label>
+							</div>
+							<div class="form-group" style="width: auto">
+								<input value="3" type="radio" name="opt" onclick="opt2()"></label><span class="radio checkbox-text">&nbsp&nbsp每</span>
+								<input id="mxf" type="text" class="form-time" name="opt2" disabled/>
+								<label>分钟执行一次</label>
+							</div>
+							<div class="form-group" style="width: auto">
+								<input value="4" type="radio" name="opt" onclick="opt3()"></label><span class="radio checkbox-text">&nbsp&nbsp每</span>
+								<input id="mxt" type="text" class="form-time" name="opt3" disabled/>
+								<label>天执行一次 ，每次执行于</label>
+								<input id="hour4" type="text" class="form-time" name="opt3" disabled/>
+								<label>时</label>
+								<input id="minute4" type="text" class="form-time" name="opt3" disabled/>
+								<label>分</label>
+								<input id="second4" type="text" class="form-time" name="opt3" disabled/>
+								<label>秒</label>
+							</div>
+							<div class="form-group" style="width: auto">
+								<input value="5" type="radio" name="opt" onclick="opt4()"></label><span class="radio checkbox-text">&nbsp&nbspCron表达式</span>
+								<input id="cron" type="text" class="form-time-cron" name="opt4" disabled/>
+								<a value="start" href="javascript:void(0)" @click="audio()" style="color:red;">表达式说明</a>
+							</div>
+					         </fieldset>
+					         <fieldset>
+					            <legend>
+					                <input id="taskAlert" type="checkbox" value="1"/><span class="checkbox-text">任务监控报警</span>
+					            </legend>
+					            <div class="form-group" style="width: auto">
+							    <label>出错报警方式:</label>
+							    <input value="0" type="radio" name="opts" onclick="opts()"></label><span class="radio checkbox-text">&nbsp&nbsp报警一次</span>&nbsp&nbsp&nbsp&nbsp
+							    <input value="1" type="radio" name="opts" onclick="opts1()"></label><span class="radio checkbox-text">&nbsp&nbsp保持报警</span>
+							    <input id="keepAlertTime" type="text" class="form-time" name="opts1" disabled/>
+								<label>分钟</label>
+								&nbsp&nbsp&nbsp&nbsp
+							    <input value="2" type="radio" name="opts" onclick="opts2()"></label><span class="radio checkbox-text">&nbsp&nbsp一直报警</span>
+							</div>
+							<div class="form-group" style="width: auto">
+								<input id="notSuccAlert" value="1" type="checkbox"></label><span class="radio checkbox-text">&nbsp&nbsp立即执行</span>
+								<label> 成功记录数报警。 在</label>
+								<input id="notSuccTime" value="10" type="text" class="form-time"/>
+								<label>分钟内”成功记录数“（succNum）没有增加则报警</label>
+							</div>
+							<div class="form-group" style="width: auto">
+								<input id="failAlert" value="1" type="checkbox" kind="Group"></label><span class="radio checkbox-text">&nbsp&nbsp错误记录报警。 错误记录数（failNum）只要变化则报警</span>
+							</div>
+					         </fieldset>
+					         <fieldset>
+					            <legend>其他</legend>
+					            <div class="form-group" style="width: auto">
+							    <label>注：值为“0”表示无限制</label>
+							</div>
+							<div class="form-group" style="width: auto">
+								<label> 保留</label>
+								<input id="logBackNums" type="text" class="form-time"/>
+								<label>个日志， 每个日志最大容量为 </label>
+								<input id="logMaxSize" type="text" class="form-time"/>
+								<label>兆 ， </label>
+							</div>
+							<div class="form-group form-group-2" >
+								<label>“日志一”输出级别为 </label>
+								<select id="logLevel" class="form-control required activeType" v-model="codeTypeId" data-toggle="popover" data-placement="bottom" data-content="请选择有效活动"/>
+								<option value="DEBUG">-- DEBUG --</option>
+								<option value="INFO">-- INFO --</option>
+								<option value="WARN">-- WARN --</option>
+								<option value="ERROR">-- ERROR --</option>
+								<option value="FATAL">-- FATAL --</option>
+								</select>
+								<div class="trangle"></div>
+							</div>
+							<div class="form-group form-group-2" >
+								<label>“日志二”输出级别为 </label>
+								<select id="logLevel2" class="form-control required activeType" v-model="codeTypeId" data-toggle="popover" data-placement="bottom" data-content="请选择有效活动"/>
+								<option value="DEBUG">-- DEBUG --</option>
+								<option value="INFO">-- INFO --</option>
+								<option value="WARN">-- WARN --</option>
+								<option value="ERROR">-- ERROR --</option>
+								<option value="FATAL">-- FATAL --</option>
+								</select>
+								<div class="trangle"></div>
+							</div>
+							<div class="form-group" style="width: auto;clear:both">
+								<label> 单次任务超时设置：</label>
+								<input id="taskTimeout" type="text" class="form-time"/>
+								<label>分钟</label>
+							</div>
+					         </fieldset>
+							<div class="form-group">
+								<button type="reset" class="btn btn-default btn-sm reset" data-dismiss="modal">取消</button>
+								<button type="submit" class="btn btn-blue submit"  data-dismiss="modal">确定</button>
+							</div>
+					   	</div>
+					   	</div>
 					</div>
 				</dd>
 				<div class="clear"></div>				

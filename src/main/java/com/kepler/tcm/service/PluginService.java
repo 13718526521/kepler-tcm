@@ -22,8 +22,8 @@ public interface PluginService {
 
 	Map<String, Object> getpropertybyid(String agentAndServer,String id) throws Exception;
 	
-	Map<String, Object> upload(String agentAndServer,Plugin plugin, MultipartFile[] file) throws Exception;
+	Map<String, Object> upload(String agentAndServer,Plugin plugin, MultipartFile[] file,String[] className,String auto_plugin_id) throws Exception;
 	
-	Map<String, Object> uploadedit(String agentAndServer,Plugin plugin, MultipartFile[] file) throws Exception;
+	Map<String, Object> uploadedit(String agentAndServer,Plugin plugin, MultipartFile[] file,String[] className) throws Exception;
 
 }

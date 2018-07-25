@@ -2,9 +2,15 @@ package com.kepler.tcm.web.controller;
 
 import java.io.File;
 import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +21,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kepler.tcm.service.AgentService;
 import com.kepler.tcm.service.impl.AgentServiceImpl;
+import com.kepler.tcm.util.ArrayUtils;
+import com.kepler.tcm.util.CipherUtil;
+import com.kepler.tcm.util.SequenceUtil;
+import com.netflix.client.http.HttpRequest;
 
 @RestController
 @RequestMapping(value = "/agent")
@@ -62,10 +72,12 @@ public class AgentController {
 	}
 	
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
-	public void test() throws Exception {
-		log.info("path:"+AgentServiceImpl.class.getClassLoader().getResource("agent.conf").getPath());
+	public void test(HttpServletRequest request) throws Exception {
 		log.info("path:"+this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
-		log.info("path:"+this.getClass().getProtectionDomain().getCodeSource().getLocation().getFile());
+		log.info("getRequestURI对应的路径为"+request.getRequestURI()); 
+		log.info("getContextPath对应的路径为"+request.getContextPath()); 
+		log.info("getRealPath对应的路径为"+request.getRealPath("/")); 
+		log.info("getRequestURL对应的路径为"+request.getRequestURL()); 
+		log.info("getResource对应的路径为"+this.getClass().getClassLoader().getResource("").getPath()); 
 	}
-
 }

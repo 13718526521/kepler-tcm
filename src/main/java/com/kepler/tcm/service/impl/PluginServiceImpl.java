@@ -206,37 +206,50 @@ public class PluginServiceImpl implements PluginService {
 	}
 
 	@Override
-	public Map<String, Object> upload(String agentAndServer,Plugin plugin, MultipartFile[] file) throws Exception {
-		String server=agentAndServer.substring(agentAndServer.lastIndexOf("@")+1);
+	public Map<String, Object> upload(String agentAndServer,Plugin plugin, MultipartFile[] file,String[] className,String auto_plugin_id) throws Exception {
 		long startTime = System.currentTimeMillis();
+		String server=agentAndServer.substring(agentAndServer.lastIndexOf("@")+1);
 		PluginClient pluginClient=new PluginClient(agentAndServer);
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		HashMap param_map = new HashMap();
-		param_map.put("id", plugin.getPluginid());
+		String pluginId="";
+		if(auto_plugin_id.equals("0")) {
+			param_map.put("id", plugin.getEntryClass());
+			pluginId=plugin.getEntryClass();
+		}else{
+			param_map.put("id", plugin.getPluginid());
+			pluginId=plugin.getPluginid();
+		}
 		param_map.put("pluginName", plugin.getPluginName());
 		param_map.put("pluginMemo", plugin.getPluginMemo());
 		param_map.put("entryClass", plugin.getEntryClass());
 		StringList fileList = new StringList();
-		String path="";
-		String str=plugin.getEntryClass();
-		if (str.indexOf(".")!=-1){
-			 path=str.substring(0, str.lastIndexOf(".")+1).replace(".", "/");
+		String class_path="";
+		String e_class=plugin.getEntryClass();
+		if (e_class.indexOf(".")!=-1){
+			class_path=e_class.substring(0, e_class.lastIndexOf(".")+1).replace(".", "/");
 		}else{
-			path="";
+			class_path="";
 		}
 		for (int i = 0; i < file.length; i++) {
 			String ext = FileTools.extractFileExt(file[i].getOriginalFilename());
 			if(ext.equalsIgnoreCase(".class")){
-				pluginClient.addPluginFile(file[i].getInputStream(), server,path, file[i].getOriginalFilename() , 0, -1);
+				pluginClient.addPluginFile(file[i].getInputStream(), server,pluginId, class_path+file[i].getOriginalFilename() , -1);
 			}else if(ext.equalsIgnoreCase(".jar")){
-				pluginClient.addPluginFile(file[i].getInputStream(), server,path, file[i].getOriginalFilename(), 1, -1);
+				pluginClient.addPluginFile(file[i].getInputStream(), server,pluginId, file[i].getOriginalFilename() , -1);
 			}else{
-				pluginClient.addPluginFile(file[i].getInputStream(), server,path, file[i].getOriginalFilename(), 2, -1);
+				String className_str=className[i];
+				String className_path;
+				if (className_str.indexOf("/")!=-1){
+					className_path=className_str.substring(0, className_str.lastIndexOf("/")+1);
+				}else{
+					className_path="";
+				}
+				pluginClient.addPluginFile(file[i].getInputStream(), server,pluginId, className_path+file[i].getOriginalFilename() , -1);
 			}
 			fileList.setValue(file[i].getOriginalFilename(), file[i].getOriginalFilename());
 		}
 		param_map.put("fileList", fileList.getAllText());
-		log.info(param_map.toString());
 		try {
 			pluginClient.addPlugin(param_map);
 			map.put("CODE",0);
@@ -251,9 +264,9 @@ public class PluginServiceImpl implements PluginService {
 	}
 
 	@Override
-	public Map<String, Object> uploadedit(String agentAndServer,Plugin plugin, MultipartFile[] file) throws Exception {
-		String server=agentAndServer.substring(agentAndServer.lastIndexOf("@")+1);
+	public Map<String, Object> uploadedit(String agentAndServer,Plugin plugin, MultipartFile[] file,String[] className) throws Exception {
 		long startTime = System.currentTimeMillis();
+		String server=agentAndServer.substring(agentAndServer.lastIndexOf("@")+1);
 		PluginClient pluginClient=new PluginClient(agentAndServer);
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		HashMap param_map = new HashMap();
@@ -262,22 +275,29 @@ public class PluginServiceImpl implements PluginService {
 		param_map.put("pluginMemo", plugin.getPluginMemo());
 		param_map.put("entryClass", plugin.getEntryClass());
 		StringList fileList = new StringList();
-		String path="";
-		String str=plugin.getEntryClass();
-		if (str.indexOf(".")!=-1){
-			 path=str.substring(0, str.lastIndexOf(".")+1).replace(".", "/");
+		String class_path="";
+		String e_class=plugin.getEntryClass();
+		if (e_class.indexOf(".")!=-1){
+			class_path=e_class.substring(0, e_class.lastIndexOf(".")+1).replace(".", "/");
 		}else{
-			path="";
+			class_path="";
 		}
 		for (int i = 0; i < file.length; i++) {
 			if(file[i].getOriginalFilename().equals("")){}else{
 				String ext = FileTools.extractFileExt(file[i].getOriginalFilename());
 				if(ext.equalsIgnoreCase(".class")){
-					pluginClient.addPluginFile(file[i].getInputStream(), server,path, file[i].getOriginalFilename(), 0, -1);
+					pluginClient.addPluginFile(file[i].getInputStream(), server,plugin.getPluginid(), class_path+file[i].getOriginalFilename() , -1);
 				}else if(ext.equalsIgnoreCase(".jar")){
-					pluginClient.addPluginFile(file[i].getInputStream(), server,path, file[i].getOriginalFilename(), 1, -1);
+					pluginClient.addPluginFile(file[i].getInputStream(), server,plugin.getPluginid(), file[i].getOriginalFilename() , -1);
 				}else{
-					pluginClient.addPluginFile(file[i].getInputStream(), server,path,file[i].getOriginalFilename(), 2, -1);
+					String className_str=className[i];
+					String className_path;
+					if (className_str.indexOf("/")!=-1){
+						className_path=className_str.substring(0, className_str.lastIndexOf("/")+1);
+					}else{
+						className_path="";
+					}
+					pluginClient.addPluginFile(file[i].getInputStream(), server,plugin.getPluginid(), className_path+file[i].getOriginalFilename() , -1);
 				}
 				fileList.setValue(file[i].getOriginalFilename(), file[i].getOriginalFilename());
 			}

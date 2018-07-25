@@ -128,6 +128,7 @@
 						<th>插件名称</th>
 						<th>入口类</th>
 						<th>版本</th>
+						<th>状态</th>
 						<th>说明</th>
 						<th>操作</th>
 					</tr>
@@ -136,8 +137,9 @@
 						<tr v-for="(tabtr,index) in tabData">
 							<td>{{tabtr.id}}</td>
 						    <td>{{tabtr.PluginName}}</td>
-							<td>{{tabtr.EntryClass}}</td>
+						    <td>{{tabtr.EntryClass}}</td>
 							<td>{{tabtr.Version}}</td>
+							<td v-html='Verification(tabtr.Error)'></td>
 							<td>{{tabtr.PluginMemo}}</td>
                             <td>
                                 <span class="fa fa-repeat dataReload" @click="dataReload(tabtr.id)" title="重载" data-toggle="modal" style=" padding-right: 10px;"></span><!-- data-target=".reload-modal"  -->

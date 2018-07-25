@@ -28,29 +28,19 @@ $(function(){
 			var e="";
 			if(i >= 0)
 			e=file.name.substring(i).toLowerCase();
-			var server=GetQueryString("server");
-			serverName=server.split("@")[1];
-			var class_path="../servers/"+serverName+'/plugins/classes';
-			var jar_path="../servers/"+serverName+'/plugins/lib';
-			var path="../servers/"+serverName+'/conf';
 			if(e == ".class"){
-				$(this).parent().parent().find("input").attr("placeholder",class_path);
-				$(this).parent().parent().find("input").attr("value",class_path);
-				/*$(this).parent().parent().find("input").attr("readOnly",true);
+				$(this).parent().parent().find("input").attr("readOnly",true);
 				$(this).parent().parent().find("input").attr("style","background-color: rgb(210,210,210);");
-				$(this).parent().find("input").attr("style","display: none;");*/
+				$(this).parent().find("input").attr("style","display: none;");
 			}else if( e == ".jar" ){
-				$(this).parent().parent().find("input").attr("placeholder",jar_path);
-				$(this).parent().parent().find("input").attr("value",jar_path);
-				/*$(this).parent().parent().find("input").attr("readOnly",true);
+				$(this).parent().parent().find("input").attr("readOnly",true);
 				$(this).parent().parent().find("input").attr("style","background-color: rgb(210,210,210);");
-				$(this).parent().find("input").attr("style","display: none;");*/
+				$(this).parent().find("input").attr("style","display: none;");
 			}else{
-				$(this).parent().parent().find("input").attr("placeholder",path);
-				$(this).parent().parent().find("input").attr("value",path);
-				/*$(this).parent().parent().find("input").attr("readOnly",true);
-				$(this).parent().parent().find("input").attr("style","background-color: rgb(210,210,210);");
-				$(this).parent().find("input").attr("style","display: none;");*/
+				$(this).parent().parent().find("input").attr("readOnly",false);
+				$(this).parent().parent().find("input").attr("placeholder","请填写服务器保存路径");
+				$(this).parent().parent().find("input").attr("style","");
+				$(this).parent().find("input").attr("style","display: none;");
 			}
 		});
 	});
@@ -58,8 +48,14 @@ $(function(){
 	$("#addfield").click();
 	
 	$(".submit").click(function(){
+		var flag=$("#pluginid").attr("checked");
 		var server=GetQueryString("server");
 		var form = new FormData(document.getElementById("pluginForm"));
+		if(flag==undefined){
+			form.append("auto_plugin_id", "1");
+		}else{
+			form.append("auto_plugin_id", "0");
+		}
 		form.append("agentAndServer", server);
 		 $.ajax({
 			 url:util.agent().baseUrl + "/plugin/upload",
@@ -84,6 +80,19 @@ $(function(){
 	$(".reset").click(function(){
 		var server=GetQueryString("server");
 		window.location.href="plugins.html?server="+server;
+	});
+	
+	$("#auto_pluginid").click(function(){
+		var flag=$("#pluginid").attr("checked");
+		if(flag==undefined){
+			$("#pluginid").attr("readOnly",true);
+			$("#pluginid").attr("checked","checked");
+			$("#pluginid").attr("style","background-color: rgb(210,210,210);");
+		}else{
+			$("#pluginid").attr("readOnly",false);
+			$("#pluginid").removeAttr("checked");
+			$("#pluginid").attr("style","");
+		}
 	});
 	
 });

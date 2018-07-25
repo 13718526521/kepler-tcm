@@ -137,6 +137,9 @@ var vm = new Vue({
 				 });
 			});
         },
+        Verification: function(c) {
+        	return c.length == 0?'<span class="fa fa-check" style="color:green;"></span>':'<span class="fa fa-remove" style="color:red;"></span>'
+        }
 	}
 });
 $("#query").click(function() {

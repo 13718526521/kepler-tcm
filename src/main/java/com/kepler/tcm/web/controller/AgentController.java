@@ -73,6 +73,21 @@ public class AgentController {
 	
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
 	public void test(HttpServletRequest request) throws Exception {
+		log.info(System.getProperty("os.name"));
+		String os=System.getProperty("os.name");
+		if (os != null && os.toLowerCase().indexOf("linux") > -1) {
+			File file=new File("/tmp/test/agent.conf");
+			if (!file.exists()) {
+				file.setWritable(true, false);
+				file.createNewFile();
+			}
+		}else{
+			File fileDir = new File("C:\\tmp\\test"); 
+			fileDir.mkdirs(); 
+			File file = new File("C:\\tmp\\test\\agent.conf"); 
+			if(!file.exists())
+				file.createNewFile();    
+		}
 		log.info("path:"+this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
 		log.info("getRequestURI对应的路径为"+request.getRequestURI()); 
 		log.info("getContextPath对应的路径为"+request.getContextPath()); 

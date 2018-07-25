@@ -76,9 +76,11 @@ public class AgentController {
 		log.info(System.getProperty("os.name"));
 		String os=System.getProperty("os.name");
 		if (os != null && os.toLowerCase().indexOf("linux") > -1) {
-			File file=new File("/tmp/test/agent.conf");
-			if (!file.exists()) {
-				file.setWritable(true, false);
+			File file = new File("/tmp/test","agent.conf");
+			if(!file.getParentFile().exists()){
+				file.getParentFile().mkdirs();
+			}
+			if(!file.exists()){
 				file.createNewFile();
 			}
 		}else{

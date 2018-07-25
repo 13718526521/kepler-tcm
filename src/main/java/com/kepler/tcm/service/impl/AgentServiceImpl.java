@@ -1,17 +1,21 @@
 package com.kepler.tcm.service.impl;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
@@ -26,15 +30,12 @@ import com.kepler.tcm.service.AgentService;
 public class AgentServiceImpl implements AgentService {
 
 	private AgentConfig agentConfig;
+	
+	@Autowired
+	private Environment env;
 
-	private static final Logger log = LoggerFactory
-			.getLogger(AgentServiceImpl.class);
+	private static final Logger log = LoggerFactory.getLogger(AgentServiceImpl.class);
 
-	/* log.info("getRequestURI对应的路径为"+request.getRequestURI()); */
-	/* log.info("getContextPath对应的路径为"+request.getContextPath()); */
-	/* log.info("getRealPath对应的路径为"+request.getRealPath("/")); */
-	/* log.info("getRequestURL对应的路径为"+request.getRequestURL()); */
-	/* log.info(this.getClass().getClassLoader().getResource("").getPath()); */
 	@Override
 	public Map<String, Object> add(String agentName, String memo) throws Exception {
 		long startTime = System.currentTimeMillis();
@@ -61,13 +62,33 @@ public class AgentServiceImpl implements AgentService {
 	}
 
 	private void getIntence() {
-		try {
-			String path = this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
-			int firstIndex = path.lastIndexOf(System.getProperty("path.separator")) + 1;
-			String agent_path = path.substring(firstIndex,path.lastIndexOf("/kepler-tcm.jar"));
-			agentConfig = new AgentConfig(agent_path, "agent.conf");
-		} catch (Exception e) {
-			e.printStackTrace();
+		String window_path=env.getProperty("spring.application.windows.path");
+		String linux_path=env.getProperty("spring.application.linux.path");
+		String os=System.getProperty("os.name");
+		if (os != null && os.toLowerCase().indexOf("linux") > -1) {
+			File file = new File(linux_path,"agent.conf");
+			if(!file.getParentFile().exists()){
+				file.getParentFile().mkdirs();
+			}
+			try {
+				if(!file.exists()){
+					file.createNewFile();
+				}
+				agentConfig = new AgentConfig(linux_path+"/", "agent.conf");
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}else{
+			File fileDir = new File(window_path); 
+			fileDir.mkdirs(); 
+			File file = new File(window_path+"\\"+"agent.conf");
+			try {
+				if(!file.exists())
+					file.createNewFile(); 
+				agentConfig = new AgentConfig(window_path+"\\", "agent.conf");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 

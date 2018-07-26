@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,9 @@ import org.springframework.web.socket.sockjs.transport.handler.JsonpPollingTrans
 
 import com.alibaba.fastjson.JSON;
 import com.kepler.tcm.client.TaskClient;
+import com.kepler.tcm.core.server.Server;
+import com.kepler.tcm.core.task.RemoteTask;
+import com.kepler.tcm.core.util.Convert;
 import com.kepler.tcm.service.TasksService;
 @Service
 public class TasksServiceImpl implements TasksService{
@@ -118,6 +123,32 @@ public class TasksServiceImpl implements TasksService{
 			e.printStackTrace();
 			return false;
 		}
+	}
+
+	@Override
+	public RemoteTask getTask(String agentAndServer, String taskId) throws Exception {
+		TaskClient t = new TaskClient(agentAndServer);
+		RemoteTask task = t.getTask(taskId);
+		return task;
+	}
+
+	@Override
+	public List getTaskLog(String agentAndServer,String type, String taskId, int pageSize, int pageNum) throws Exception {
+		String nameLog = null;
+		if("0".equals(type)) {
+			nameLog = Server.TASK_LOG_NAME1;
+		}else {
+			nameLog = Server.TASK_LOG_NAME2;
+		}
+		TaskClient t = new TaskClient(agentAndServer);
+		int totalSize = (int) t.getTotalLogSize(taskId,nameLog);
+		int pageCount = (totalSize - 1) / (pageSize * 1024) + 1;
+		if (pageNum == -2 || pageNum > pageCount)
+			pageNum = pageCount;
+		else if (pageNum < 1) pageNum = 1;
+		
+		String taskLog = t.getTaskLog(taskId, nameLog, pageNum, pageSize * 1024);
+		return null;
 	}
 	
 	

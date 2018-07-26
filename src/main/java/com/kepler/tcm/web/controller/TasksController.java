@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kepler.tcm.core.task.RemoteTask;
 import com.kepler.tcm.service.TasksService;
 import com.kepler.tcm.util.SequenceUtil;
 
@@ -72,7 +73,41 @@ public class TasksController {
 	 * 修改
 	 */
 	@RequestMapping(value="/edit",method=RequestMethod.POST)
-	public void edit(String agentAndServer,HashMap map) throws Exception{
+	public void edit(HttpServletRequest req) throws Exception{
+		Map<String, String[]> parameterMap = req.getParameterMap();
+		HashMap map = new HashMap<>();
+		String agentAndServer = StringUtils.join(parameterMap.get("agentAndServer"));
+		map.put("taskName", StringUtils.join(parameterMap.get("taskName")));
+		map.put("disabled", StringUtils.join(parameterMap.get("disabled")));
+		map.put("autoRun", StringUtils.join(parameterMap.get("autoRun")));
+		map.put("pluginId", StringUtils.join(parameterMap.get("pluginId")));
+		map.put("databaseId", StringUtils.join(parameterMap.get("databaseId")));
+		map.put("standbyDatabaseId", StringUtils.join(parameterMap.get("standbyDatabaseId")));
+		map.put("planType", StringUtils.join(parameterMap.get("planType")));
+		map.put("year", StringUtils.join(parameterMap.get("year")));
+		map.put("month", StringUtils.join(parameterMap.get("month")));
+		map.put("day", StringUtils.join(parameterMap.get("day")));
+		map.put("hour", StringUtils.join(parameterMap.get("hour")));
+		map.put("minute", StringUtils.join(parameterMap.get("minute")));
+		map.put("second", StringUtils.join(parameterMap.get("second")));
+		map.put("mxf", StringUtils.join(parameterMap.get("mxf")));
+		map.put("mxt", StringUtils.join(parameterMap.get("mxt")));
+		map.put("hour4", StringUtils.join(parameterMap.get("hour4")));
+		map.put("minute4", StringUtils.join(parameterMap.get("minute4")));
+		map.put("second4", StringUtils.join(parameterMap.get("second4")));
+		map.put("cron", StringUtils.join(parameterMap.get("cron")));
+		map.put("logType", StringUtils.join(parameterMap.get("logType")));
+		map.put("logLevel", StringUtils.join(parameterMap.get("logLevel")));
+		map.put("logLevel2", StringUtils.join(parameterMap.get("logLevel2")));
+		map.put("taskTimeout", StringUtils.join(parameterMap.get("taskTimeout")));
+		map.put("logBackNums", StringUtils.join(parameterMap.get("logBackNums")));
+		map.put("logMaxSize", StringUtils.join(parameterMap.get("logMaxSize")));
+		map.put("taskAlert", StringUtils.join(parameterMap.get("taskAlert")));
+		map.put("alertType", StringUtils.join(parameterMap.get("alertType")));
+		map.put("keepAlertTime", StringUtils.join(parameterMap.get("keepAlertTime")));
+		map.put("notSuccAlert", StringUtils.join(parameterMap.get("notSuccAlert")));
+		map.put("notSuccTime", StringUtils.join(parameterMap.get("notSuccTime")));
+		map.put("failAlert", StringUtils.join(parameterMap.get("failAlert")));
 		tasksService.editTask(agentAndServer,map);
 	}
 	
@@ -144,6 +179,22 @@ public class TasksController {
 	@RequestMapping(value="/isTaskStarted",method=RequestMethod.POST)
 	public boolean isTaskStarted(String agentAndServer,String taskId){
 		return tasksService.isTaskStarted(agentAndServer,taskId);
+	}
+	
+	/**
+	 * 获取任务
+	 */
+	@RequestMapping(value="/getTask",method=RequestMethod.GET)
+	public RemoteTask getTask(String agentAndServer,String taskId) throws Exception{
+		return tasksService.getTask(agentAndServer,taskId);
+	}
+	
+	/**
+	 * 分页
+	 */
+	@RequestMapping(value="/getTaskLog",method=RequestMethod.GET)
+	public List getTaskLog(String agentAndServer,String type,String taskId,int pageSize,int pageNum) throws Exception{
+		return tasksService.getTaskLog(agentAndServer,type,taskId,pageSize,pageNum);
 	}
 	
 	

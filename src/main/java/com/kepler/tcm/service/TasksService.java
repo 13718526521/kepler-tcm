@@ -4,6 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+import com.kepler.tcm.core.task.RemoteTask;
+
 public interface TasksService {
 
 	void add(String agentAndServer, HashMap map) throws Exception;
@@ -21,5 +25,9 @@ public interface TasksService {
 	List findAll(String agentAndServer) throws Exception;
 
 	boolean isTaskStarted(String agentAndServer, String taskId);
+
+	RemoteTask getTask(String agentAndServer, String taskId) throws Exception;
+
+	List getTaskLog(String agentAndServer,String type, String taskId, int pageSize, int pageNum) throws Exception;
 	
 }

@@ -1,6 +1,6 @@
-var agentName,tasksTitleData;
+var agentName,tasksTitleData,aTaskId,aTaskName,type;
 $(function(){
-	
+	console.log(tasksTitleData);
 	agentName = getUrlParam("agentName");
 	
 	//迭代数据库下拉框
@@ -10,7 +10,6 @@ $(function(){
 	plugSelect();
 	//迭代左侧菜单栏
 	tasksTitle();
-	console.log(tasksTitleData);
 	/*for(var i=0;i<tasksTitleData.length;i++){
 	    $("#",tasksTitleData[i].taskID,"").bind("click",function(event){
 	      console.log($("#",tasksTitleData[i].taskID,"").attr("value"));
@@ -166,7 +165,6 @@ function tasksTitle(){
         url: util.agent().baseUrl + "/tasks/findAll",
         async: false,
         success: function(data) {
-        	tasksTitleData = data;
             var html = [];
             	for(var i in data){
             		html.push(
@@ -199,19 +197,81 @@ function tasksTitle(){
 
 //......
 $("#tasksTitle").on("click","li>a",function(){
-	console.log($(this).attr("value"));
+	aTaskId = $(this).attr("id");
+	aTaskName = $(this).attr("value");
 	$("#logTask").show();
 	$("#listenter").hide();
 	$("#newTask").hide();
 	$("#paramsDeploy").hide();
 	$("#editTask").hide();
+	if(tasksTitleData!=null&&tasksTitleData!=""&&tasksTitleData!="undefined"&&aTaskId == tasksTitleData.taskID){
+		return ;
+	}
+	$.ajax({
+        type: "get",
+        data:{"agentAndServer":agentName,"taskId":aTaskId},
+        url: util.agent().baseUrl + "/tasks/getTask",
+        success: function(data) {
+        	tasksTitleData = data;
+            var html = [];
+            console.log(data);
+            	html.push(
+            		'	<table border="1" cellspacing="3" cellpading="3" width="400px" style="border-collapse: collapse;">    ',
+			   	    '    <tbody>                                                                                              ',
+			   	    '         <tr class="runMessageTr">                                                                       ',
+			   	    '             <td class="runMessageTd">任务名称:</td>                                                     ',
+			   	    '             <td>',data.taskInfo[0][1],'</td>                                                                             ',
+			   	    '         </tr>                                                                                           ',
+			   	    '         <tr class="runMessageTr">                                                                       ',
+			   	    '             <td class="runMessageTd">引用插件:</td>                                                     ',
+			   	    '             <td>',data.taskInfo[1][1],'</td>                                                                             ',
+			   	    '         </tr>                                                                                           ',
+			   	    '         <tr class="runMessageTr">                                                                       ',
+			   	    '             <td class="runMessageTd">任务启动时间:</td>                                                 ',
+			   	    '             <td>',data.taskInfo[2][1],'</td>                                                                             ',
+			   	    '         </tr>                                                                                           ',
+			   	    '         <tr class="runMessageTr">                                                                       ',
+			   	    '             <td class="runMessageTd">最后运行时间:</td>                                                 ',
+			   	    '             <td>',data.taskInfo[3][1],'</td>                                                                             ',
+			   	    '         </tr>                                                                                           ',
+			   	    '         <tr class="runMessageTr">                                                                       ',
+			   	    '             <td class="runMessageTd">运行次数:</td>                                                     ',
+			   	    '             <td>',data.taskInfo[4][1],'</td>                                                                             ',
+			   	    '         </tr>                                                                                           ',
+			   	    '         <tr class="runMessageTr">                                                                       ',
+			   	    '             <td class="runMessageTd">成功:</td>                                                         ',
+			   	    '             <td>',data.taskInfo[5][1],'</td>                                                                             ',
+			   	    '         </tr>                                                                                           ',
+			   	    '         <tr class="runMessageTr">                                                                       ',
+			   	    '             <td class="runMessageTd">失败:</td>                                                         ',
+			   	    '             <td>',data.taskInfo[6][1],'</td>                                                                             ',
+			   	    '         </tr>                                                                                           ',
+			   	    '         <tr class="runMessageTr">                                                                       ',
+			   	    '             <td class="runMessageTd">等待:</td>                                                         ',
+			   	    '             <td>',data.taskInfo[7][1],'</td>                                                                             ',
+			   	    '         </tr>                                                                                           ',
+			   	    '         <tr class="runMessageTr">                                                                       ',
+			   	    '             <td class="runMessageTd">忽略:</td>                                                         ',
+			   	    '             <td>',data.taskInfo[8][1],'</td>                                                                             ',
+			   	    '         </tr>                                                                                           ',
+			   	    '    </tbody>                                                                                             ',
+			   	    '</table>                                                                                                 '
+            	)
+            			$("#runMessage").empty().append(html.join(''));
+            
+        },
+        error: function(e) {
+            $(".loading").hide();
+        }
+    });
 })
 
 //运行信息
 function message(){
 	$("#paramsDeploy").hide();
-	$("#editTask").hide();
+	$("#newTask").hide();
 	$("#runMessage").show();
+	
 }
 //运行日志
 function logger(){
@@ -221,20 +281,52 @@ function logger(){
 //参数配置
 function paramsDeploy(){
 	$("#runMessage").hide();
-	$("#editTask").hide();
+	$("#newTask").hide();
 	$("#paramsDeploy").show();
 	
 }
 
 //任务属性
 function property(){
+	type = 1;
 	$("#runMessage").hide();
 	$("#paramsDeploy").hide();
-	$("#editTask").show();
+	$("#newTask").show();
+	console.log(tasksTitleData);
+	$("#taskName").val(tasksTitleData.taskName);
+	$("#pluginId").val("");
+	$("#databaseId").val("");
+	$("#standbyDatabaseId").val("");
+	$("#year").val("");
+	$("#month").val("");
+	$("#day").val("");
+	$("#hour").val("");
+	$("#minute").val("");
+	$("#second").val("");
+	$("#mxf").val("");
+	$("#mxt").val("");
+	$("#hour4").val("");
+	$("#minute4").val("");
+	$("#second4").val("");
+	$("#cron").val("");
+	$("#logLevel").val("");
+	$("#logLevel2").val("");
+	$("#taskTimeout").val("");
+	$("#logBackNums").val("");
+	$("#logMaxSize").val("");
+	$("#taskAlert").val("");
+	$("#keepAlertTime").val("");
+	$("#notSuccAlert").val("");
+	$("#notSuccTime").val("");
+	$("#failAlert").val("");
+	$("input[name='disabled']:checked").val();
+	$("input[name='opt']:checked").val();
+	$("input[name='opts']:checked").val();
 }
 
 //新建按钮
 $("#newAdd").click(function(){
+	type = 0;
 	$("#logTask").hide();
 	$("#listenter").hide();
 	$("#newTask").show();
@@ -363,24 +455,46 @@ $(".submit").click(function(){
 	var params = {};
 	params = addParams();
 	params.agentAndServer = agentName;
-	$.ajax({
-		type: "post",
-		url: util.agent().baseUrl + "/tasks/add.json",
-		data: params,
-		async: false,
-		success: function() {
-			layer.msg("新建成功", {
-				time: 1000
-			});
+	if(type == 0){
+		$.ajax({
+			type: "post",
+			url: util.agent().baseUrl + "/tasks/add.json",
+			data: params,
+			async: false,
+			success: function() {
+				layer.msg("新建成功", {
+					time: 1000
+				});
+		
+				//init(1);
+			},
+			error :function(){
+				layer.msg("新建失败", {
+					time: 1000
+				});
+			}
+	    });
+	}else{
+		$.ajax({
+			type: "post",
+			url: util.agent().baseUrl + "/tasks/edit.json",
+			data: params,
+			async: false,
+			success: function() {
+				layer.msg("修改成功", {
+					time: 1000
+				});
+		
+				//init(1);
+			},
+			error :function(){
+				layer.msg("修改失败", {
+					time: 1000
+				});
+			}
+	    });
+	}
 	
-			//init(1);
-		},
-		error :function(){
-			layer.msg("新建失败", {
-				time: 1000
-			});
-		}
-    });
 	tasksTitle();
 	$("#newTask").hide();
 	$("#listenter").show();

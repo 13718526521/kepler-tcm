@@ -1,4 +1,4 @@
-var agentName,tasksTitleData,aTaskId,aTaskName,type;
+var agentName,tasksTitleData,aTaskId,aTaskName,type,types;
 $(function(){
 	console.log(tasksTitleData);
 	agentName = getUrlParam("agentName");
@@ -203,6 +203,7 @@ $("#tasksTitle").on("click","li>a",function(){
 	$("#listenter").hide();
 	$("#newTask").hide();
 	$("#paramsDeploy").hide();
+	$("#runLogs").hide();
 	$("#editTask").hide();
 	if(tasksTitleData!=null&&tasksTitleData!=""&&tasksTitleData!="undefined"&&aTaskId == tasksTitleData.taskID){
 		return ;
@@ -269,19 +270,114 @@ $("#tasksTitle").on("click","li>a",function(){
 //运行信息
 function message(){
 	$("#paramsDeploy").hide();
+	$("#runLogs").hide();
 	$("#newTask").hide();
 	$("#runMessage").show();
 	
 }
 //运行日志
 function logger(){
+	$("#paramsDeploy").hide();
+	$("#newTask").hide();
+	$("#runMessage").hide();
+	$("#runLogs").show();
+}
+
+function log1(){
 	
+	$("#logWriter").show();
+	types=0;
+	initLogWriter(1);
+}
+
+function log2(){
+	
+	$("#logWriter").show();
+	types=1;
+	initLogWriter(1);
+}
+
+var vm = new Vue({
+	el: "#logWriter",
+	data: {
+		tabData: [],
+		current: 1, //当前显示第几页
+		showItem: 5,
+		allpage: 1,
+		totalNum: 0,
+		checkAll:false,
+		checkModel:[]
+		
+	},
+	computed: {
+		pages: function() {
+			var pag = [];
+			if(this.current < this.showItem) { //如果当前的激活的项 小于要显示的条数
+				//总页数和要显示的条数那个大就显示多少条
+				var i = Math.min(this.showItem, this.allpage);
+				while(i) {
+					pag.unshift(i--);
+				}
+			} else { //当前页数大于显示页数了
+				var middle = this.current - Math.floor(this.showItem / 2), //从哪里开始
+					i = this.showItem;
+				if(middle > (this.allpage - this.showItem)) {
+					middle = (this.allpage - this.showItem) + 1
+				}
+				while(i--) {
+					pag.push(middle++);
+				}
+			}
+			return pag;
+		}
+	},
+	methods: {
+		goto: function(index) {
+			//if(index == this.current) return;
+			this.current = index;
+
+			//这里可以发送ajax请求
+			initLogWriter(index);
+		}
+	}
+});
+
+function initLogWriter(index){
+	var params = {};
+	params.pageNum = index-1;
+    params.pageSize = 5;
+    params.pageNo = 0;
+    params.types = types;
+    params.taskId = aTaskId;
+    params.agentAndServer=agentName; 
+	$.ajax({
+		type: "get",
+		url: util.agent().baseUrl + "/tasks/getTaskLog.json",
+		data: params,
+		async: false,
+		success: function(data) {
+			var html = [];
+            
+        	for(var i in data){
+        		html.push('<tr class="runMessageTr">',
+	                         '<td class="runMessageTd">',data[i],'</td>',
+   	                     '</tr>'
+   	             )
+        	}
+        			$("#tBody").empty().append(html.join(''));
+			
+		},
+		error :function(){
+			
+		}
+    });
 }
 
 //参数配置
 function paramsDeploy(){
 	$("#runMessage").hide();
 	$("#newTask").hide();
+	$("#runLogs").hide();
 	$("#paramsDeploy").show();
 	
 }
@@ -291,35 +387,37 @@ function property(){
 	type = 1;
 	$("#runMessage").hide();
 	$("#paramsDeploy").hide();
+	$("#runLogs").hide();
 	$("#newTask").show();
 	console.log(tasksTitleData);
-	$("#taskName").val(tasksTitleData.taskName);
-	$("#pluginId").val("");
-	$("#databaseId").val("");
-	$("#standbyDatabaseId").val("");
-	$("#year").val("");
-	$("#month").val("");
-	$("#day").val("");
-	$("#hour").val("");
-	$("#minute").val("");
-	$("#second").val("");
-	$("#mxf").val("");
-	$("#mxt").val("");
-	$("#hour4").val("");
-	$("#minute4").val("");
-	$("#second4").val("");
-	$("#cron").val("");
-	$("#logLevel").val("");
-	$("#logLevel2").val("");
-	$("#taskTimeout").val("");
-	$("#logBackNums").val("");
-	$("#logMaxSize").val("");
-	$("#taskAlert").val("");
-	$("#keepAlertTime").val("");
-	$("#notSuccAlert").val("");
-	$("#notSuccTime").val("");
-	$("#failAlert").val("");
-	$("input[name='disabled']:checked").val();
+	$("#taskName").val(tasksTitleData.taskProperty.taskName);
+	$("#pluginId").val(tasksTitleData.taskProperty.pluginId);
+	$("#databaseId").val(tasksTitleData.taskProperty.databaseId);
+	$("#standbyDatabaseId").val(tasksTitleData.taskProperty.standbyDatabaseId);
+	$("#year").val(tasksTitleData.taskProperty.year);
+	$("#month").val(tasksTitleData.taskProperty.month);
+	$("#day").val(tasksTitleData.taskProperty.day);
+	$("#hour").val(tasksTitleData.taskProperty.hour);
+	$("#minute").val(tasksTitleData.taskProperty.minute);
+	$("#second").val(tasksTitleData.taskProperty.second);
+	$("#mxf").val(tasksTitleData.taskProperty.mxf);
+	$("#mxt").val(tasksTitleData.taskProperty.mxt);
+	$("#hour4").val(tasksTitleData.taskProperty.hour4);
+	$("#minute4").val(tasksTitleData.taskProperty.minute4);
+	$("#second4").val(tasksTitleData.taskProperty.second4);
+	$("#cron").val(tasksTitleData.taskProperty.cron);
+	$("#logLevel").val(tasksTitleData.taskProperty.logLevel);
+	$("#logLevel2").val(tasksTitleData.taskProperty.logLevel2);
+	$("#taskTimeout").val(tasksTitleData.taskProperty.taskTimeout);
+	$("#logBackNums").val(tasksTitleData.taskProperty.logBackNums);
+	$("#logMaxSize").val(tasksTitleData.taskProperty.logMaxSize);
+	$("#taskAlert").val(tasksTitleData.taskProperty.taskAlert);
+	$("#keepAlertTime").val(tasksTitleData.taskProperty.keepAlertTime);
+	$("#notSuccAlert").val(tasksTitleData.taskProperty.notSuccAlert);
+	$("#notSuccTime").val(tasksTitleData.taskProperty.notSuccTime);
+	$("#failAlert").val(tasksTitleData.taskProperty.failAlert);
+	var dis = $("input[name='disabled']:checked").val();
+	$("input[name='disabled']:checked").eq(0).attr("checked",true);
 	$("input[name='opt']:checked").val();
 	$("input[name='opts']:checked").val();
 }
@@ -455,6 +553,7 @@ $(".submit").click(function(){
 	var params = {};
 	params = addParams();
 	params.agentAndServer = agentName;
+	params.taskID = aTaskId;
 	if(type == 0){
 		$.ajax({
 			type: "post",
@@ -497,6 +596,7 @@ $(".submit").click(function(){
 	
 	tasksTitle();
 	$("#newTask").hide();
+	$("#logTask").hide();
 	$("#listenter").show();
 })
 

@@ -77,6 +77,7 @@ public class TasksController {
 		Map<String, String[]> parameterMap = req.getParameterMap();
 		HashMap map = new HashMap<>();
 		String agentAndServer = StringUtils.join(parameterMap.get("agentAndServer"));
+		map.put("taskID", StringUtils.join(parameterMap.get("taskID")));
 		map.put("taskName", StringUtils.join(parameterMap.get("taskName")));
 		map.put("disabled", StringUtils.join(parameterMap.get("disabled")));
 		map.put("autoRun", StringUtils.join(parameterMap.get("autoRun")));
@@ -193,8 +194,8 @@ public class TasksController {
 	 * 分页
 	 */
 	@RequestMapping(value="/getTaskLog",method=RequestMethod.GET)
-	public List getTaskLog(String agentAndServer,String type,String taskId,int pageSize,int pageNum) throws Exception{
-		return tasksService.getTaskLog(agentAndServer,type,taskId,pageSize,pageNum);
+	public List getTaskLog(String agentAndServer,String types,String taskId,int pageNo,int pageNum,int pageSize) throws Exception{
+		return tasksService.getTaskLog(agentAndServer,types,taskId,pageNo,pageNum,pageSize);
 	}
 	
 	

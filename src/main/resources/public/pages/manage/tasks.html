@@ -38,7 +38,6 @@
 					    <button  type="button" class="btn btn-blue query-btn"><span class="glyphicon glyphicon-search"></span> 全选</button>
 					    <button  id="start" type="button" class="btn btn-blue query-btn"><span class="glyphicon glyphicon-search"></span> 启动</button>
 					    <button id="stop" type="button" class="btn btn-blue query-btn"><span class="glyphicon glyphicon-search"></span> 停止</button>
-					    <button  type="button" class="btn btn-blue query-btn"><span class="glyphicon glyphicon-search"></span> 终止</button>
 					    <button id="remove"  type="button" class="btn btn-blue query-btn"><span class="glyphicon glyphicon-search"></span> 删除</button>
 					</div>
 					<div class="opt-btn2">
@@ -95,6 +94,18 @@
 					   	        <a onclick="property()" href="javascript:void(0)" class="opt-text">任务属性</a>
 					   	    </div>
 					   	    <div id="runMessage" style="margin-top: 30px">
+					   	    </div>
+					   	    <div id="runLogs" style="margin-top: 30px">
+						   	    <div>
+						   	        <a onclick="log1()" href="javascript:void(0)" class="opt-text">查看日志一</a>
+						   	        <a onclick="log2()" href="javascript:void(0)" class="opt-text">查看日志二</a>
+						   	    </div>
+						   	    <table id="logWriter"  width="400px">
+						   	        <tbody id="tBody">
+										
+									</tbody>
+						   	    </table>
+						   	    
 					   	    </div>
 					   	    <div id="paramsDeploy" style="margin-top: 30px">
 					   	    <table border="1" cellspacing="3" cellpading="3" width="400px" style="border-collapse: collapse;">

@@ -133,7 +133,7 @@ public class TasksServiceImpl implements TasksService{
 	}
 
 	@Override
-	public List getTaskLog(String agentAndServer,String type, String taskId, int pageSize, int pageNum) throws Exception {
+	public List getTaskLog(String agentAndServer,String type, String taskId, int pageNo,int pageNum, int pageSize) throws Exception {
 		String nameLog = null;
 		if("0".equals(type)) {
 			nameLog = Server.TASK_LOG_NAME1;
@@ -143,12 +143,25 @@ public class TasksServiceImpl implements TasksService{
 		TaskClient t = new TaskClient(agentAndServer);
 		int totalSize = (int) t.getTotalLogSize(taskId,nameLog);
 		int pageCount = (totalSize - 1) / (pageSize * 1024) + 1;
-		if (pageNum == -2 || pageNum > pageCount)
-			pageNum = pageCount;
-		else if (pageNum < 1) pageNum = 1;
+		if (pageNo == -2 || pageNo > pageCount)
+			pageNo = pageCount;
+		else if (pageNo < 1) pageNo = 1;
 		
-		String taskLog = t.getTaskLog(taskId, nameLog, pageNum, pageSize * 1024);
-		return null;
+		String taskLogs = t.getTaskLog(taskId, nameLog, pageNo, pageSize * 1024);
+		String[] split = taskLogs.split("(\r\n)|(\n)");
+		List list = new ArrayList<>();
+		int leng = 0;
+		int pageS = 12;
+		if(pageNum*pageS+pageS<=split.length) {
+			leng = pageNum*pageS+pageS;
+		}else {
+			leng = list.size();
+		}
+		for(int i= pageNum*pageS; i<leng; i++) {
+			list.add(split[i]);
+		}
+		
+		return list;
 	}
 	
 	

@@ -1,6 +1,6 @@
 var agentName,tasksTitleData,aTaskId,aTaskName,type,types;
 $(function(){
-	console.log(tasksTitleData);
+	type=0;
 	agentName = getUrlParam("agentName");
 	
 	//迭代数据库下拉框
@@ -817,10 +817,10 @@ function taskRun(){
     });
 }
 //定时器  实时查看监控数据
-/*setInterval(function(){
+setInterval(function(){
 	taskRun();
 	init(1);
-},5000)*/
+},5000)
 
 //表格数据及分页
 var vm = new Vue({

@@ -1,6 +1,6 @@
 $(function() {
 	
-	var server=GetQueryString("server");
+	var server=GetQueryString("agentName");
 	agentName=server.split("@")[0];
 	serverName=server.split("@")[1];
 
@@ -74,7 +74,7 @@ var vm = new Vue({
 		},
 		//重新载入
 		dataReload: function(id) {
-			var server=GetQueryString("server");
+			var server=GetQueryString("agentName");
 			 $.ajax({
 	              type: "post",
 	              url: util.agent().baseUrl + "/plugin/reload",
@@ -97,7 +97,7 @@ var vm = new Vue({
 		},
         //修改
 		dataChange: function(ind,pluginName,entryClass) {
-			var server=GetQueryString("server");
+			var server=GetQueryString("agentName");
 			window.location.href="plugins_edit.html?server="+server+"&id="+ind;
 /*			$(".new-modal .modal-title").text('插件 - 修改');
 				addChange.modelData = JSON.parse(JSON.stringify(vm.tabData[ind]));
@@ -114,7 +114,7 @@ var vm = new Vue({
         },
         //删除
         dataDelete: function(id) {
-        	var server=GetQueryString("server");
+        	var server=GetQueryString("agentName");
         	$(".delete-modal .modal-title").text('提示信息');
 			$(".delete-modal .modal-body>div:nth-child(2)").text(id);
 			$(".delete-modal button[type=submit]").unbind('click').click(function() {
@@ -148,8 +148,8 @@ $("#query").click(function() {
 });
 
 $(".add_btn").click(function() {
-	var server=GetQueryString("server");
-	window.location.href="plugins_add.html?server="+server;
+	var server=GetQueryString("agentName");
+	window.location.href="plugins_add.html?agentName="+server;
 });
 
 /*$('.new-modal button[type=submit]').click(

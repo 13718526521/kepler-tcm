@@ -1,6 +1,6 @@
 $(function(){
 	var _num = 0;
-	var server=GetQueryString("server");
+	var server=GetQueryString("agentName");
 	var id=GetQueryString("id");
 	GetProperty(server,id);
 	
@@ -51,7 +51,7 @@ $(function(){
 });
 
 $(".submit").click(function(){
-	var server=GetQueryString("server");
+	var server=GetQueryString("agentName");
 	var form = new FormData(document.getElementById("pluginFormedit"));
 	form.append("agentAndServer", server);
 	 $.ajax({
@@ -76,8 +76,8 @@ $(".submit").click(function(){
 });
 
 $(".reset").click(function(){
-	var server=GetQueryString("server");
-	window.location.href="plugins.html?server="+server;
+	var server=GetQueryString("agentName");
+	window.location.href="plugins.html?agentName="+server;
 });
 function GetProperty(server,id){
 	$.ajax({
@@ -100,7 +100,7 @@ function GetProperty(server,id){
 				var val='';
 				if(f >= 0)
 				e=data[i].substring(f).toLowerCase();
-				var server=GetQueryString("server");
+				var server=GetQueryString("agentName");
 				serverName=server.split("@")[1];
 				var class_path="../servers/"+serverName+'/plugins/classes';
 				var jar_path="../servers/"+serverName+'/plugins/lib';
@@ -137,7 +137,7 @@ function GetProperty(server,id){
 					var e="";
 					if(i >= 0)
 					e=file.name.substring(i).toLowerCase();
-					var server=GetQueryString("server");
+					var server=GetQueryString("agentName");
 					serverName=server.split("@")[1];
 					var class_path="../servers/"+serverName+'/plugins/classes';
 					var jar_path="../servers/"+serverName+'/plugins/lib';

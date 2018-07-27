@@ -49,7 +49,7 @@ $(function(){
 	
 	$(".submit").click(function(){
 		var flag=$("#pluginid").attr("checked");
-		var server=GetQueryString("server");
+		var server=GetQueryString("agentName");
 		var form = new FormData(document.getElementById("pluginForm"));
 		if(flag==undefined){
 			form.append("auto_plugin_id", "1");
@@ -78,8 +78,8 @@ $(function(){
 	});
 
 	$(".reset").click(function(){
-		var server=GetQueryString("server");
-		window.location.href="plugins.html?server="+server;
+		var server=GetQueryString("agentName");
+		window.location.href="plugins.html?agentName="+server;
 	});
 	
 	$("#auto_pluginid").click(function(){

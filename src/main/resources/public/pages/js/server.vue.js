@@ -59,21 +59,21 @@ var initFunc = function(){
 	return {
 		dataManage: function(agentName,serverName,started){
 			if(started=='true'){
-				window.location.href="database_config.html?server="+agentName+"@"+serverName;		
+				window.location.href="database_config.html?agentName="+agentName+"@"+serverName;		
 			}else{
 				alert('应用服务器尚未启动，请先启动！');
 			}
 		},
 		taskManage: function(agentName,serverName,started){
 			if(started=='true'){
-				window.location.href="tasks.html?server="+agentName+"@"+serverName;		
+				window.location.href="tasks.html?agentName="+agentName+"@"+serverName;		
 			}else{
 				alert('应用服务器尚未启动，请先启动！');
 			}
 		},
 		pluginManage: function(agentName,serverName,started){
 			if(started=='true'){
-				window.location.href="plugins.html?server="+agentName+"@"+serverName;		
+				window.location.href="plugins.html?agentName="+agentName+"@"+serverName;		
 			}else{
 				alert('应用服务器尚未启动，请先启动！');
 			}

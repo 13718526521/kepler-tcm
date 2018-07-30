@@ -98,7 +98,7 @@ var vm = new Vue({
         //修改
 		dataChange: function(ind,pluginName,entryClass) {
 			var server=GetQueryString("agentName");
-			window.location.href="plugins_edit.html?server="+server+"&id="+ind;
+			window.location.href="plugins_edit.html?agentName="+server+"&id="+ind;
 /*			$(".new-modal .modal-title").text('插件 - 修改');
 				addChange.modelData = JSON.parse(JSON.stringify(vm.tabData[ind]));
 				pluginid = vm.tabData[ind].id;

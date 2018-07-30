@@ -68,7 +68,7 @@ $(function(){
            		  alert(data.MESSAGE);
            	  }else{
            		  layer.msg("添加成功", { time: 1000 });
-           		  window.location.href="plugins.html?server="+server;
+           		  window.location.href="plugins.html?agentName="+server;
            	  }
 			 },
 	      	 error: function() {

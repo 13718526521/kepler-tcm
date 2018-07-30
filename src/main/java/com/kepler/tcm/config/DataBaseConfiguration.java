@@ -23,8 +23,8 @@ import com.alibaba.druid.pool.DruidDataSource;
  * @date 2017年3月20日
  * @version V1.0
  */
-@Configuration
-@EnableTransactionManagement
+//@Configuration
+//@EnableTransactionManagement
 public class DataBaseConfiguration implements EnvironmentAware{
 
 	 private RelaxedPropertyResolver propertyResolver;  

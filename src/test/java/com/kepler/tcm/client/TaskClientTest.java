@@ -34,7 +34,7 @@ public class TaskClientTest {
 	@Test
 	public void testAddTask() throws Exception {
 		HashMap map = new HashMap();
-		map.put("taskName", "test");
+		map.put("taskName", "test02");
 		map.put("alertType", "0");
 		map.put("cron", "");
 		map.put("databaseId", "");
@@ -57,7 +57,7 @@ public class TaskClientTest {
 		map.put("pluginId", "10001");
 		map.put("second", "3");
 		map.put("second4", "3");
-		map.put("databaseId", "1001");
+		map.put("databaseId", "1");
 		map.put("standbyDatabaseId", "1002");
 		map.put("taskAlert", "1");
 		map.put("taskTimeout", "0");
@@ -68,13 +68,13 @@ public class TaskClientTest {
 
 	@Test
 	public void testGetTask() throws Exception {
-		RemoteTask map = taskClient.getTask("00000001");
+		RemoteTask map = taskClient.getTask("1001");
 		System.out.println(map.isStarted());
 	}
 
 	@Test
 	public void testRemoveTask() throws Exception {
-		taskClient.removeTask("00000001");
+		taskClient.removeTask("1001");
 	}
 
 	@Test

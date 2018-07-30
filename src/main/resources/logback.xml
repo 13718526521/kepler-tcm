@@ -14,7 +14,7 @@
     <property name="ENCODER_PATTERN" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"/>
     
     <!-- 日志通用等级level   日志等级：TRACE, DEBUG, INFO, WARN, ERROR, ALL 和 OFF  -->
-	<property name="LOG_LEVEL" value="INFO"/>
+	<property name="LOG_LEVEL" value="DEBUG"/>
 	
 	<!-- 控制台输出日志 -->
 	<appender name="Console" class="ch.qos.logback.core.ConsoleAppender">

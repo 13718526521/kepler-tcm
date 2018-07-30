@@ -19,9 +19,9 @@ public class ServerClientTest {
 	@Before
 	public void setUp() throws Exception {
 		
-		//String agentAndServer = "172.16.13.248:1098@server_01";
-		
 		String agentAndServer = "127.0.0.1:1098";
+		
+		//String agentAndServer = "127.0.0.1:1098";
 		
 		serverClient = serverClient ==  null ? new ServerClient(agentAndServer): serverClient ;
 	}

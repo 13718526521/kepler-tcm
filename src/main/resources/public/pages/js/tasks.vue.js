@@ -199,6 +199,9 @@ function tasksTitle(){
 $("#tasksTitle").on("click","li>a",function(){
 	aTaskId = $(this).attr("id");
 	aTaskName = $(this).attr("value");
+	var html1 = [];
+	html1.push("<h4 class='task-title' style='font-size: 15px;'>[",aTaskId,"]&nbsp",aTaskName,"</h4>");
+	$("#taskIdName").empty().append(html1.join(''));
 	$("#logTask").show();
 	$("#listenter").hide();
 	$("#newTask").hide();

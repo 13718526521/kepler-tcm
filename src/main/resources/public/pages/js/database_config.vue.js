@@ -1,8 +1,7 @@
 var server,dbName,dbDriver,dbUrl,dbUser,dbPass,type,overId;
 $(function() {
 	
-	server = GetQueryString("server");
-	
+	server = GetQueryString("agentName");
     $(".pagleft input").on("change", function() {
         this.value = this.value.replace(/[^0-9]+/, '');
         if(this.value <= 0) {
@@ -262,6 +261,7 @@ function init(index) {
 	            layer.msg("请求异常", {
 	                time : 1500
 	            });
+	            return ;
 			}
 			vm.tabData = data.data;               
             vm.showItem = 5;

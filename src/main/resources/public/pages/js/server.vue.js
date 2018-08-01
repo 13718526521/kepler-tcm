@@ -1,5 +1,13 @@
 $(function() {
 	
+	 $(".required").hover(function() {
+			if($(this).val() == '') {
+				$(this).popover('show');
+			}
+		}, function() {
+			$(this).popover('hide');
+		});
+	
 	init(1);
 	
 	$(".accordion").on("click","dt>a",function(e){
@@ -28,6 +36,8 @@ $(function() {
 		 }
 	 });
 	
+	
+	
 	$.ajax({
         type: "get",
         url: util.agent().baseUrl + "/agent/query",
@@ -44,7 +54,6 @@ $(function() {
 					agentconnect(id,agent,port);
 	        	}
         	}else{
-        		alert('暂时没有数据');
         	}
         },
 		error: function() {
@@ -148,12 +157,52 @@ var initFunc = function(){
 				sub_Data.serverPort = $("#serverPort").val();
 				sub_Data.monitorPort = $("#monitorPort").val();
 				sub_Data.memo = $("#applicationmemo").val();
+				if(sub_Data.serverPort=='' || sub_Data.serverPort==""){
+					$("#serverPort").attr("data-content","必填项不能为空");
+			        $("#serverPort").popover('show');
+			        setTimeout(function () {
+			            $("#serverPort").popover('hide');
+			        }, 3000);
+			        return;
+				}
+				if(sub_Data.monitorPort=='' || sub_Data.monitorPort==""){
+					$("#monitorPort").attr("data-content","必填项不能为空");
+			        $("#monitorPort").popover('show');
+			        setTimeout(function () {
+			            $("#monitorPort").popover('hide');
+			        }, 3000);
+			        return;
+				}
 				if (!(/^[0-9]*$/.test(sub_Data.serverPort))) {
-					alert('应用服务器端口号只能为数字');
-					return;
+			        $("#serverPort").attr("data-content","应用服务器端口号只能为数字");
+			        $("#serverPort").popover('show');
+			        setTimeout(function () {
+			            $("#serverPort").popover('hide');
+			        }, 3000);
+			        return;
 				}
 				if (!(/^[0-9]*$/.test(sub_Data.monitorPort))) {
-					alert('应用服务器监控端口号只能为数字');
+					 $("#monitorPort").attr("data-content","应用服务器监控端口号只能为数字");
+				     $("#monitorPort").popover('show');
+			         setTimeout(function () {
+			            $("#monitorPort").popover('hide');
+			         }, 3000);
+			         return;
+				}
+				if(sub_Data.serverPort<1 || sub_Data.serverPort>65535){
+					$("#serverPort").attr("data-content","应用服务器端口号必须为1~65535");
+				    $("#serverPort").popover('show');
+			        setTimeout(function () {
+			            $("#serverPort").popover('hide');
+			        }, 3000);
+					return;
+				}
+				if(sub_Data.monitorPort<1 || sub_Data.monitorPort>65535){
+					$("#monitorPort").attr("data-content","应用服务器监控端口号必须为1~65535");
+				    $("#monitorPort").popover('show');
+			        setTimeout(function () {
+			            $("#monitorPort").popover('hide');
+			        }, 3000);
 					return;
 				}
 				 $.ajax({
@@ -332,8 +381,38 @@ $('.agent-new-modal button[type=submit]').unbind('click').click(
 			sub_Data.agent = $("#agent").val();
 			sub_Data.port = $("#port").val();
 			sub_Data.memo = $("#memo").val();
-			if (!(/^[0-9]*$/.test(sub_Data.port))) {
-				alert('服务器代理端口号只能为数字');
+			for(var i = 0; i < $("#agent-addChange .required").length; i++) {
+				if($("#agent-addChange .required").eq(i).val() == '') {
+					$("#agent-addChange .required").attr("data-content","必填项不能为空");
+		            $("#agent-addChange .required").eq(i).focus().popover('show');
+		            setTimeout(function () {
+		                $("#agent-addChange .required").eq(i).popover('hide');
+		            }, 1500);
+		            return;
+				}
+			}
+			if (!(/^((25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(25[0-5]|2[0-4]\d|[01]?\d\d?)$/.test(sub_Data.agent))) {
+				$("#agent").attr("data-content","请填写有效服务器代理地址");
+		        $("#agent").popover('show');
+		        setTimeout(function () {
+		            $("#agent").popover('hide');
+		        }, 3000);
+		        return;
+			}
+	    	if (!(/^[0-9]*$/.test(sub_Data.port))) {
+		        $("#port").attr("data-content","服务器代理端口号只能为数字");
+		        $("#port").popover('show');
+		        setTimeout(function () {
+		            $("#port").popover('hide');
+		        }, 3000);
+		        return;
+			}
+			if(sub_Data.port<1 || sub_Data.port>65535){
+				$("#port").attr("data-content","服务器代理端口号必须为1~65535");
+			    $("#port").popover('show');
+		        setTimeout(function () {
+		            $("#port").popover('hide');
+		        }, 3000);
 				return;
 			}
 		  $.ajax({
@@ -464,6 +543,46 @@ function init(index) {
 						var edit_agent=$("#agent").val();
 						var edit_port=$("#port").val();
 						var edit_memo=$("#memo").val();
+						if(edit_agent=='' || edit_agent==""){
+							$("#agent").attr("data-content","必填项不能为空");
+					        $("#agent").popover('show');
+					        setTimeout(function () {
+					            $("#agent").popover('hide');
+					        }, 3000);
+					        return;
+						}
+						if(edit_port=='' || edit_port==""){
+							$("#port").attr("data-content","必填项不能为空");
+					        $("#port").popover('show');
+					        setTimeout(function () {
+					            $("#port").popover('hide');
+					        }, 3000);
+					        return;
+						}
+						if (!(/^((25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(25[0-5]|2[0-4]\d|[01]?\d\d?)$/.test(edit_agent))) {
+							$("#agent").attr("data-content","请填写有效服务器代理地址");
+					        $("#agent").popover('show');
+					        setTimeout(function () {
+					            $("#agent").popover('hide');
+					        }, 3000);
+					        return;
+						}
+						if (!(/^[0-9]*$/.test(edit_port))) {
+					        $("#port").attr("data-content","服务器代理端口号只能为数字");
+					        $("#port").popover('show');
+					        setTimeout(function () {
+					            $("#port").popover('hide');
+					        }, 3000);
+					        return;
+						}
+						if(edit_port<1 || edit_port>65535){
+							$("#port").attr("data-content","服务器代理端口号必须为1~65535");
+						    $("#port").popover('show');
+					        setTimeout(function () {
+					            $("#port").popover('hide');
+					        }, 3000);
+							return;
+						}
 						agentedit(oldAgent,edit_agent,edit_port,edit_memo);
 						init(1);
 					});
@@ -499,12 +618,54 @@ function init(index) {
 								sub_Data.serverPort = $("#serverPort").val();
 								sub_Data.monitorPort = $("#monitorPort").val();
 								sub_Data.memo = $("#applicationmemo").val();
+								for(var i = 0; i < $("#application-addChange .required").length; i++) {
+									if($("#application-addChange .required").eq(i).val() == '') {
+										$("#application-addChange .required").attr("data-content","必填项不能为空");
+							            $("#application-addChange .required").eq(i).focus().popover('show');
+							            setTimeout(function () {
+							                $("#application-addChange .required").eq(i).popover('hide');
+							            }, 1500);
+							            return;
+									}
+								}
+								if (!(/^[0-9a-zA-Z_]{1,}$/.test(sub_Data.serverName))) {
+									$("#serverName").attr("data-content","请填写有效应用服务器");
+							        $("#serverName").popover('show');
+							        setTimeout(function () {
+							            $("#serverName").popover('hide');
+							        }, 3000);
+							        return;
+								}
 								if (!(/^[0-9]*$/.test(sub_Data.serverPort))) {
-									alert('应用服务器端口号只能为数字');
-									return;
+							        $("#serverPort").attr("data-content","服务器端口号只能为数字");
+							        $("#serverPort").popover('show');
+							        setTimeout(function () {
+							            $("#serverPort").popover('hide');
+							        }, 3000);
+							        return;
 								}
 								if (!(/^[0-9]*$/.test(sub_Data.monitorPort))) {
-									alert('应用服务器监控端口号只能为数字');
+							        $("#monitorPort").attr("data-content","服务器监控端口号只能为数字");
+							        $("#monitorPort").popover('show');
+							        setTimeout(function () {
+							            $("#monitorPort").popover('hide');
+							        }, 3000);
+							        return;
+								}
+								if(sub_Data.serverPort<1 || sub_Data.serverPort>65535){
+									$("#serverPort").attr("data-content","服务器端口号必须为1~65535");
+								    $("#serverPort").popover('show');
+							        setTimeout(function () {
+							            $("#serverPort").popover('hide');
+							        }, 3000);
+									return;
+								}
+								if(sub_Data.monitorPort<1 || sub_Data.monitorPort>65535){
+									$("#monitorPort").attr("data-content","服务器监控端口号必须为1~65535");
+								    $("#monitorPort").popover('show');
+							        setTimeout(function () {
+							            $("#monitorPort").popover('hide');
+							        }, 3000);
 									return;
 								}
 								 $.ajax({
@@ -554,7 +715,6 @@ setInterval(function(){
 					agentconnect(id,agent,port);
 	        	}
         	}else{
-        		alert('暂时没有数据');
         	}
         },
 		error: function() {

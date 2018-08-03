@@ -61,7 +61,7 @@ public class DataBaseConfigServiceImpl implements DataBaseConfigService{
 	 * 分页-条件查询
 	 */
 	@Override
-	public Map pages(String agentAndServer,String name, int pageNum, int pageSize){
+	public Map pages(String agentAndServer,String name){
 		
 		//定义返回值map
 		Map map = new HashMap<>();
@@ -86,8 +86,16 @@ public class DataBaseConfigServiceImpl implements DataBaseConfigService{
 				}
 				map.put("data", lDatabases);
 				return map;
+			}else {
+				for(String id : database) {
+					HashMap databaseById = d.getDatabasePropertyById(id);
+					lDatabases.add(databaseById);
+				}
+				Collections.reverse(lDatabases);
+				map.put("data", lDatabases);
+				return map;
 			}
-			//分页
+			/*//分页
 			List<HashMap> databases = new ArrayList<>();
 			for(String id : database) {
 				databases.add(d.getDatabasePropertyById(id));
@@ -103,7 +111,7 @@ public class DataBaseConfigServiceImpl implements DataBaseConfigService{
 				lDatabases.add(databases.get(i));
 			}
 			map.put("data", lDatabases);
-			return map;
+			return map;*/
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			//e.printStackTrace();

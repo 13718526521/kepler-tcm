@@ -28,6 +28,6 @@ public interface TasksService {
 
 	RemoteTask getTask(String agentAndServer, String taskId) throws Exception;
 
-	List getTaskLog(String agentAndServer,String type, String taskId, int pageNo,int pageNum, int pageSize) throws Exception;
+	Map<String,Object> getTaskLog(String agentAndServer,String type, String taskId, int pageNo,int pageNum, int pageSize) throws Exception;
 	
 }

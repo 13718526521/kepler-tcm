@@ -104,7 +104,26 @@
 										
 									</tbody>
 						   	    </table>
-						   	    
+						   	    <div class="logPage">
+						   	        <div class="pagleft">
+										共{{totalNum}}条数据 每页显示&nbsp;<input type="text" value="10" class="form-control" />&nbsp;条数据 第{{current}}/{{allpage}}页
+									</div>
+									<ul class="pagination pagination-sm">
+										<li @click="current <= 1 ? '' : (current-- && goto(current))">
+											<a href="#">
+												<</a>
+										</li>
+										<li v-for="index in pages" @click="goto(index)" :class="{'active':current == index}" :key="index">
+											<a href="#">{{index}}</a>
+										</li>
+										<li @click="(allpage != current && allpage != 0) ? (current++ && goto(current++)) : ''">
+											<a href="#">></a>
+										</li>
+										<li>
+											<a href="#">共{{allpage}}页</a>
+										</li>
+									</ul>
+						   	    </div>
 					   	    </div>
 					   	    <div id="paramsDeploy" style="margin-top: 30px">
 					   	    <table border="1" cellspacing="3" cellpading="3" width="400px" style="border-collapse: collapse;">

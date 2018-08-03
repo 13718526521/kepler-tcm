@@ -1,4 +1,4 @@
-var server,dbName,dbDriver,dbUrl,dbUser,dbPass,type,overId;
+var server,dbName,dbDriver,dbUrl,dbUser,dbPass,type,overId,searchName;
 $(function() {
 	
 	server = GetQueryString("agentName");
@@ -23,7 +23,7 @@ $(function() {
 
 //查询按钮
 $("#search").click(function() {
-	dbName = $("#userId").val();
+	searchName = $("#userId").val();
     init(1);
 });
 
@@ -134,7 +134,7 @@ var vm = new Vue({
 					type: "put",
 					url: util.agent().baseUrl + "/dataBaseConfig/remove.json",
 					data: {"id" : dbId,"agentAndServer" : agentAndServer},
-					async: true,
+					async: false,
 					success: function() {
 						$(".loading").hide();
 						layer.msg("删除成功", {
@@ -182,6 +182,72 @@ $(".new-modal button[type=submit]").click(function() {
 	data.user = dbUser;
 	data.pass = dbPass;
 	data.agentAndServer=server;
+	
+	var state = 0;
+	var state2 = 0;
+	if(dbName == '' || dbName == null){
+		$("#dbName").focus();
+		$("#dbName").popover('show');
+		setTimeout(function () {
+			$("#dbName").popover('hide');
+	    }, 3000);
+		state = 1;
+		state2 = 1;
+		$(".loading").hide();
+		return ;
+	}
+	if(dbDriver == '' || dbDriver == null){
+		if(state != 1){
+			$("#dbDriver").focus();
+		}
+		$("#dbDriver").popover('show');
+		setTimeout(function () {
+			$("#dbDriver").popover('hide');
+	    }, 3000);
+		state = 2;
+		state2 = 1;
+		$(".loading").hide();
+		return ;
+	}
+	if(dbUrl == '' || dbUrl == null){
+		if(state != 1&&state != 2){
+			$("#dbUrl").focus();
+		}
+		$("#dbUrl").popover('show');
+		setTimeout(function () {
+			$("#dbUrl").popover('hide');
+	    }, 3000);
+		state = 3;
+		state2 = 1;
+		$(".loading").hide();
+		return ;
+	}
+	if(dbUser == '' || dbUser == null){
+		if(state != 1&&state != 2&&state != 3){
+			$("#dbUser").focus();
+		}
+		$("#dbUser").popover('show');
+		setTimeout(function () {
+			$("#dbUser").popover('hide');
+	    }, 3000);
+		state = 4;
+		state2 = 1;
+		$(".loading").hide();
+		return ;
+	}
+	if(dbPass == '' || dbPass == null){
+		if(state != 1&&state != 2&&state != 3&&state != 4){
+			$("#dbPass").focus();
+		}
+		$("#dbPass").popover('show');
+		setTimeout(function () {
+			$("#dbPass").popover('hide');
+	    }, 3000);
+		state = 4;
+		state2 = 1;
+		$(".loading").hide();
+		return ;
+	}
 	if(type==1){
 	    
 		$.ajax({
@@ -192,7 +258,6 @@ $(".new-modal button[type=submit]").click(function() {
 			success: function(data) {
 				$(".loading").hide();
 				if(data){
-					console.log(1);
 					layer.msg("添加成功", {
 						time: 1000
 					});
@@ -202,7 +267,7 @@ $(".new-modal button[type=submit]").click(function() {
 						time: 1000
 					});
 				}
-				
+				$("#addChange").modal("hide");
 				init(1);
 			}
 		});
@@ -225,7 +290,7 @@ $(".new-modal button[type=submit]").click(function() {
 						time: 1000
 					});
 				}
-				
+				$("#addChange").modal("hide");
 				init(1);
 			}
 		});
@@ -243,11 +308,11 @@ function GetQueryString(name) {
 
 function init(index) {
 	var params = {};
-	if(dbName!=null&&dbName!=""){
-		params.name = dbName;
+	if(searchName!=null&&searchName!=""){
+		params.name = searchName;
 	}
-	params.pageNum = index-1;
-    params.pageSize = $(".pagleft input").val();
+	/*params.pageNum = index-1;
+    params.pageSize = 0;*/
     params.agentAndServer=server;
 	$.ajax({
 		type: "get",
@@ -255,7 +320,6 @@ function init(index) {
 		async: true,
 		data: params,
 		success: function(data) {
-			console.log(data);
 			if(data.error!=null&&data.error!=undefined){
 				$(".loading").hide();
 	            layer.msg("请求异常", {
@@ -263,11 +327,9 @@ function init(index) {
 	            });
 	            return ;
 			}
-			vm.tabData = data.data;               
-            vm.showItem = 5;
-            vm.allpage = data.totalPages;
-            vm.totalNum = data.totalCount;
+			vm.tabData = data.data;             
 			if(data.data.length>0&&data!=undefined){
+				
 				vm.current = index;
         		$("#app .no-data").remove();
         	}else{

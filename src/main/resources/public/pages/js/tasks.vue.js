@@ -321,8 +321,8 @@ function log2(){
 	initLogWriter(1);
 }
 
-var vm = new Vue({
-	el: "#logWriter",
+var vm1 = new Vue({
+	el: "#runLogs",
 	data: {
 		tabData: [],
 		current: 1, //当前显示第几页
@@ -369,7 +369,7 @@ var vm = new Vue({
 function initLogWriter(index){
 	var params = {};
 	params.pageNum = index-1;
-    params.pageSize = 5;
+    params.pageSize = $(".pagleft input").val();
     params.pageNo = 0;
     params.types = types;
     params.taskId = aTaskId;
@@ -380,11 +380,15 @@ function initLogWriter(index){
 		data: params,
 		async: false,
 		success: function(data) {
-			var html = [];
-            
-        	for(var i in data){
+			console.log(data);
+			vm1.tabData = data.data;               
+            vm1.showItem = 5;
+            vm1.allpage = data.totalPages;
+            vm1.totalNum = data.totalCount;
+            var html = [];
+        	for(var i in data.data){
         		html.push('<tr class="runMessageTr">',
-	                         '<td class="runMessageTd">',data[i],'</td>',
+	                         '<td class="runMessageTd">',data.data[i],'</td>',
    	                     '</tr>'
    	             )
         	}
@@ -710,7 +714,8 @@ $("#start").click(function(){
         						if(data){
         							suc = suc + arr[j] + "~";
         							$("#tasksTitle li input[value="+arr[j]+"]").attr("value2","0");
-        							$("#tasksTitle li input[value="+arr[j]+"]").parent("li").find("span .opt-picture i").addClass(".fa .fa-play");
+        							$("#tasksTitle li input[value="+arr[j]+"]").parent("li").find("span.opt-picture i").removeClass("fa-pause").addClass("fa-play");
+        							console.log(arr[j]);
         						}else{
         							err = err + arr[j] + "~";
         						}
@@ -774,7 +779,8 @@ $("#stop").click(function(){
         			if(data == 0){
         				suc = suc + arr[j] + "~";
         				$("#tasksTitle li input[value="+arr[j]+"]").attr("value2","1");
-        				$("#tasksTitle li input[value="+arr[j]+"]").parent("li").find("span .opt-picture i").addClass(".fa .fa-pause");
+        				$("#tasksTitle li input[value="+arr[j]+"]").parent("li").find("span.opt-picture i").removeClass("fa-play").addClass("fa-pause");
+        				console.log(2);
         			}else{
         				err = err + arr[j] + "~";
         			}

@@ -456,3 +456,25 @@ fieldset > legend{
 .runMessageTd {
 	width : 100px;
 }
+.logPage {
+	position: relative;
+    height: 45px;
+}
+
+.logPage .pagleft {
+	position: absolute;
+    left: 3px;
+    height: 30px;
+    margin: 5px 0;
+}
+
+.logPage .pagination {
+    position: absolute;
+    right: 3px;
+    margin: 5px 0;
+    height: 30px;
+}
+
+.logPage .pagination li {
+	display: inline-block;
+}

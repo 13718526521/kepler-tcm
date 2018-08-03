@@ -31,6 +31,11 @@ public class PluginController {
 	public Map<String, Object> querydetail(String agentAndServer) throws Exception {
 		return pluginService.querydetail(agentAndServer);
 	}
+	
+	@RequestMapping(value = "/querypage", method = RequestMethod.GET)
+	public Map<String, Object> querypage(String agentAndServer,String pluginName,int pageNum,int pageSize) throws Exception {
+		return pluginService.querypage(agentAndServer,pluginName,pageNum,pageSize);
+	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public Map<String, Object> add(String agentAndServer, String id,String pluginName, String pluginMemo, String entryClass) throws Exception {

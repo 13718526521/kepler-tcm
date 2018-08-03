@@ -16,7 +16,6 @@ $(function(){
 		)
 		$("#field").append(arr.join(''));
 		$("#file"+_num).change(function(){
-			console.log(_num)
 			var file;
 			if(this.files && this.files[0]) {
 				file = this.files[0];
@@ -49,6 +48,20 @@ $(function(){
 	
 	$(".submit").click(function(){
 		var flag=$("#pluginid").attr("checked");
+		if(flag==undefined){
+			var id=$("#pluginid").val();
+			if(id == '' || id == "")
+			return;
+		}
+		for (var i = 1; i <= _num; i++) {
+			var f=$("#file"+i).val();
+			if(f==''){
+				return;
+			}
+		}
+		var entry_class=$("#entryClass").val();
+		if(entry_class == '' || entry_class == "")
+			return;
 		var server=GetQueryString("agentName");
 		var form = new FormData(document.getElementById("pluginForm"));
 		if(flag==undefined){
@@ -57,7 +70,7 @@ $(function(){
 			form.append("auto_plugin_id", "0");
 		}
 		form.append("agentAndServer", server);
-		 $.ajax({
+		$.ajax({
 			 url:util.agent().baseUrl + "/plugin/upload",
 			 type:"post",
 			 data:form,
@@ -72,7 +85,6 @@ $(function(){
            	  }
 			 },
 	      	 error: function() {
-	      		 alert('请求失败');
 	      	 }
 		 });
 	});

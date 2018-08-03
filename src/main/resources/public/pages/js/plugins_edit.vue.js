@@ -31,54 +31,65 @@ $(function(){
 			var e="";
 			if(i >= 0)
 			e=file.name.substring(i).toLowerCase();
-			serverName=server.split("@")[1];
-			var class_path="../servers/"+serverName+'/plugins/classes';
-			var jar_path="../servers/"+serverName+'/plugins/lib';
-			var path="../servers/"+serverName+'/conf';
 			if(e == ".class"){
-				$(this).parent().parent().find("input").attr("placeholder",class_path);
-				$(this).parent().parent().find("input").attr("value",class_path);
+				$(this).parent().parent().find("input").attr("readOnly",true);
+				$(this).parent().parent().find("input").attr("style","background-color: rgb(210,210,210);");
+				$(this).parent().find("input").attr("style","display: none;");
 			}else if( e == ".jar" ){
-				$(this).parent().parent().find("input").attr("placeholder",jar_path);
-				$(this).parent().parent().find("input").attr("value",jar_path);
+				$(this).parent().parent().find("input").attr("readOnly",true);
+				$(this).parent().parent().find("input").attr("style","background-color: rgb(210,210,210);");
+				$(this).parent().find("input").attr("style","display: none;");
 			}else{
-				$(this).parent().parent().find("input").attr("placeholder",path);
-				$(this).parent().parent().find("input").attr("value",path);
+				$(this).parent().parent().find("input").attr("readOnly",false);
+				$(this).parent().parent().find("input").attr("placeholder","请填写服务器保存路径");
+				$(this).parent().parent().find("input").attr("style","");
+				$(this).parent().find("input").attr("style","display: none;");
 			}
 		});
+	});
+	
+	$(".submit").click(function(){
+		if(_num != 0 ){
+			for (var i = 1; i <= _num; i++) {
+				var f=$("#newfile"+i).val();
+				if(f==''){
+					return;
+				}
+			}
+		}
+		var entry_class=$("#entryClass").val();
+		if(entry_class == '' || entry_class == "")
+			return;
+		var server=GetQueryString("agentName");
+		var form = new FormData(document.getElementById("pluginFormedit"));
+		form.append("agentAndServer", server);
+		 $.ajax({
+			 url:util.agent().baseUrl + "/plugin/uploadedit",
+			 type:"post",
+			 data:form,
+			 processData:false,
+			 contentType:false,
+			 success:function(data){
+	       	  if(data.CODE==1){
+	       		  alert(data.MESSAGE);
+	       	  }else{
+	       		  layer.msg("修改成功", { time: 1000 });
+	       		  window.location.href="plugins.html?agentName="+server;
+	       	  }
+			 },
+	      	 error: function() {
+	      	 }
+		 });
+
+	});
+
+	$(".reset").click(function(){
+		var server=GetQueryString("agentName");
+		window.location.href="plugins.html?agentName="+server;
 	});
 
 });
 
-$(".submit").click(function(){
-	var server=GetQueryString("agentName");
-	var form = new FormData(document.getElementById("pluginFormedit"));
-	form.append("agentAndServer", server);
-	 $.ajax({
-		 url:util.agent().baseUrl + "/plugin/uploadedit",
-		 type:"post",
-		 data:form,
-		 processData:false,
-		 contentType:false,
-		 success:function(data){
-       	  if(data.CODE==1){
-       		  alert(data.MESSAGE);
-       	  }else{
-       		  layer.msg("修改成功", { time: 1000 });
-       		  window.location.href="plugins.html?agentName="+server;
-       	  }
-		 },
-      	 error: function() {
-      		 alert('请求失败');
-      	 }
-	 });
-
-});
-
-$(".reset").click(function(){
-	var server=GetQueryString("agentName");
-	window.location.href="plugins.html?agentName="+server;
-});
 function GetProperty(server,id){
 	$.ajax({
 	    type: "get",
@@ -102,13 +113,11 @@ function GetProperty(server,id){
 				e=data[i].substring(f).toLowerCase();
 				var server=GetQueryString("agentName");
 				serverName=server.split("@")[1];
-				var class_path="../servers/"+serverName+'/plugins/classes';
-				var jar_path="../servers/"+serverName+'/plugins/lib';
-				var path="../servers/"+serverName+'/conf';
+				var path="../servers/"+serverName+"/plugins"+"/"+id;
 				if(e == ".class" ){
-					val=class_path;
+					val="无";
 				}else if(e == ".jar" ){
-					val=jar_path;
+					val="无";
 				}else{
 					val=path;
 				}
@@ -137,27 +146,26 @@ function GetProperty(server,id){
 					var e="";
 					if(i >= 0)
 					e=file.name.substring(i).toLowerCase();
-					var server=GetQueryString("agentName");
-					serverName=server.split("@")[1];
-					var class_path="../servers/"+serverName+'/plugins/classes';
-					var jar_path="../servers/"+serverName+'/plugins/lib';
-					var path="../servers/"+serverName+'/conf';
 					if(e == ".class"){
-						$(this).parent().parent().find("input").attr("placeholder",class_path);
-						$(this).parent().parent().find("input").attr("value",class_path);
+						$(this).parent().parent().find("input").attr("readOnly",true);
+						$(this).parent().parent().find("input").attr("style","background-color: rgb(210,210,210);");
+						$(this).parent().find("input").attr("style","display: none;");
 					}else if( e == ".jar" ){
-						$(this).parent().parent().find("input").attr("placeholder",jar_path);
-						$(this).parent().parent().find("input").attr("value",jar_path);
+						$(this).parent().parent().find("input").attr("readOnly",true);
+						$(this).parent().parent().find("input").attr("style","background-color: rgb(210,210,210);");
+						$(this).parent().find("input").attr("style","display: none;");
 					}else{
-						$(this).parent().parent().find("input").attr("placeholder",path);
-						$(this).parent().parent().find("input").attr("value",path);
+						$(this).parent().parent().find("input").attr("readOnly",false);
+						$(this).parent().parent().find("input").attr("placeholder","请填写服务器保存路径");
+						$(this).parent().parent().find("input").removeAttr("value");
+						$(this).parent().parent().find("input").attr("style","");
+						$(this).parent().find("input").attr("style","display: none;");
 					}
 				});
 			}
 	   	  }
 	    },
 		error: function() {
-			alert('请求失败');
 		}
 	});
 }

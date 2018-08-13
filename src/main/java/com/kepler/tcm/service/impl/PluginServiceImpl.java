@@ -162,9 +162,14 @@ public class PluginServiceImpl implements PluginService {
 		PluginClient pluginClient=new PluginClient(agentAndServer);
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		try {
-			pluginClient.reloadPlugin(id);
-			map.put("CODE", 0);
-			map.put("MESSAGE", "成功");
+			Boolean flag=pluginClient.reloadPlugin(id);
+			if(flag == true){
+				map.put("CODE", 0);
+				map.put("MESSAGE", "成功");
+			}else{
+				map.put("CODE", 1);
+				map.put("MESSAGE", "重载失败");
+			}
 		} catch (Exception e) {
 			map.put("CODE", 1);
 			map.put("MESSAGE", e.getMessage());

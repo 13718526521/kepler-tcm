@@ -8,12 +8,13 @@ $(function(){
 		_num++
 		var arr=[];
 		arr.push(
-				'<tr id="field_list1">',
+				'<tr id="field_new_list'+_num+'">',
 					'<td><input type="text" name="className" class="form-control" placeholder="无" readonly style="background-color: rgb(210,210,210);"></td>',
 					'<td>',
 					'<label for="newfile'+_num+'" class="btn btn-primary" style="width: 100px;">请选择文件</label> ',
 					'<input type="file" id="newfile'+_num+'" name="file" style="display: none;"/> ',
 					'<span id="plugin_fileName" style="margin-left: 10px;">未选择任何文件</span>',
+					'<button class="btn btn-primary" id="file_del_'+_num+'" onclick="delFile('+_num+')">删除</button>',
 					'</td>',
 				'</tr>'
 		)
@@ -122,7 +123,7 @@ function GetProperty(server,id){
 					val=path;
 				}
 	   			arr.push(
-	   					'<tr id="field_list1">',
+	   					'<tr id="field_list'+i+'">',
 	   						'<td><input type="text" name="className" class="form-control" placeholder="'+val+'" value="'+val+'" readonly style="background-color: rgb(210,210,210);"></td>',
 	   						'<td>',
 	   						'<label for="file'+i+'" class="btn btn-primary" style="width: 100px;">请选择文件</label> ',
@@ -168,6 +169,9 @@ function GetProperty(server,id){
 		error: function() {
 		}
 	});
+}
+function delFile(_num){
+	$("#field_new_list"+_num).remove();
 }
 
 function GetQueryString(name) {

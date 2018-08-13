@@ -1,16 +1,10 @@
 package com.kepler.tcm.service.impl;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.fastjson.JSON;
 import com.kepler.tcm.client.AgentClient;
 import com.kepler.tcm.client.AgentConfig;
 import com.kepler.tcm.core.agent.RemoteAgent;
@@ -30,7 +23,7 @@ import com.kepler.tcm.service.AgentService;
 public class AgentServiceImpl implements AgentService {
 
 	private AgentConfig agentConfig;
-	
+
 	@Autowired
 	private Environment env;
 
@@ -56,36 +49,35 @@ public class AgentServiceImpl implements AgentService {
 			}
 		}
 		long endTime = System.currentTimeMillis();
-		log.info("agent-add程序运行时间："+(endTime-startTime)+"ms");
+		log.info("agent-add程序运行时间：" + (endTime - startTime) + "ms");
 		return map;
-		
 	}
 
 	private void getIntence() {
-		String window_path=env.getProperty("spring.application.windows.path");
-		String linux_path=env.getProperty("spring.application.linux.path");
-		String os=System.getProperty("os.name");
+		String window_path = env.getProperty("spring.application.windows.path");
+		String linux_path = env.getProperty("spring.application.linux.path");
+		String os = System.getProperty("os.name");
 		if (os != null && os.toLowerCase().indexOf("linux") > -1) {
-			File file = new File(linux_path,"agent.conf");
-			if(!file.getParentFile().exists()){
+			File file = new File(linux_path, "agent.conf");
+			if (!file.getParentFile().exists()) {
 				file.getParentFile().mkdirs();
 			}
 			try {
-				if(!file.exists()){
+				if (!file.exists()) {
 					file.createNewFile();
 				}
-				agentConfig = new AgentConfig(linux_path+"/", "agent.conf");
-			}catch(Exception e){
+				agentConfig = new AgentConfig(linux_path + "/", "agent.conf");
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}else{
-			File fileDir = new File(window_path); 
-			fileDir.mkdirs(); 
-			File file = new File(window_path+"\\"+"agent.conf");
+		} else {
+			File fileDir = new File(window_path);
+			fileDir.mkdirs();
+			File file = new File(window_path + "\\" + "agent.conf");
 			try {
-				if(!file.exists())
-					file.createNewFile(); 
-				agentConfig = new AgentConfig(window_path+"\\", "agent.conf");
+				if (!file.exists())
+					file.createNewFile();
+				agentConfig = new AgentConfig(window_path + "\\", "agent.conf");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -107,7 +99,7 @@ public class AgentServiceImpl implements AgentService {
 		} else {
 			for (int i = 0; i < agentConfig.size(); i++) {
 				ProxyServer proxyServer = new ProxyServer();
-				proxyServer.setId((i+1) + "");
+				proxyServer.setId((i + 1) + "");
 				proxyServer.setAgentName(agentConfig.getName(i));
 				proxyServer.setMemo(agentConfig.getValue(i));
 				list.add(proxyServer);
@@ -118,7 +110,7 @@ public class AgentServiceImpl implements AgentService {
 			map.put("MESSAGE", "成功");
 		}
 		long endTime = System.currentTimeMillis();
-		log.info("agent-query程序运行时间："+(endTime-startTime)+"ms");
+		log.info("agent-query程序运行时间：" + (endTime - startTime) + "ms");
 		return map;
 	}
 
@@ -128,21 +120,16 @@ public class AgentServiceImpl implements AgentService {
 		if (agentConfig == null)
 			getIntence();
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		if (agentConfig.indexOfName(agentName) >= 0) {
+		try {
+			agentConfig.edit(oldagent, agentName, memo);
+			map.put("CODE", 0);
+			map.put("MESSAGE", "成功");
+		} catch (Exception e) {
 			map.put("CODE", 1);
-			map.put("MESSAGE", agentName + "已经存在,取消修改。");
-		} else {
-			try {
-				agentConfig.edit(oldagent, agentName, memo);
-				map.put("CODE", 0);
-				map.put("MESSAGE", "成功");
-			} catch (Exception e) {
-				map.put("CODE", 1);
-				map.put("MESSAGE", e.getMessage());
-			}
+			map.put("MESSAGE", e.getMessage());
 		}
 		long endTime = System.currentTimeMillis();
-		log.info("agent-edit程序运行时间："+(endTime-startTime)+"ms");
+		log.info("agent-edit程序运行时间：" + (endTime - startTime) + "ms");
 		return map;
 	}
 
@@ -161,7 +148,7 @@ public class AgentServiceImpl implements AgentService {
 			map.put("MESSAGE", e.getMessage());
 		}
 		long endTime = System.currentTimeMillis();
-		log.info("agent-delete程序运行时间："+(endTime-startTime)+"ms");
+		log.info("agent-delete程序运行时间：" + (endTime - startTime) + "ms");
 		return map;
 	}
 
@@ -180,11 +167,11 @@ public class AgentServiceImpl implements AgentService {
 			map.put("MESSAGE", e.getMessage());
 		}
 		long endTime = System.currentTimeMillis();
-		log.info("agent-connect程序运行时间："+(endTime-startTime)+"ms");
+		log.info("agent-connect程序运行时间：" + (endTime - startTime) + "ms");
 		return map;
-		
+
 	}
-	
+
 	@Override
 	public Map querystate() throws Exception {
 		long startTime = System.currentTimeMillis();
@@ -200,10 +187,10 @@ public class AgentServiceImpl implements AgentService {
 			map.put("MESSAGE", "暂时没有数据");
 		} else {
 			for (int i = 0; i < agentConfig.size(); i++) {
-				Agent agent= new Agent();
-				agent.setId((i+1) + "");
+				Agent agent = new Agent();
+				agent.setId((i + 1) + "");
 				agent.setAgentName(agentConfig.getName(i));
-				state_map=connect(agentConfig.getName(i).split(":")[0],agentConfig.getName(i).split(":")[1]);
+				state_map = connect(agentConfig.getName(i).split(":")[0],agentConfig.getName(i).split(":")[1]);
 				agent.setState_code(state_map.get("CODE").toString());
 				agent.setState_message(state_map.get("MESSAGE").toString());
 				agent.setMemo(agentConfig.getValue(i));
@@ -215,7 +202,7 @@ public class AgentServiceImpl implements AgentService {
 			map.put("MESSAGE", "成功");
 		}
 		long endTime = System.currentTimeMillis();
-		log.info("agent-querystate程序运行时间："+(endTime-startTime)+"ms");
+		log.info("agent-querystate程序运行时间：" + (endTime - startTime) + "ms");
 		return map;
 	}
 }

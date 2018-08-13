@@ -83,7 +83,7 @@ var vm = new Vue({
 	            		  alert(data.MESSAGE);
 	             	  }else{
 	 	         		 layer.msg("重载成功", { time: 1000 });
-	 	         		  init(1);
+	 	         		 init(1);
 	             	  }
 	              },
 	      		error: function() {
@@ -167,6 +167,7 @@ $("#file").change(function(){
 });
 
 function init(index) {
+	$("#plugin_query").val("");
 	var pageNum=index-1;
     var pageSize = $(".pagleft input").val();
     $(".loading").show();

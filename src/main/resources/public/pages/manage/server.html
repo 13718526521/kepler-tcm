@@ -211,7 +211,7 @@
 					</div>
 					<div class="form-group">
 						<label>说明：</label> 
-							<input type="text" id="memo" class="form-control input-sm" v-model="modelData.memo" :style="modelData.memo === '' ? 'background: #FFF3F3 !important;' : 'background: none !important;'" placeholder="" />
+							<textarea type="text" id="memo" class="form-control input-sm" v-model="modelData.memo" :style="modelData.memo === '' ? 'background: #FFF3F3 !important;' : 'background: none !important;'" style="resize:none;" placeholder="" ></textarea>
 					</div>
 				</div>
 				<div class="modal-footer">
@@ -257,11 +257,11 @@
 				<div class="modal-body form-inline inputNewData">
 					<div class="form-group">
 						<label>代理服务器：</label> 
-						<input type="text" id="agentName" class="form-control input-sm " v-model="modelData.agentName" disabled="disabled" />
+						<input type="text" id="agentName" class="form-control input-sm " v-model="modelData.agentName" disabled="disabled" style="background-color: rgb(237,237,237);" />
 					</div>
 					<div class="form-group">
 						<label>代理服务器说明：</label> 
-						<input type="text" id="agentMemo" class="form-control input-sm " v-model="modelData.agentMemo" disabled="disabled" />
+						<textarea type="text" id="agentMemo" class="form-control input-sm " v-model="modelData.agentMemo" style="resize:none;" disabled="disabled" ></textarea>
 					</div>
 					<div class="form-group">
 						<label>应用服务器名称：</label> 

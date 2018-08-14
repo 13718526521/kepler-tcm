@@ -35,7 +35,7 @@
 				<dt class="active">
 					<h4 class="activity-title"><span class="activity-ico icon_4g"></span><span>应用1</span></h4>
 					<div class="ope-btn">
-					    <button  type="button" class="btn btn-blue query-btn"><span class="glyphicon glyphicon-search"></span> 全选</button>
+					    <button  id="selection" type="button" value="0" class="btn btn-blue query-btn"><span class="glyphicon glyphicon-search"></span> 全选</button>
 					    <button  id="start" type="button" class="btn btn-blue query-btn"><span class="glyphicon glyphicon-search"></span> 启动</button>
 					    <button id="stop" type="button" class="btn btn-blue query-btn"><span class="glyphicon glyphicon-search"></span> 停止</button>
 					    <button id="remove"  type="button" class="btn btn-blue query-btn"><span class="glyphicon glyphicon-search"></span> 删除</button>
@@ -104,7 +104,26 @@
 										
 									</tbody>
 						   	    </table>
-						   	    
+						   	    <div class="logPage">
+						   	        <div class="pagleft">
+										共{{totalNum}}条数据 每页显示&nbsp;<input type="text" value="10" class="form-control" />&nbsp;条数据 第{{current}}/{{allpage}}页
+									</div>
+									<ul class="pagination pagination-sm">
+										<li @click="current <= 1 ? '' : (current-- && goto(current))">
+											<a href="#">
+												<</a>
+										</li>
+										<li v-for="index in pages" @click="goto(index)" :class="{'active':current == index}" :key="index">
+											<a href="#">{{index}}</a>
+										</li>
+										<li @click="(allpage != current && allpage != 0) ? (current++ && goto(current++)) : ''">
+											<a href="#">></a>
+										</li>
+										<li>
+											<a href="#">共{{allpage}}页</a>
+										</li>
+									</ul>
+						   	    </div>
 					   	    </div>
 					   	    <div id="paramsDeploy" style="margin-top: 30px">
 					   	    <table border="1" cellspacing="3" cellpading="3" width="400px" style="border-collapse: collapse;">
@@ -137,8 +156,8 @@
 					            <div class="form-group" style="width: auto">
 								<label class="label-text">*任务名称：</label>
 								<input id="taskName" type="text" class="form-control"/>
-								<input type="radio" name="disabled" value="0"/><span class="checkbox-text">自动运行</span>
-								<input type="radio" name="disabled" value="1"/><span class="checkbox-text">禁止运行</span>
+								<input class="runDisabled" checked='' type="radio" name="disabled" value="0"/><span class="checkbox-text">自动运行</span>
+								<input class="runDisabled" type="radio" name="disabled" value="1"/><span class="checkbox-text">禁止运行</span>
 							    </div>
 					        <div class="form-group" id = "plugSelect" style="width: auto">
 								<!-- <label class="label-text">*引用插件：</label>
@@ -169,10 +188,10 @@
 						    <label style="margin-bottom: 5px">时间格式示例：2049年12月31日 23时59分59秒</label>
 						    </div>
 							<div class="form-group" style="width: auto">
-								<input value="1" type="radio" name="opt" onclick="opt()"></label><span class="radio checkbox-text">&nbsp&nbsp立即执行</span>
+								<input class="planTypeTime" value="1" checked='' type="radio" name="opt" onclick="opt()"></label><span class="radio checkbox-text">&nbsp&nbsp立即执行</span>
 							</div>
 							<div class="form-group" style="width: auto">
-								<input value="2" type="radio" name="opt" onclick="opt1()"></label><span class="radio checkbox-text">&nbsp&nbsp定时执行</span>
+								<input class="planTypeTime" value="2" type="radio" name="opt" onclick="opt1()"></label><span class="radio checkbox-text">&nbsp&nbsp定时执行</span>
 								<input id="year" type="text" class="form-time" name="opt1" disabled/>
 								<label>年</label>
 								<input id="month" type="text" class="form-time" name="opt1" disabled/>
@@ -187,12 +206,12 @@
 								<label>秒</label>
 							</div>
 							<div class="form-group" style="width: auto">
-								<input value="3" type="radio" name="opt" onclick="opt2()"></label><span class="radio checkbox-text">&nbsp&nbsp每</span>
+								<input class="planTypeTime" value="3" type="radio" name="opt" onclick="opt2()"></label><span class="radio checkbox-text">&nbsp&nbsp每</span>
 								<input id="mxf" type="text" class="form-time" name="opt2" disabled/>
 								<label>分钟执行一次</label>
 							</div>
 							<div class="form-group" style="width: auto">
-								<input value="4" type="radio" name="opt" onclick="opt3()"></label><span class="radio checkbox-text">&nbsp&nbsp每</span>
+								<input class="planTypeTime" value="4" type="radio" name="opt" onclick="opt3()"></label><span class="radio checkbox-text">&nbsp&nbsp每</span>
 								<input id="mxt" type="text" class="form-time" name="opt3" disabled/>
 								<label>天执行一次 ，每次执行于</label>
 								<input id="hour4" type="text" class="form-time" name="opt3" disabled/>
@@ -203,7 +222,7 @@
 								<label>秒</label>
 							</div>
 							<div class="form-group" style="width: auto">
-								<input value="5" type="radio" name="opt" onclick="opt4()"></label><span class="radio checkbox-text">&nbsp&nbspCron表达式</span>
+								<input class="planTypeTime" value="5" type="radio" name="opt" onclick="opt4()"></label><span class="radio checkbox-text">&nbsp&nbspCron表达式</span>
 								<input id="cron" type="text" class="form-time-cron" name="opt4" disabled/>
 								<a value="start" href="javascript:void(0)" @click="audio()" style="color:red;">表达式说明</a>
 							</div>
@@ -214,17 +233,17 @@
 					            </legend>
 					            <div class="form-group" style="width: auto">
 							    <label>出错报警方式:</label>
-							    <input value="0" type="radio" name="opts" onclick="opts()"></label><span class="radio checkbox-text">&nbsp&nbsp报警一次</span>&nbsp&nbsp&nbsp&nbsp
-							    <input value="1" type="radio" name="opts" onclick="opts1()"></label><span class="radio checkbox-text">&nbsp&nbsp保持报警</span>
+							    <input class="alertType" value="0" checked='' type="radio" name="opts" onclick="opts()"></label><span class="radio checkbox-text">&nbsp&nbsp报警一次</span>&nbsp&nbsp&nbsp&nbsp
+							    <input class="alertType" value="1" type="radio" name="opts" onclick="opts1()"></label><span class="radio checkbox-text">&nbsp&nbsp保持报警</span>
 							    <input id="keepAlertTime" type="text" class="form-time" name="opts1" disabled/>
 								<label>分钟</label>
 								&nbsp&nbsp&nbsp&nbsp
-							    <input value="2" type="radio" name="opts" onclick="opts2()"></label><span class="radio checkbox-text">&nbsp&nbsp一直报警</span>
+							    <input class="alertType" value="2" type="radio" name="opts" onclick="opts2()"></label><span class="radio checkbox-text">&nbsp&nbsp一直报警</span>
 							</div>
 							<div class="form-group" style="width: auto">
 								<input id="notSuccAlert" value="1" type="checkbox"></label><span class="radio checkbox-text">&nbsp&nbsp立即执行</span>
 								<label> 成功记录数报警。 在</label>
-								<input id="notSuccTime" value="10" type="text" class="form-time"/>
+								<input id="notSuccTime" type="text" class="form-time"/>
 								<label>分钟内”成功记录数“（succNum）没有增加则报警</label>
 							</div>
 							<div class="form-group" style="width: auto">

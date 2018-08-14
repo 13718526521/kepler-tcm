@@ -14,7 +14,7 @@ public interface DataBaseConfigService {
 
 	boolean remove(String agentAndServer,String id) throws Exception;
 
-	Map pages(String agentAndServer,String name, int pageNum, int pageSize);
+	Map pages(String agentAndServer,String name);
 
 	List findAll(String agentAndServer);
 

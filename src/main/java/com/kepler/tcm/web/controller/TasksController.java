@@ -194,7 +194,7 @@ public class TasksController {
 	 * 分页
 	 */
 	@RequestMapping(value="/getTaskLog",method=RequestMethod.GET)
-	public List getTaskLog(String agentAndServer,String types,String taskId,int pageNo,int pageNum,int pageSize) throws Exception{
+	public Map<String,Object> getTaskLog(String agentAndServer,String types,String taskId,int pageNo,int pageNum,int pageSize) throws Exception{
 		return tasksService.getTaskLog(agentAndServer,types,taskId,pageNo,pageNum,pageSize);
 	}
 	

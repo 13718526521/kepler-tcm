@@ -75,6 +75,7 @@ public class TasksServiceImpl implements TasksService{
 				lists.add(list.get(i));
 			}
 			map.put("data", lists);
+			
 		} catch (Exception e) {
 			map.put("error", e.getMessage());
 			return map;
@@ -133,7 +134,7 @@ public class TasksServiceImpl implements TasksService{
 	}
 
 	@Override
-	public List getTaskLog(String agentAndServer,String type, String taskId, int pageNo,int pageNum, int pageSize) throws Exception {
+	public Map<String,Object> getTaskLog(String agentAndServer,String type, String taskId, int pageNo,int pageNum, int pageSize) throws Exception {
 		String nameLog = null;
 		if("0".equals(type)) {
 			nameLog = Server.TASK_LOG_NAME1;
@@ -141,27 +142,30 @@ public class TasksServiceImpl implements TasksService{
 			nameLog = Server.TASK_LOG_NAME2;
 		}
 		TaskClient t = new TaskClient(agentAndServer);
+		int pageS = 5;
 		int totalSize = (int) t.getTotalLogSize(taskId,nameLog);
-		int pageCount = (totalSize - 1) / (pageSize * 1024) + 1;
+		int pageCount = (totalSize - 1) / (pageS * 1024) + 1;
 		if (pageNo == -2 || pageNo > pageCount)
 			pageNo = pageCount;
 		else if (pageNo < 1) pageNo = 1;
 		
-		String taskLogs = t.getTaskLog(taskId, nameLog, pageNo, pageSize * 1024);
+		String taskLogs = t.getTaskLog(taskId, nameLog, pageNo, pageS * 1024);
 		String[] split = taskLogs.split("(\r\n)|(\n)");
 		List list = new ArrayList<>();
 		int leng = 0;
-		int pageS = 12;
-		if(pageNum*pageS+pageS<=split.length) {
-			leng = pageNum*pageS+pageS;
+		if(pageNum*pageSize+pageSize<=split.length) {
+			leng = pageNum*pageSize+pageSize;
 		}else {
 			leng = list.size();
 		}
-		for(int i= pageNum*pageS; i<leng; i++) {
+		for(int i= pageNum*pageSize; i<leng; i++) {
 			list.add(split[i]);
 		}
-		
-		return list;
+		Map<String,Object> map = new HashMap<>();
+		map.put("totalPages",  split.length/pageSize);
+		map.put("totalCount",  split.length);
+		map.put("data", list);
+		return map;
 	}
 	
 	

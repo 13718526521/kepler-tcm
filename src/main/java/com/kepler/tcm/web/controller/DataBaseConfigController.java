@@ -92,8 +92,8 @@ public class DataBaseConfigController {
 	 * 分页-条件查询
 	 */
 	@RequestMapping(value="/pages",method=RequestMethod.GET)
-	public Map pages(String agentAndServer,String name,int pageNum,int pageSize){
-		return dataBaseConfigService.pages(agentAndServer,name,pageNum,pageSize);
+	public Map pages(String agentAndServer,String name){
+		return dataBaseConfigService.pages(agentAndServer,name);
 	}
 	
 	/**

@@ -1,10 +1,13 @@
 package com.kepler.tcm.service.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -159,9 +162,14 @@ public class PluginServiceImpl implements PluginService {
 		PluginClient pluginClient=new PluginClient(agentAndServer);
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		try {
-			pluginClient.reloadPlugin(id);
-			map.put("CODE", 0);
-			map.put("MESSAGE", "成功");
+			Boolean flag=pluginClient.reloadPlugin(id);
+			if(flag == true){
+				map.put("CODE", 0);
+				map.put("MESSAGE", "成功");
+			}else{
+				map.put("CODE", 1);
+				map.put("MESSAGE", "重载失败");
+			}
 		} catch (Exception e) {
 			map.put("CODE", 1);
 			map.put("MESSAGE", e.getMessage());
@@ -315,6 +323,83 @@ public class PluginServiceImpl implements PluginService {
 		log.info("plugin-uploadedit程序运行时间："+(endTime-startTime)+"ms");
 		return map;
 	}
+
+	public Map querypage(String agentAndServer, String pluginName,int pageNum, int pageSize) throws Exception {
+		long startTime = System.currentTimeMillis();
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		PluginClient pluginClient=new PluginClient(agentAndServer);
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+		List<Map<String, Object>> query_list = new ArrayList<Map<String, Object>>();
+		try {
+		String[][] array=pluginClient.getPlugins();
+		if(array == null || array.length == 0){
+			map.put("CODE",0);
+			map.put("MESSAGE","暂时没有数据");
+			map.put("data", list);
+			return map;
+		}
+		if(StringUtils.isNoneBlank(pluginName)) {
+			for (int i = 0; i < array.length;i++) {
+				String plugin_name=array[i][1];
+				if(plugin_name.indexOf(pluginName)>-1){
+					Map data_map = new HashMap<>();
+					HashMap hashMap = pluginClient.getPluginPropertyById(array[i][0]);
+					data_map.put("id", array[i][0]);
+					data_map.put("PluginName", array[i][1]);
+					data_map.put("EntryClass", array[i][2]);
+					data_map.put("PluginPath", hashMap.get("pluginPath"));
+					data_map.put("PluginMemo", hashMap.get("pluginMemo"));
+					data_map.put("Error", hashMap.get("error"));
+					data_map.put("Version", hashMap.get("version"));
+					data_map.put("FileList", hashMap.get("fileList"));
+					list.add(i, data_map);
+				}
+			}
+			map.put("CODE", 0);
+			map.put("MESSAGE", "成功");
+			map.put("data", list);
+			int totalPages=pageSize==0 ? 1 :(int) Math.ceil((double) list.size() / (double) pageSize);
+			map.put("totalCount", list.size());
+			map.put("totalPages", totalPages);
+			return map;
+		}
+		for (int i = 0; i < array.length; i++) {
+			Map data_map = new HashMap<>();
+			HashMap hashMap = pluginClient.getPluginPropertyById(array[i][0]);
+			data_map.put("id", array[i][0]);
+			data_map.put("PluginName", array[i][1]);
+			data_map.put("EntryClass", array[i][2]);
+			data_map.put("PluginPath", hashMap.get("pluginPath"));
+			data_map.put("PluginMemo", hashMap.get("pluginMemo"));
+			data_map.put("Error", hashMap.get("error"));
+			data_map.put("Version", hashMap.get("version"));
+			data_map.put("FileList", hashMap.get("fileList"));
+			list.add(i, data_map);
+		}
+		int length = 0;
+		if((pageNum * pageSize + pageSize) <= list.size()) {
+			length = pageNum * pageSize + pageSize;
+		}else {
+			length = list.size();
+		}
+		for(int i= pageNum * pageSize; i<length; i++) {
+			query_list.add(list.get(i));
+		}
+		int totalPages=pageSize==0 ? 1 :(int) Math.ceil((double) list.size() / (double) pageSize);
+		map.put("CODE", 0);
+		map.put("MESSAGE", "成功");
+		map.put("data", query_list);
+		map.put("totalCount", list.size());
+		map.put("totalPages", totalPages);
+		return map;
+		} catch (Exception e) {
+			map.put("CODE", 1);
+			map.put("MESSAGE", e.getMessage());
+		}
+		long endTime = System.currentTimeMillis();
+		log.info("plugin-querypage程序运行时间："+(endTime-startTime)+"ms");
+		return map;
+		}
 
 	
 }

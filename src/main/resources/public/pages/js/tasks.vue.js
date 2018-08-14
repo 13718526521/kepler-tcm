@@ -9,12 +9,31 @@ $(function(){
 	//迭代插件下拉框
 	plugSelect();
 	//迭代左侧菜单栏
-	tasksTitle();
-	/*for(var i=0;i<tasksTitleData.length;i++){
-	    $("#",tasksTitleData[i].taskID,"").bind("click",function(event){
-	      console.log($("#",tasksTitleData[i].taskID,"").attr("value"));
-	   });
-	} */ 
+	tasksTitle(); 
+})
+
+$("#selection").click(function(){
+	console.log($(this).val());
+	var taskIds = [];
+	var liList = $("#tasksTitle li");
+	if($(this).val()=="0"){
+		for(var i = 0; i<liList.length; i++){
+			if(liList.eq(i).find("input[type='checkbox']").prop("checked")==false){
+				$(this).text("取消");
+				liList.eq(i).find("input[type='checkbox']").prop("checked",true);
+			}
+		}
+		$(this).val("1");
+	}else{
+		for(var i = 0; i<liList.length; i++){
+			if(liList.eq(i).find("input[type='checkbox']").prop("checked")==true){
+				$(this).text("全选");
+				liList.eq(i).find("input[type='checkbox']").prop("checked",false);
+			}
+		}
+		$(this).val("0");
+	}
+	
 })
 
 //获取url地址参数
@@ -208,6 +227,7 @@ $("#tasksTitle").on("click","li>a",function(){
 	$("#paramsDeploy").hide();
 	$("#runLogs").hide();
 	$("#editTask").hide();
+	$("#runMessage").show();
 	if(tasksTitleData!=null&&tasksTitleData!=""&&tasksTitleData!="undefined"&&aTaskId == tasksTitleData.taskID){
 		return ;
 	}
@@ -284,6 +304,7 @@ function logger(){
 	$("#newTask").hide();
 	$("#runMessage").hide();
 	$("#runLogs").show();
+	log1();
 }
 
 function log1(){
@@ -300,8 +321,8 @@ function log2(){
 	initLogWriter(1);
 }
 
-var vm = new Vue({
-	el: "#logWriter",
+var vm1 = new Vue({
+	el: "#runLogs",
 	data: {
 		tabData: [],
 		current: 1, //当前显示第几页
@@ -348,7 +369,7 @@ var vm = new Vue({
 function initLogWriter(index){
 	var params = {};
 	params.pageNum = index-1;
-    params.pageSize = 5;
+    params.pageSize = $(".pagleft input").val();
     params.pageNo = 0;
     params.types = types;
     params.taskId = aTaskId;
@@ -359,11 +380,15 @@ function initLogWriter(index){
 		data: params,
 		async: false,
 		success: function(data) {
-			var html = [];
-            
-        	for(var i in data){
+			console.log(data);
+			vm1.tabData = data.data;               
+            vm1.showItem = 5;
+            vm1.allpage = data.totalPages;
+            vm1.totalNum = data.totalCount;
+            var html = [];
+        	for(var i in data.data){
         		html.push('<tr class="runMessageTr">',
-	                         '<td class="runMessageTd">',data[i],'</td>',
+	                         '<td class="runMessageTd">',data.data[i],'</td>',
    	                     '</tr>'
    	             )
         	}
@@ -420,9 +445,43 @@ function property(){
 	$("#notSuccTime").val(tasksTitleData.taskProperty.notSuccTime);
 	$("#failAlert").val(tasksTitleData.taskProperty.failAlert);
 	var dis = $("input[name='disabled']:checked").val();
-	$("input[name='disabled']:checked").eq(0).attr("checked",true);
-	$("input[name='opt']:checked").val();
-	$("input[name='opts']:checked").val();
+	if(tasksTitleData.taskProperty.disabled == "0"){
+		$("input.runDisabled[value='0']").prop("checked",true);
+	}else{
+		$("input.runDisabled[value='1']").prop("checked",true);
+	}
+	console.log(tasksTitleData.taskProperty.keepAlertTime);
+	if(tasksTitleData.taskProperty.planType == "1"){
+		$("input.planTypeTime[value='1']").prop("checked",true);
+	}else if(tasksTitleData.taskProperty.planType == "2"){
+		$("input.planTypeTime[value='2']").prop("checked",true);
+	}else if(tasksTitleData.taskProperty.planType == "3"){
+		$("input.planTypeTime[value='3']").prop("checked",true);
+	}else if(tasksTitleData.taskProperty.planType == "4"){
+		$("input.planTypeTime[value='4']").prop("checked",true);
+	}else{
+		$("input.planTypeTime[value='5']").prop("checked",true);
+	}
+	
+	if(tasksTitleData.taskProperty.alertType == "0"){
+		$("input.alertType[value='0']").prop("checked",true);
+	}else if(tasksTitleData.taskProperty.alertType == "1"){
+		$("input.alertType[value='1']").prop("checked",true);
+	}else{
+		$("input.alertType[value='2']").prop("checked",true);
+	}
+	
+	if(tasksTitleData.taskProperty.taskAlert != null && tasksTitleData.taskProperty.taskAlert != ""){
+		$("input.taskAlert[value='1']").prop("checked",true);
+	}
+	
+	if(tasksTitleData.taskProperty.notSuccAlert != null && tasksTitleData.taskProperty.notSuccAlert != ""){
+		$("input.notSuccAlert[value='1']").prop("checked",true);
+	}
+	
+	if(tasksTitleData.taskProperty.failAlert != null && tasksTitleData.taskProperty.failAlert != ""){
+		$("input.failAlert[value='1']").prop("checked",true);
+	}
 }
 
 //新建按钮
@@ -527,19 +586,24 @@ function addParams(){
 	params.notSuccAlert = "";
 	params.notSuccTime = "";
 	params.failAlert = "";
+	
 	if($("input[id='taskAlert']").is(':checked')){
 		params.taskAlert = $("#taskAlert").val();
 		
 		//获取任务监控报警栏单选框的值
 		var radio2 = $("input[name='opts']:checked").val();
+		console.log(radio2);
 		if(radio2==0){
 			params.alertType = 0;
+			params.keepAlertTime = "";
 		}else if(radio2==1){
 			params.alertType = 1;
 			params.keepAlertTime = $("#keepAlertTime").val();
 		}else{
 			params.alertType = 2;
+			params.keepAlertTime = "";
 		}
+		console.log(params.keepAlertTime);
 		if($("input[id='notSuccAlert']").is(':checked')){
 			params.notSuccAlert = $("#notSuccAlert").val();
 			params.notSuccTime = $("#notSuccTime").val();
@@ -550,13 +614,16 @@ function addParams(){
 	}
 	return params;
 }
-//新建提交
+//新建修改提交
 $(".submit").click(function(){
 	
 	var params = {};
 	params = addParams();
 	params.agentAndServer = agentName;
 	params.taskID = aTaskId;
+	//校验
+	
+	
 	if(type == 0){
 		$.ajax({
 			type: "post",
@@ -603,9 +670,6 @@ $(".submit").click(function(){
 	$("#listenter").show();
 })
 
-//修改
-
-
 //启动任务
 $("#start").click(function(){
 		var arr = new Array();
@@ -616,6 +680,8 @@ $("#start").click(function(){
         $("#tasksTitle :checkbox:checked").each(function(i){
             arr[i] = $(this).val();
             arr1[i] = $(this).attr("value2");
+            console.log(arr[i]);
+            console.log(arr1[i]);
         });
         if(arr == null || arr.length == 0){
         	layer.msg("请先选择要启动的任务", {
@@ -647,6 +713,9 @@ $("#start").click(function(){
         					success: function(data) {
         						if(data){
         							suc = suc + arr[j] + "~";
+        							$("#tasksTitle li input[value="+arr[j]+"]").attr("value2","0");
+        							$("#tasksTitle li input[value="+arr[j]+"]").parent("li").find("span.opt-picture i").removeClass("fa-pause").addClass("fa-play");
+        							console.log(arr[j]);
         						}else{
         							err = err + arr[j] + "~";
         						}
@@ -671,7 +740,8 @@ $("#start").click(function(){
     			});
     		  },2000);
         }
-        tasksTitle();
+        //tasksTitle();
+        
 })
 
 //停止任务
@@ -708,6 +778,9 @@ $("#stop").click(function(){
         		success: function(data) {
         			if(data == 0){
         				suc = suc + arr[j] + "~";
+        				$("#tasksTitle li input[value="+arr[j]+"]").attr("value2","1");
+        				$("#tasksTitle li input[value="+arr[j]+"]").parent("li").find("span.opt-picture i").removeClass("fa-play").addClass("fa-pause");
+        				console.log(2);
         			}else{
         				err = err + arr[j] + "~";
         			}
@@ -727,7 +800,7 @@ $("#stop").click(function(){
     			});
     		  },2000);
         }
-        tasksTitle();
+       // tasksTitle();
 })
 
 //删除任务
@@ -754,6 +827,7 @@ $("#remove").click(function(){
         		success: function(data) {
         			if(data == 0){
         				suc = suc + arr[j] + "~";
+        				$("#tasksTitle li input[value="+arr[j]+"]").parent("li").remove();
         			}else{
         				err = err + arr[j] + "~";
         			}
@@ -773,7 +847,7 @@ $("#remove").click(function(){
     			});
     		  },2000);
         }
-        tasksTitle();
+        //tasksTitle();
 })
 
 //监控任务

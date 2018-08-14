@@ -149,7 +149,7 @@
                         </tr>
 					</tbody>
 				</table>
-				<div class="pagleft" v-cloak>
+				<!-- <div class="pagleft" v-cloak>
 					共{{totalNum}}条数据 每页显示&nbsp;<input type="text" value="10" class="form-control" />&nbsp;条数据 第{{current}}/{{allpage}}页
 				</div>
 				<ul class="pagination pagination-sm" v-cloak>
@@ -166,7 +166,7 @@
 					<li>
 						<a href="#">共{{allpage}}页</a>
 					</li>
-				</ul>
+				</ul> -->
 			</div>
 		</div>
 		<!--添加数据库-->
@@ -182,27 +182,27 @@
 					<div class="modal-body form-inline inputNewData">
 						<div class="form-group">
 							<label>名称：</label>
-							<input type="text" id="dbName" class="form-control input-sm required" :readonly="modelData.readOnly" v-model="modelData.businessName" :style="modelData.readOnly ? '' : (modelData.businessName === '' ? 'background: #FFF3F3 !important;' : 'background: none !important;')" data-container="body" data-toggle="popover" data-placement="right" data-content="" />
+							<input type="text" id="dbName" class="form-control input-sm required"  data-container="body" data-toggle="popover" data-placement="right" data-content="必填项" />
 						</div>
 						<div class="form-group">
 							<label>驱动：</label>
-							<input type="text" id="dbDriver" class="form-control input-sm required" :readonly="modelData.readOnly" v-model="modelData.loginName" :style="modelData.readOnly ? '' : (modelData.loginName === '' ? 'background: #FFF3F3 !important;' : 'background: none !important;')" data-container="body" data-toggle="popover" data-placement="right" data-content="" />
+							<input type="text" id="dbDriver" class="form-control input-sm required"  data-container="body" data-toggle="popover" data-placement="right" data-content="必填项" />
 						</div>
 						<div class="form-group">
 							<label>链接：</label>
-							<input type="text" id = "dbUrl" class="form-control input-sm required" v-model="modelData.password" :style="modelData.password === '' ? 'background: #FFF3F3 !important;' : 'background: none !important;'" data-container="body" data-toggle="popover" data-placement="right" data-content="" placeholder = ""/>
+							<input type="text" id = "dbUrl" class="form-control input-sm required"  data-container="body" data-toggle="popover" data-placement="right" data-content="必填项" placeholder = "jdbc:oracle:thin:@[ipaddress]:[port]:[databasename]"/>
 						</div>
 						<div class="form-group" v-else>
 							<label>用户名：</label>
-							<input type="text" id="dbUser" class="form-control input-sm required"  placeholder = "密码由6~32位数字字母组成"/>
+							<input type="text" id="dbUser" class="form-control input-sm required" data-container="body" data-toggle="popover" data-placement="right" data-content="必填项"  />
 						</div>
 						<div class="form-group">
 							<label>密码：</label>
-							<input type="password" id = "dbPass" class="form-control input-sm required" v-model="modelData.businessType" :style="modelData.businessType === '' ? 'background: #FFF3F3 !important;' : 'background: none !important;'" data-container="body" data-toggle="popover" data-placement="right" data-content="客户类型不能为空" />
+							<input type="password" id = "dbPass" class="form-control input-sm required"  data-container="body" data-toggle="popover" data-placement="right" data-content="必填项" />
 						</div>
 					<div class="modal-footer">
 						<button type="reset" class="btn btn-default btn-sm" data-dismiss="modal">取消</button>
-						<button type="submit" class="btn btn-primary btn-sm submit" data-dismiss="modal">确定</button>
+						<button type="submit" class="btn btn-primary btn-sm submit" >确定</button>
 					</div>
 				</div>
 			</div>

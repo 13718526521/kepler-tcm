@@ -12,6 +12,8 @@ public interface PluginService {
 	
 	Map querydetail(String agentAndServer) throws Exception;
 	
+	Map querypage(String agentAndServer,String pluginName,int pageNum,int pageSize) throws Exception;
+	
 	Map<String, Object> add(String agentAndServer,String id,String pluginName,String pluginMemo,String entryClass) throws Exception;
 
 	Map<String, Object> edit(String agentAndServer,String id,String pluginName,String pluginMemo,String entryClass) throws Exception;

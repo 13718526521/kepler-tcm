@@ -1,6 +1,7 @@
+var server,agentName,serverName,pluginName;
 $(function() {
 	
-	var server=GetQueryString("agentName");
+	server=GetQueryString("agentName");
 	agentName=server.split("@")[0];
 	serverName=server.split("@")[1];
 
@@ -9,7 +10,7 @@ $(function() {
         if(this.value <= 0) {
             this.value = 1;
         }
-        init(1,server);
+        init(1);
     });
 
     $(".required").hover(function() {
@@ -20,7 +21,7 @@ $(function() {
 		$(this).popover('hide');
 	});
     
-	init(1,server);
+	init(1);
 });
 
 function GetQueryString(name) {
@@ -35,14 +36,13 @@ function GetQueryString(name) {
 var vm = new Vue({
 	el: "#app",
 	data: {
-		tabData: [],
-		current: 1, //当前显示第几页
-		showItem: 5,
-		allpage: 13,
-		totalNum: 0,
-		checkAll:false,
-		checkModel:[]
-		
+        tabData: [],
+        current: 0, //当前显示第几页
+        showItem: 0,
+        allpage: 0,
+        totalNum: 0,
+        checkAll:false,
+        checkModel:[]
 	},
 	computed: {
 		pages: function() {
@@ -74,7 +74,6 @@ var vm = new Vue({
 		},
 		//重新载入
 		dataReload: function(id) {
-			var server=GetQueryString("agentName");
 			 $.ajax({
 	              type: "post",
 	              url: util.agent().baseUrl + "/plugin/reload",
@@ -84,11 +83,10 @@ var vm = new Vue({
 	            		  alert(data.MESSAGE);
 	             	  }else{
 	 	         		 layer.msg("重载成功", { time: 1000 });
-	 	         		  init(1,server);
+	 	         		 init(1);
 	             	  }
 	              },
 	      		error: function() {
-	      			alert('请求失败');
 	    		}
 			 });
 /*			$(".reload-modal .modal-title").text('提示信息');
@@ -97,7 +95,6 @@ var vm = new Vue({
 		},
         //修改
 		dataChange: function(ind,pluginName,entryClass) {
-			var server=GetQueryString("agentName");
 			window.location.href="plugins_edit.html?agentName="+server+"&id="+ind;
 /*			$(".new-modal .modal-title").text('插件 - 修改');
 				addChange.modelData = JSON.parse(JSON.stringify(vm.tabData[ind]));
@@ -114,7 +111,6 @@ var vm = new Vue({
         },
         //删除
         dataDelete: function(id) {
-        	var server=GetQueryString("agentName");
         	$(".delete-modal .modal-title").text('提示信息');
 			$(".delete-modal .modal-body>div:nth-child(2)").text(id);
 			$(".delete-modal button[type=submit]").unbind('click').click(function() {
@@ -128,11 +124,10 @@ var vm = new Vue({
 		             	  }else{
 		 	         		 layer.msg("删除成功", { time: 1000 });
 		 	         		  $("#myModel .close").click();
-		 	         		  init(1,server);
+		 	         		  init(1);
 		             	  }
 		              },
 		      		error: function() {
-		      			alert('请求失败');
 		    		}
 				 });
 			});
@@ -143,12 +138,11 @@ var vm = new Vue({
 	}
 });
 $("#query").click(function() {
-	plugin_query = $("#plugin_query").val();
-	alert(plugin_query);
+	pluginName = $("#plugin_query").val();
+	init(1);
 });
 
 $(".add_btn").click(function() {
-	var server=GetQueryString("agentName");
 	window.location.href="plugins_add.html?agentName="+server;
 });
 
@@ -172,12 +166,16 @@ $("#file").change(function(){
     $(this).parent().find("span").html(str);
 });
 
-function init(index,server) {
+function init(index) {
+	$("#plugin_query").val("");
+	var pageNum=index-1;
+    var pageSize = $(".pagleft input").val();
+    $(".loading").show();
 	$.ajax({
-		type: "post",
-		url: util.agent().baseUrl + "/plugin/querydetail",
+		type: "get",
+		url: util.agent().baseUrl + "/plugin/querypage",
 		async: true,
-		data: {"agentAndServer":server},
+		data: {"agentAndServer":server,"pluginName":pluginName,"pageNum":pageNum,"pageSize":pageSize},
 		success: function(data) {
 			if(data.CODE==1){
 				alert(data.MESSAGE);
@@ -200,7 +198,6 @@ function init(index,server) {
 			}
 		},
 		error: function() {
-  			alert('请求失败');
 		}
 	});
 }

@@ -31,15 +31,20 @@ $(function(){
 			if(e == ".class"){
 				$(this).parent().parent().find("input").attr("readOnly",true);
 				$(this).parent().parent().find("input").attr("style","background-color: rgb(210,210,210);");
+				$(this).parent().parent().find("input").attr("placeholder","无");
+				$(this).parent().parent().find("input").val('');
 				$(this).parent().find("input").attr("style","display: none;");
 			}else if( e == ".jar" ){
 				$(this).parent().parent().find("input").attr("readOnly",true);
 				$(this).parent().parent().find("input").attr("style","background-color: rgb(210,210,210);");
+				$(this).parent().parent().find("input").attr("placeholder","无");
+				$(this).parent().parent().find("input").val('');
 				$(this).parent().find("input").attr("style","display: none;");
 			}else{
 				$(this).parent().parent().find("input").attr("readOnly",false);
-				$(this).parent().parent().find("input").attr("placeholder","请填写服务器保存路径");
 				$(this).parent().parent().find("input").attr("style","");
+				$(this).parent().parent().find("input").attr("placeholder","请填写服务器保存路径");
+				$(this).parent().parent().find("input").val('');
 				$(this).parent().find("input").attr("style","display: none;");
 			}
 		});
@@ -124,15 +129,20 @@ $("#file1").change(function(){
 	if(e == ".class"){
 		$(this).parent().parent().find("input").attr("readOnly",true);
 		$(this).parent().parent().find("input").attr("style","background-color: rgb(210,210,210);");
+		$(this).parent().parent().find("input").attr("placeholder","无");
+		$(this).parent().parent().find("input").val('');
 		$(this).parent().find("input").attr("style","display: none;");
 	}else if( e == ".jar" ){
 		$(this).parent().parent().find("input").attr("readOnly",true);
 		$(this).parent().parent().find("input").attr("style","background-color: rgb(210,210,210);");
+		$(this).parent().parent().find("input").attr("placeholder","无");
+		$(this).parent().parent().find("input").val('');
 		$(this).parent().find("input").attr("style","display: none;");
 	}else{
 		$(this).parent().parent().find("input").attr("readOnly",false);
-		$(this).parent().parent().find("input").attr("placeholder","请填写服务器保存路径");
 		$(this).parent().parent().find("input").attr("style","");
+		$(this).parent().parent().find("input").attr("placeholder","请填写服务器保存路径");
+		$(this).parent().parent().find("input").val('');
 		$(this).parent().find("input").attr("style","display: none;");
 	}
 });

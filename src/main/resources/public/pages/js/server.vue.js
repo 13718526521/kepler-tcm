@@ -257,13 +257,13 @@ function agentconnect(id,agent,port){
         data: {"agent":agent,"port":port},
         success: function(data) {
         	if(data.CODE==1){
-        		document.getElementById("agent_flag_"+id).setAttribute("class","fa fa-remove");
-        		document.getElementById("agent_flag_"+id).setAttribute("style","margin-right: 10px;color:red;");
-        		document.getElementById("agent_flag_"+id).setAttribute("value",data.MESSAGE);
+        		$("#agent_flag_"+id).attr("class","fa fa-remove");
+        		$("#agent_flag_"+id).attr("style","margin-right: 10px;color:red;");
+        		$("#agent_flag_"+id).attr("value",data.MESSAGE);
         	}else{
-        		document.getElementById("agent_flag_"+id).setAttribute("class","fa fa-check");
-        		document.getElementById("agent_flag_"+id).setAttribute("style","margin-right: 10px;color:green;");
-        		document.getElementById("agent_btn_"+id).disabled="";
+        		$("#agent_flag_"+id).attr("class","fa fa-check");
+        		$("#agent_flag_"+id).attr("style","margin-right: 10px;color:green;");
+        		$("#agent_btn_"+id).removeAttr("disabled");
         	}
         },
 		error: function() {

@@ -14,7 +14,7 @@ $(function(){
 					'<label for="newfile'+_num+'" class="btn btn-primary" style="width: 100px;">请选择文件</label> ',
 					'<input type="file" id="newfile'+_num+'" name="file" style="display: none;"/> ',
 					'<span id="plugin_fileName" style="margin-left: 10px;">未选择任何文件</span>',
-					'<button class="btn btn-primary" id="file_del_'+_num+'" onclick="delFile('+_num+')">删除</button>',
+					'<button class="btn btn-primary" id="file_del_'+_num+'" onclick="delFile('+_num+')" style="float: right;">删除</button>',
 					'</td>',
 				'</tr>'
 		)
@@ -36,34 +36,42 @@ $(function(){
 				$(this).parent().parent().find("input").attr("readOnly",true);
 				$(this).parent().parent().find("input").attr("style","background-color: rgb(210,210,210);");
 				$(this).parent().parent().find("input").attr("placeholder","无");
+				$(this).parent().parent().find("input:first").val('');
 				$(this).parent().find("input").attr("style","display: none;");
 			}else if( e == ".jar" ){
 				$(this).parent().parent().find("input").attr("readOnly",true);
 				$(this).parent().parent().find("input").attr("style","background-color: rgb(210,210,210);");
 				$(this).parent().parent().find("input").attr("placeholder","无");
+				$(this).parent().parent().find("input:first").val('');
 				$(this).parent().find("input").attr("style","display: none;");
 			}else{
 				$(this).parent().parent().find("input").attr("readOnly",false);
 				$(this).parent().parent().find("input").attr("style","");
 				$(this).parent().parent().find("input").attr("placeholder","请填写服务器保存路径");
+				$(this).parent().parent().find("input:first").val('');
 				$(this).parent().find("input").attr("style","display: none;");
 			}
 		});
 	});
 	
 	$(".submit").click(function(){
+		var entry_class=$("#entryClass").val();
+		if(entry_class == '' || entry_class == "")
+			return;
 		for (var int = 0; int <= _num; int++) {
 			var f=$("#newfile"+int).val();
 			if(f==''){
 				return;
 			}
 		}
-		var entry_class=$("#entryClass").val();
-		if(entry_class == '' || entry_class == "")
-			return;
+		var file_arr=[];
+		$("#field").find("tr").each(function(){
+			file_arr.push($(this).find("td:first input").val());
+		});
 		var server=GetQueryString("agentName");
 		var form = new FormData(document.getElementById("pluginFormedit"));
 		form.append("agentAndServer", server);
+		form.append("fileArray", file_arr);
 		$.ajax({
 			 url:util.agent().baseUrl + "/plugin/uploadedit",
 			 type:"post",
@@ -71,6 +79,8 @@ $(function(){
 			 processData:false,
 			 contentType:false,
 			 success:function(data){
+				 console.log(data);
+				 
 	       	  if(data.CODE==1){
 	       		  alert(data.MESSAGE);
 	       	  }else{
@@ -81,44 +91,12 @@ $(function(){
 	      	 error: function() {
 	      	 }
 		 });
-
 	});
 
 	$(".reset").click(function(){
 		var server=GetQueryString("agentName");
 		window.location.href="plugins.html?agentName="+server;
 	});
-	
-	$("#newfile0").change(function(){
-		var file;
-		if(this.files && this.files[0]) {
-			file = this.files[0];
-		} else if(this.files && this.files.item(0)) {
-			file = this.files.item(0);
-		}
-		$(this).parent().find("span").html(file.name);
-		var i=file.name.lastIndexOf(".");
-		var e="";
-		if(i >= 0)
-		e=file.name.substring(i).toLowerCase();
-		if(e == ".class"){
-			$(this).parent().parent().find("input").attr("readOnly",true);
-			$(this).parent().parent().find("input").attr("style","background-color: rgb(210,210,210);");
-			$(this).parent().parent().find("input").attr("placeholder","无");
-			$(this).parent().find("input").attr("style","display: none;");
-		}else if( e == ".jar" ){
-			$(this).parent().parent().find("input").attr("readOnly",true);
-			$(this).parent().parent().find("input").attr("style","background-color: rgb(210,210,210);");
-			$(this).parent().parent().find("input").attr("placeholder","无");
-			$(this).parent().find("input").attr("style","display: none;");
-		}else{
-			$(this).parent().parent().find("input").attr("readOnly",false);
-			$(this).parent().parent().find("input").attr("style","");
-			$(this).parent().parent().find("input").attr("placeholder","请填写服务器保存路径");
-			$(this).parent().find("input").attr("style","display: none;");
-		}
-	});
-
 });
 
 function GetProperty(server,id){
@@ -137,29 +115,14 @@ function GetProperty(server,id){
 	   		var data=data.fileList;
 	   		var arr=[];
 	   		for (var i in data){
-				var f=data[i].lastIndexOf(".");
-				var e="";
-				var val='';
-				if(f >= 0)
-				e=data[i].substring(f).toLowerCase();
-				var server=GetQueryString("agentName");
-				serverName=server.split("@")[1];
-				var path="../servers/"+serverName+"/plugins"+"/"+id;
-				if(e == ".class" ){
-					val="无";
-				}else if(e == ".jar" ){
-					val="无";
-				}else{
-					val=path;
-				}
 	   			arr.push(
 	   					'<tr id="field_list'+i+'">',
-	   						'<td><input type="text" name="className" class="form-control" placeholder="'+val+'" value="'+val+'" readonly style="background-color: rgb(210,210,210);"></td>',
+	   						'<td><input type="text" name="className" class="form-control" placeholder="'+data[i].Path+'" value="'+data[i].Path+'" readonly style="background-color: rgb(210,210,210);"></td>',
 	   						'<td>',
 	   						'<label for="file'+i+'" class="btn btn-primary" style="width: 100px;">请选择文件</label> ',
-	   						'<input type="file" id="file'+i+'" name="file" style="display: none;" placeholder="'+val+'" value="'+val+'"/> ',
-	   						'<span id="plugin_fileName" style="margin-left: 10px;">'+data[i]+'</span>',
-	   						'<button class="btn btn-primary" id="file_del_'+i+'" onclick="del_listFile('+i+')">删除</button>',
+	   						'<input type="file" id="file'+i+'" name="file" style="display: none;" placeholder="'+data[i].File+'" value="'+data[i].File+'"/> ',
+	   						'<span id="plugin_fileName" style="margin-left: 10px;">'+data[i].File+'</span>',
+	   						'<button class="btn btn-primary" id="file_del_'+i+'" onclick="del_listFile('+i+')" style="float: right;">删除</button>',
 	   						'</td>',
 	   					'</tr>'
 	   			)
@@ -182,16 +145,19 @@ function GetProperty(server,id){
 						$(this).parent().parent().find("input").attr("readOnly",true);
 						$(this).parent().parent().find("input").attr("style","background-color: rgb(210,210,210);");
 						$(this).parent().parent().find("input").attr("placeholder","无");
+						$(this).parent().parent().find("input:first").val('');
 						$(this).parent().find("input").attr("style","display: none;");
 					}else if( e == ".jar" ){
 						$(this).parent().parent().find("input").attr("readOnly",true);
 						$(this).parent().parent().find("input").attr("style","background-color: rgb(210,210,210);");
 						$(this).parent().parent().find("input").attr("placeholder","无");
+						$(this).parent().parent().find("input:first").val('');
 						$(this).parent().find("input").attr("style","display: none;");
 					}else{
 						$(this).parent().parent().find("input").attr("readOnly",false);
 						$(this).parent().parent().find("input").attr("style","");
 						$(this).parent().parent().find("input").attr("placeholder","请填写服务器保存路径");
+						$(this).parent().parent().find("input:first").val('');
 						$(this).parent().find("input").attr("style","display: none;");
 					}
 				});

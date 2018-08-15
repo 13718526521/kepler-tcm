@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -196,7 +197,10 @@ public class PluginServiceImpl implements PluginService {
 				map.put("MESSAGE", "成功");
 				fileList.setAllText((String) hashMap.get("fileList"));
 				for (int i = 0; i < fileList.getCount(); i++) {
-					list.add(i, fileList.getName(i));
+					Map file_map = new HashMap<>();
+					file_map.put("Path",  fileList.getName(i));
+					file_map.put("File",  fileList.getValue(i));
+					list.add(i, file_map);
 					}
 				map.put("fileList",list);
 				}else{
@@ -240,10 +244,13 @@ public class PluginServiceImpl implements PluginService {
 			class_path="";
 		}
 		for (int i = 0; i < file.length; i++) {
+			String path="";
 			String ext = FileTools.extractFileExt(file[i].getOriginalFilename());
 			if(ext.equalsIgnoreCase(".class")){
+				path=file[i].getOriginalFilename();
 				pluginClient.addPluginFile(file[i].getInputStream(), server,pluginId, class_path+file[i].getOriginalFilename() , -1);
 			}else if(ext.equalsIgnoreCase(".jar")){
+				path=file[i].getOriginalFilename();
 				pluginClient.addPluginFile(file[i].getInputStream(), server,pluginId, file[i].getOriginalFilename() , -1);
 			}else{
 				String className_str=className[i];
@@ -253,9 +260,10 @@ public class PluginServiceImpl implements PluginService {
 				}else{
 					className_path="";
 				}
+				path=className_str;
 				pluginClient.addPluginFile(file[i].getInputStream(), server,pluginId, className_path+file[i].getOriginalFilename() , -1);
 			}
-			fileList.setValue(file[i].getOriginalFilename(), file[i].getOriginalFilename());
+			fileList.setValue(path, file[i].getOriginalFilename());
 		}
 		param_map.put("fileList", fileList.getAllText());
 		try {
@@ -272,7 +280,7 @@ public class PluginServiceImpl implements PluginService {
 	}
 
 	@Override
-	public Map<String, Object> uploadedit(String agentAndServer,Plugin plugin, MultipartFile[] file,String[] className) throws Exception {
+	public Map<String, Object> uploadedit(String agentAndServer,Plugin plugin, MultipartFile[] file,String[] className,String[] fileArray) throws Exception {
 		long startTime = System.currentTimeMillis();
 		String server=agentAndServer.substring(agentAndServer.lastIndexOf("@")+1);
 		PluginClient pluginClient=new PluginClient(agentAndServer);
@@ -290,12 +298,31 @@ public class PluginServiceImpl implements PluginService {
 		}else{
 			class_path="";
 		}
+		HashMap hashMap=pluginClient.getPluginPropertyById(plugin.getPluginid());
+		fileList.setAllText((String) hashMap.get("fileList"));
+		List<String> del_list = new ArrayList<String>();
+		String[] file_array=fileArray;
+		String[] filelist_array = new String[fileList.getCount()];
+		for (int i = 0; i < fileList.getCount(); i++) {
+			filelist_array[i]=fileList.getName(i);
+		}
+		for (String file_list : filelist_array) {
+			if (!ArrayUtils.contains(file_array, file_list)) {
+	            	del_list.add(file_list);
+	            }
+	        }
+		for (int i = 0; i < del_list.size(); i++) {
+			fileList.removeByName(del_list.get(i));
+		}
 		for (int i = 0; i < file.length; i++) {
-			if(file[i].getOriginalFilename().equals("")){}else{
+			if(!("").equals(file[i].getOriginalFilename())){
+				String path="";
 				String ext = FileTools.extractFileExt(file[i].getOriginalFilename());
 				if(ext.equalsIgnoreCase(".class")){
+					path=file[i].getOriginalFilename();
 					pluginClient.addPluginFile(file[i].getInputStream(), server,plugin.getPluginid(), class_path+file[i].getOriginalFilename() , -1);
 				}else if(ext.equalsIgnoreCase(".jar")){
+					path=file[i].getOriginalFilename();
 					pluginClient.addPluginFile(file[i].getInputStream(), server,plugin.getPluginid(), file[i].getOriginalFilename() , -1);
 				}else{
 					String className_str=className[i];
@@ -305,9 +332,10 @@ public class PluginServiceImpl implements PluginService {
 					}else{
 						className_path="";
 					}
+					path=className_str;
 					pluginClient.addPluginFile(file[i].getInputStream(), server,plugin.getPluginid(), className_path+file[i].getOriginalFilename() , -1);
 				}
-				fileList.setValue(file[i].getOriginalFilename(), file[i].getOriginalFilename());
+				fileList.setValue(path, file[i].getOriginalFilename());
 			}
 		}
 		param_map.put("fileList", fileList.getAllText());

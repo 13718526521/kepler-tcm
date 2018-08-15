@@ -68,8 +68,8 @@ public class PluginController {
 	}
 	
 	@RequestMapping(value = "/uploadedit", method = RequestMethod.POST)
-	public Map<String, Object> uploadedit(String agentAndServer,Plugin plugin, MultipartFile[] file,String[] className) throws Exception {
-		return pluginService.uploadedit(agentAndServer,plugin, file,className);
+	public Map<String, Object> uploadedit(String agentAndServer,Plugin plugin, MultipartFile[] file,String[] className,String[] fileArray) throws Exception {
+		return pluginService.uploadedit(agentAndServer,plugin, file,className,fileArray);
 	}
 
 }

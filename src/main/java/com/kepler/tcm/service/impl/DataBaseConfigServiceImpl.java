@@ -1,5 +1,7 @@
 package com.kepler.tcm.service.impl;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import com.kepler.tcm.client.DatabaseClient;
 import com.kepler.tcm.core.server.Database;
+import com.kepler.tcm.core.util.Convert;
 import com.kepler.tcm.service.DataBaseConfigService;
 
 @Service
@@ -26,7 +29,23 @@ public class DataBaseConfigServiceImpl implements DataBaseConfigService{
 	@Override
 	public String getConnection(String agentAndServer,HashMap map) throws Exception {
 		DatabaseClient d = new DatabaseClient(agentAndServer);
-		return d.testConnection(map);
+		//return d.testDatabaseConnection(map);
+		Connection conn = null;
+		try {
+			Class.forName(Convert.toString(map.get("driver")));
+
+			conn = DriverManager.getConnection(Convert.toString(map.get("url")),
+					Convert.toString(map.get("user")), Convert.toString(map.get("pass")));
+			return "连接成功！";
+		} catch (Exception e) {
+			return "失败:" + e;
+		} finally {
+			if (conn != null)
+				try {
+					conn.close();
+				} catch (Exception localException3) {
+				}
+		}
 	}
 	
 	/**

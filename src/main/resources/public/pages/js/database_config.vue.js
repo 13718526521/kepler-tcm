@@ -83,11 +83,11 @@ var vm = new Vue({
 			var data = {};
 			data.name = vm.tabData[ind].name;
 			data.driver = vm.tabData[ind].driver;
-			data.url = vm.tabData[ind].url;
+			data.url = vm.tabData[ind].url+"?useUnicode=true&characterEncoding=utf-8&useSSL=false";
 			data.user = vm.tabData[ind].user;
 			data.pass = vm.tabData[ind].pass;
 			data.agentAndServer=server;
-			console.log(data);
+			
 			$.ajax({
 				type: "post",
 				url: util.agent().baseUrl + "/dataBaseConfig/getConnection.json",
@@ -96,19 +96,24 @@ var vm = new Vue({
 				success: function(data) {
 					console.log(data);
 					$(".loading").hide();
-					layer.msg("连接成功", {
-						time: 1000
-					});
-
+					if(data){
+						layer.msg("连接成功", {
+							time: 1000
+						});
+					}else{
+						layer.msg("连接失败", {
+							time: 1000
+						});
+					}
 					init(1);
-				},
+				}/*,
 				error: function(e) {
 					console.log(e);
 					$(".loading").hide();
 					layer.msg("连接失败", {
 						time: 1000
 					});
-				}
+				}*/
 			});
 		},
         //修改

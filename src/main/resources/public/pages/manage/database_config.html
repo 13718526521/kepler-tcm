@@ -129,7 +129,7 @@
 						<th>驱动</th>
 						<th>链接</th>
                         <th>用户名</th>
-                        <th>密码</th>
+                        <!-- <th>密码</th> -->
                         <th>操作</th>
 					</tr>
 					</thead>
@@ -137,10 +137,10 @@
 						<tr v-for="(tabtr,index) in tabData">
 							<td>{{index+1}}</td>
 			                <td>{{tabtr.name}}</td>
-			                <td>{{tabtr.driver}}</td>
+			                <td style="table-layout:fixed;">{{tabtr.driver}}</td>
 			                <td>{{tabtr.url}}</td>
 			                <td>{{tabtr.user}}</td>
-			                <td>{{tabtr.pass}}</td>
+			                <!-- <td>{{tabtr.pass}}</td> -->
                             <td>
                                 <span class="fa fa-random Check" @click="Check(index)" title="测试连接" data-toggle="modal" style=" padding-right: 10px;"></span>
                                 <span class="fa fa-edit Updatask" @click="Updatask(index,tabtr.id)" title="修改" data-toggle="modal" data-target=".new-modal"  style="color: green;"></span>

@@ -126,21 +126,39 @@
 						   	    </div>
 					   	    </div>
 					   	    <div id="paramsDeploy" style="margin-top: 30px">
-					   	    <table border="1" cellspacing="3" cellpading="3" width="400px" style="border-collapse: collapse;">
-					   	        <tbody>
-					   	             <tr class="runMessageTr">
-					   	                 <td class="runMessageTd">任务名称:</td>
-					   	                 <td>test01</td>
+					   	    <table border="1" cellspacing="3" cellpading="3" width="600px" style="border-collapse: collapse;">
+					   	        <thead>
+					   	            <tr class="runMessageTr">
+					   	                 <td>参数名</td>
+					   	                 <td class="runMessageTd">参数值:</td>
+					   	                 <td>参数说明</td>
+					   	             </tr>
+					   	        </thead>
+					   	        
+					   	        <tbody id="paramsConfig">
+					   	             <!-- <tr class="runMessageTr">
+					   	                 <td>参数名</td>
+					   	                 <td class="runMessageTd">参数值:</td>
+					   	                 <td>参数说明</td>
+					   	             </tr> -->
+					   	             <!-- <tr class="runMessageTr">
+					   	                 <td>ftp</td>
+					   	                 <td class="runMessageTd">
+					   	                     <input type="text" style="width:300px;"/>
+					   	                     <a onclick="open1()" href="javascript:void(0)" class="opt-text">展开多行</a>
+					   	                 </td>
+					   	                 <td>ftp 地址</td>
 					   	             </tr>
 					   	             <tr class="runMessageTr">
-					   	                 <td class="runMessageTd">引用插件:</td>
-					   	                 <td>test01</td>
-					   	             </tr>
-					   	             <tr class="runMessageTr">
-					   	                 <td class="runMessageTd">任务启动时间:</td>
-					   	                 <td>test01</td>
-					   	             </tr>
+					   	                 <td>user</td>
+					   	                 <td class="runMessageTd">
+					   	                     <input type="text" style="width:300px;"/>
+					   	                     <a onclick="open2()" href="javascript:void(0)" class="opt-text">展开多行</a>
+					   	                 </td>
+					   	                 <td>ftp 用户</td>
+					   	             </tr> -->
 					   	        </tbody>
+					   	        <input type="submit" id="submitConfig" value="保存配置" />
 					   	    </table>
 					   	    </div>	
 					   	</div>

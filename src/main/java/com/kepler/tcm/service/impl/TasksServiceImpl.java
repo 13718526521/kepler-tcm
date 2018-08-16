@@ -1,5 +1,6 @@
 package com.kepler.tcm.service.impl;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -167,15 +168,19 @@ public class TasksServiceImpl implements TasksService{
 		map.put("data", list);
 		return map;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+	@Override
+	public void saveConfigProperty(String agentAndServer,HashMap map) throws Exception {
+		TaskClient t = new TaskClient(agentAndServer);
+		t.saveConfigProperty(map);
+	}
+
+	@Override
+	public String[][] getTaskConfig(String agentAndServer,String taskId) throws Exception {
+		TaskClient t = new TaskClient(agentAndServer);
+		String[][] taskConfig = t.getTaskConfig(taskId);
+		return taskConfig;
+	}
 	
 	
 	

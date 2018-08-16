@@ -403,12 +403,92 @@ function initLogWriter(index){
 
 //参数配置
 function paramsDeploy(){
-	$("#runMessage").hide();
-	$("#newTask").hide();
-	$("#runLogs").hide();
-	$("#paramsDeploy").show();
-	
+	var params = {};
+	params.taskId = aTaskId;
+	params.agentAndServer=agentName;
+	$.ajax({
+		type: "get",
+		url: util.agent().baseUrl + "/tasks/getTaskConfig.json",
+		data: params,
+		async: false,
+		success: function(data) {
+			if(data!=null&&data.length>0){
+				$("#runMessage").hide();
+				$("#newTask").hide();
+				$("#runLogs").hide();
+				$("#paramsDeploy").show();
+				var html = [];
+				for(var i in data){
+	        		html.push('<tr class="runMessageTr">',
+  	                           '   <td>',data[i][0],'</td>',
+  	                           '   <td class="runMessageTd">',
+   	                           '   <input data-name="param_'+data[i][0]+'" type="text"  style="width:300px;" value="'+data[i][2]+'"/>',
+   	                           '   <a onclick="open1()" href="javascript:void(0)" class="opt-text">展开多行</a>',
+   	                           '  </td>',
+   	                           '  <td>',data[i][1],'</td>',
+   	                        '</tr>')
+	        	}
+	        			$("#paramsConfig").empty().append(html.join(''));
+			}else{
+				layer.msg("该任务未配置参数", {
+					time: 1000
+				});
+			}
+			
+			
+		}
+    });
 }
+
+//保存参数按钮
+$("#submitConfig").click(function(){
+	var params = "{";
+	var params_arr = [];
+	var input_arr = $("#paramsDeploy table tbody tr input");
+	var name_temp , value_temp;
+	for(var i=0; i<input_arr.length; i++){
+		name_temp = input_arr.eq(i).attr("data-name");
+		value_temp = input_arr.eq(i).val();
+		params_arr.push('"'+name_temp+'"'+":"+'"'+value_temp+'"');
+	}
+	/*params.taskId = aTaskId;
+    params.agentAndServer=agentName;*/ 
+    for(var i=0; i<params_arr.length; i++){
+    	if(i==0){
+    		params = params + params_arr[i];
+    	}else{
+    		params = params + "," + params_arr[i];
+    	}
+    }
+    params = params + ',' +'"taskId":'+'"'+aTaskId +'"'+ ',' + '"agentAndServer":'+'"'+agentName +'"';
+    params = params + "}";
+    params = JSON.parse(params);
+    
+	$.ajax({
+		type: "post",
+		url: util.agent().baseUrl + "/tasks/saveConfigProperty.json",
+		data: params,
+		async: false,
+		success: function(data) {
+			if(data == 0){
+				layer.msg("保存成功", {
+					time: 1000
+				});
+			}else{
+				layer.msg("保存失败", {
+					time: 1000
+				});
+			}
+			
+			
+		},
+		error :function(){
+			
+		}
+    });
+	
+})
+
 
 //任务属性
 function property(){

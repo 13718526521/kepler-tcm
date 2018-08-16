@@ -1,5 +1,6 @@
 package com.kepler.tcm.web.controller;
 
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -199,14 +200,47 @@ public class TasksController {
 	}
 	
 	
+	/**
+	 * 保存参数
+	 */
+	@RequestMapping(value="/saveConfigProperty",method=RequestMethod.POST)
+	public int saveConfigProperty(HttpServletRequest req){
+		Map<String, String[]> parameterMap = req.getParameterMap();
+		HashMap map = new HashMap<>();
+		String agentAndServer = StringUtils.join(parameterMap.get("agentAndServer"));
+		map.put("taskId", StringUtils.join(parameterMap.get("taskId")));
+		//获取所有请求参数
+		Enumeration et = req.getParameterNames();
+		while (et.hasMoreElements()){
+			String name = (String) et.nextElement();
+			if (name.startsWith("param_")){
+				map.put(name.substring(6), req.getParameter(name));
+			}
+		}
+		try {
+			tasksService.saveConfigProperty(agentAndServer, map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 1;
+		}
+		return 0;
+	}
 	
 	
-	
-	
-	
-	
-	
-	
+	/**
+	 * 获取参数
+	 */
+	@RequestMapping(value="/getTaskConfig",method=RequestMethod.GET)
+	public String[][] getTaskConfig(String agentAndServer,String taskId){
+		String[][] taskConfig = null;
+		try {
+			taskConfig = tasksService.getTaskConfig(agentAndServer, taskId);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return taskConfig;
+	}
 	
 	
 }

@@ -1,5 +1,6 @@
 package com.kepler.tcm.service;
 
+import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,4 +31,7 @@ public interface TasksService {
 
 	Map<String,Object> getTaskLog(String agentAndServer,String type, String taskId, int pageNo,int pageNum, int pageSize) throws Exception;
 	
+	public void saveConfigProperty(String agentAndServer,HashMap map) throws Exception;
+	
+	public String[][] getTaskConfig(String agentAndServer,String taskId) throws Exception;
 }

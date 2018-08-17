@@ -96,8 +96,8 @@
 					   	    </div>
 					   	    <div id="runLogs" style="margin-top: 30px">
 						   	    <div>
-						   	        <a onclick="log1()" href="javascript:void(0)" class="opt-text">查看日志一</a>
-						   	        <a onclick="log2()" href="javascript:void(0)" class="opt-text">查看日志二</a>
+						   	        <a id="log1" onclick="log1()" href="javascript:void(0)" class="opt-text">查看日志一</a>
+						   	        <a id="log2" onclick="log2()" href="javascript:void(0)" class="opt-text">查看日志二</a>
 						   	    </div>
 						   	    <table id="logWriter"  width="400px">
 						   	        <tbody id="tBody">
@@ -284,7 +284,7 @@
 								<label>“日志一”输出级别为 </label>
 								<select id="logLevel" class="form-control required activeType" v-model="codeTypeId" data-toggle="popover" data-placement="bottom" data-content="请选择有效活动"/>
 								<option value="DEBUG">-- DEBUG --</option>
-								<option value="INFO">-- INFO --</option>
+								<option value="INFO" selected = "selected">-- INFO --</option>
 								<option value="WARN">-- WARN --</option>
 								<option value="ERROR">-- ERROR --</option>
 								<option value="FATAL">-- FATAL --</option>
@@ -297,7 +297,7 @@
 								<option value="DEBUG">-- DEBUG --</option>
 								<option value="INFO">-- INFO --</option>
 								<option value="WARN">-- WARN --</option>
-								<option value="ERROR">-- ERROR --</option>
+								<option value="ERROR" selected = "selected">-- ERROR --</option>
 								<option value="FATAL">-- FATAL --</option>
 								</select>
 								<div class="trangle"></div>

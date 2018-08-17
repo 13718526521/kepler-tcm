@@ -214,23 +214,8 @@ function tasksTitle(){
 }
 
 
-//......
-$("#tasksTitle").on("click","li>a",function(){
-	aTaskId = $(this).attr("id");
-	aTaskName = $(this).attr("value");
-	var html1 = [];
-	html1.push("<h4 class='task-title' style='font-size: 15px;'>[",aTaskId,"]&nbsp",aTaskName,"</h4>");
-	$("#taskIdName").empty().append(html1.join(''));
-	$("#logTask").show();
-	$("#listenter").hide();
-	$("#newTask").hide();
-	$("#paramsDeploy").hide();
-	$("#runLogs").hide();
-	$("#editTask").hide();
-	$("#runMessage").show();
-	if(tasksTitleData!=null&&tasksTitleData!=""&&tasksTitleData!="undefined"&&aTaskId == tasksTitleData.taskID){
-		return ;
-	}
+//抽一个方法
+function refresh(agentName,aTaskId){
 	$.ajax({
         type: "get",
         data:{"agentAndServer":agentName,"taskId":aTaskId},
@@ -288,6 +273,38 @@ $("#tasksTitle").on("click","li>a",function(){
             $(".loading").hide();
         }
     });
+}
+
+//......
+$("#tasksTitle").on("click","li>a",function(){
+	console.log(222);
+	if($(this).parent("li").find("input[type='checkbox']").prop("checked")==false){
+		$(this).parent("li").find("input[type='checkbox']").prop("checked",true);
+	}else{
+		$(this).parent("li").find("input[type='checkbox']").prop("checked",false);
+	}
+	aTaskId = $(this).attr("id");
+	aTaskName = $(this).attr("value");
+	var html1 = [];
+	html1.push("<h4 class='task-title' style='font-size: 15px;'>[",aTaskId,"]&nbsp",aTaskName,"</h4>");
+	$("#taskIdName").empty().append(html1.join(''));
+	$("#logTask").show();
+	$("#listenter").hide();
+	$("#newTask").hide();
+	$("#paramsDeploy").hide();
+	$("#runLogs").hide();
+	$("#editTask").hide();
+	$("#runMessage").show();
+	/*if(tasksTitleData!=null&&tasksTitleData!=""&&tasksTitleData!="undefined"&&aTaskId == tasksTitleData.taskID){
+		console.log(333);
+		return ;
+	}*/
+	refresh(agentName,aTaskId);
+	
+	//定时器  实时查看监控数据
+	setInterval(function(){
+		refresh(agentName,aTaskId);
+	},5000)
 })
 
 //运行信息
@@ -422,8 +439,8 @@ function paramsDeploy(){
 	        		html.push('<tr class="runMessageTr">',
   	                           '   <td>',data[i][0],'</td>',
   	                           '   <td class="runMessageTd">',
-   	                           '   <input data-name="param_'+data[i][0]+'" type="text"  style="width:300px;" value="'+data[i][1]+'"/>',
-   	                           '   <a onclick="open1()" href="javascript:void(0)" class="opt-text">展开多行</a>',
+   	                           '   <textarea data-name="param_'+data[i][0]+'"  style="width:300px;" value="'+data[i][1]+'"/>',
+   	                           '   <a href="javascript:void(0)" class="opt-text">展开多行</a>',
    	                           '  </td>',
    	                           '  <td>',data[i][2],'</td>',
    	                        '</tr>')
@@ -435,10 +452,19 @@ function paramsDeploy(){
 				});
 			}
 			
-			
 		}
     });
 }
+
+$("#paramsConfig").on("click","a",function(){
+	var heig = $(this).siblings().css("height");;
+	if(heig == "60px"){
+		$(this).siblings().css("height","37px");
+	}else{
+		$(this).siblings().css("height","60px");
+	}
+	
+})
 
 //保存参数按钮
 $("#submitConfig").click(function(){
@@ -1044,6 +1070,7 @@ function init(index) {
 		async: true,
 		data: params,
 		success: function(data) {
+			console.log(data);
 			if(data.error!=null&&data.error!=undefined){
 				$(".loading").hide();
 	            layer.msg("请求异常", {

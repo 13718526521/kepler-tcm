@@ -422,10 +422,10 @@ function paramsDeploy(){
 	        		html.push('<tr class="runMessageTr">',
   	                           '   <td>',data[i][0],'</td>',
   	                           '   <td class="runMessageTd">',
-   	                           '   <input data-name="param_'+data[i][0]+'" type="text"  style="width:300px;" value="'+data[i][2]+'"/>',
+   	                           '   <input data-name="param_'+data[i][0]+'" type="text"  style="width:300px;" value="'+data[i][1]+'"/>',
    	                           '   <a onclick="open1()" href="javascript:void(0)" class="opt-text">展开多行</a>',
    	                           '  </td>',
-   	                           '  <td>',data[i][1],'</td>',
+   	                           '  <td>',data[i][2],'</td>',
    	                        '</tr>')
 	        	}
 	        			$("#paramsConfig").empty().append(html.join(''));

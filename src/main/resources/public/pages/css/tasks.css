@@ -453,9 +453,9 @@ fieldset > legend{
 .runMessageTr {
 	height: 30px;
 }
-.runMessageTd {
+/* .runMessageTd {
 	width : 400px;
-}
+} */
 .logPage {
 	position: relative;
     height: 45px;

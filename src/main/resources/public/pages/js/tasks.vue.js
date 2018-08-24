@@ -10,6 +10,9 @@ $(function(){
 	plugSelect();
 	//迭代左侧菜单栏
 	tasksTitle(); 
+	
+	$("#newTask").hide();
+	$("#listenter").show();
 })
 
 $("#selection").click(function(){
@@ -299,9 +302,9 @@ $("#tasksTitle").on("click","li>a",function(){
 	refresh(agentName,aTaskId);
 	
 	//定时器  实时查看监控数据
-	/*setInterval(function(){
+	setInterval(function(){
 		refresh(agentName,aTaskId);
-	},5000)*/
+	},5000)
 })
 
 //运行信息
@@ -545,6 +548,7 @@ function property(){
 	$("#notSuccAlert").val(tasksTitleData.taskProperty.notSuccAlert);
 	$("#notSuccTime").val(tasksTitleData.taskProperty.notSuccTime);
 	$("#failAlert").val(tasksTitleData.taskProperty.failAlert);
+	console.log(tasksTitleData.taskProperty);
 	var dis = $("input[name='disabled']:checked").val();
 	if(tasksTitleData.taskProperty.disabled == "0"){
 		$("input.runDisabled[value='0']").prop("checked",true);
@@ -606,16 +610,17 @@ $("#newAdd").click(function(){
 	$("#minute4").val("");
 	$("#second4").val("");
 	$("#cron").val("");
-	$("#logLevel").val("");
-	$("#logLevel2").val("");
-	$("#taskTimeout").val("");
+	$("#logLevel").val("INFO");
+	$("#logLevel2").val("ERROR");
+	$("#taskTimeout").val("0");
 	$("#logBackNums").val("");
 	$("#logMaxSize").val("");
-	$("#taskAlert").val("");
+	$("#taskAlert").val("1");
 	$("#keepAlertTime").val("");
 	$("#notSuccAlert").val("");
-	$("#notSuccTime").val("");
+	$("#notSuccTime").val("10");
 	$("#failAlert").val("");
+	$("input.taskAlert[value='1']").prop("checked",true);
 })
 
 //获取新增输入参数
@@ -692,6 +697,7 @@ function addParams(){
 		
 		//获取任务监控报警栏单选框的值
 		var radio2 = $("input[name='opts']:checked").val();
+		console.log(radio2);
 		if(radio2==0){
 			params.alertType = 0;
 			params.keepAlertTime = "";
@@ -710,6 +716,7 @@ function addParams(){
 			params.failAlert = $("#failAlert").val();
 		}
 	}
+	console.log(params.alertType);
 	return params;
 }
 //新建修改提交

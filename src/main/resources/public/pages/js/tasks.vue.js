@@ -13,7 +13,6 @@ $(function(){
 })
 
 $("#selection").click(function(){
-	console.log($(this).val());
 	var taskIds = [];
 	var liList = $("#tasksTitle li");
 	if($(this).val()=="0"){
@@ -223,7 +222,6 @@ function refresh(agentName,aTaskId){
         success: function(data) {
         	tasksTitleData = data;
             var html = [];
-            console.log(data);
             	html.push(
             		'	<table border="1" cellspacing="3" cellpading="3" width="400px" style="border-collapse: collapse;">    ',
 			   	    '    <tbody>                                                                                              ',
@@ -277,7 +275,6 @@ function refresh(agentName,aTaskId){
 
 //......
 $("#tasksTitle").on("click","li>a",function(){
-	console.log(222);
 	if($(this).parent("li").find("input[type='checkbox']").prop("checked")==false){
 		$(this).parent("li").find("input[type='checkbox']").prop("checked",true);
 	}else{
@@ -302,9 +299,9 @@ $("#tasksTitle").on("click","li>a",function(){
 	refresh(agentName,aTaskId);
 	
 	//定时器  实时查看监控数据
-	setInterval(function(){
+	/*setInterval(function(){
 		refresh(agentName,aTaskId);
-	},5000)
+	},5000)*/
 })
 
 //运行信息
@@ -397,7 +394,6 @@ function initLogWriter(index){
 		data: params,
 		async: false,
 		success: function(data) {
-			console.log(data);
 			vm1.tabData = data.data;               
             vm1.showItem = 5;
             vm1.allpage = data.totalPages;
@@ -523,7 +519,6 @@ function property(){
 	$("#paramsDeploy").hide();
 	$("#runLogs").hide();
 	$("#newTask").show();
-	console.log(tasksTitleData);
 	$("#taskName").val(tasksTitleData.taskProperty.taskName);
 	$("#pluginId").val(tasksTitleData.taskProperty.pluginId);
 	$("#databaseId").val(tasksTitleData.taskProperty.databaseId);
@@ -556,7 +551,6 @@ function property(){
 	}else{
 		$("input.runDisabled[value='1']").prop("checked",true);
 	}
-	console.log(tasksTitleData.taskProperty.keepAlertTime);
 	if(tasksTitleData.taskProperty.planType == "1"){
 		$("input.planTypeTime[value='1']").prop("checked",true);
 	}else if(tasksTitleData.taskProperty.planType == "2"){
@@ -698,7 +692,6 @@ function addParams(){
 		
 		//获取任务监控报警栏单选框的值
 		var radio2 = $("input[name='opts']:checked").val();
-		console.log(radio2);
 		if(radio2==0){
 			params.alertType = 0;
 			params.keepAlertTime = "";
@@ -709,7 +702,6 @@ function addParams(){
 			params.alertType = 2;
 			params.keepAlertTime = "";
 		}
-		console.log(params.keepAlertTime);
 		if($("input[id='notSuccAlert']").is(':checked')){
 			params.notSuccAlert = $("#notSuccAlert").val();
 			params.notSuccTime = $("#notSuccTime").val();
@@ -786,8 +778,6 @@ $("#start").click(function(){
         $("#tasksTitle :checkbox:checked").each(function(i){
             arr[i] = $(this).val();
             arr1[i] = $(this).attr("value2");
-            console.log(arr[i]);
-            console.log(arr1[i]);
         });
         if(arr == null || arr.length == 0){
         	layer.msg("请先选择要启动的任务", {
@@ -821,7 +811,7 @@ $("#start").click(function(){
         							suc = suc + arr[j] + "~";
         							$("#tasksTitle li input[value="+arr[j]+"]").attr("value2","0");
         							$("#tasksTitle li input[value="+arr[j]+"]").parent("li").find("span.opt-picture i").removeClass("fa-pause").addClass("fa-play");
-        							console.log(arr[j]);
+        							
         						}else{
         							err = err + arr[j] + "~";
         						}
@@ -886,7 +876,7 @@ $("#stop").click(function(){
         				suc = suc + arr[j] + "~";
         				$("#tasksTitle li input[value="+arr[j]+"]").attr("value2","1");
         				$("#tasksTitle li input[value="+arr[j]+"]").parent("li").find("span.opt-picture i").removeClass("fa-play").addClass("fa-pause");
-        				console.log(2);
+        				
         			}else{
         				err = err + arr[j] + "~";
         			}
@@ -1070,7 +1060,6 @@ function init(index) {
 		async: true,
 		data: params,
 		success: function(data) {
-			console.log(data);
 			if(data.error!=null&&data.error!=undefined){
 				$(".loading").hide();
 	            layer.msg("请求异常", {

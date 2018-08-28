@@ -2,7 +2,10 @@ var agentName,tasksTitleData,aTaskId,aTaskName,type,types;
 $(function(){
 	type=0;
 	agentName = getUrlParam("agentName");
-	
+	var a = agentName.split("@");
+	var html = [];
+	html.push('<h4 class="activity-title"><span class="activity-ico icon_4g"></span><span>',a[1],'</span></h4>');
+	$("#serverName").append(html.join(''));
 	//迭代数据库下拉框
 	dataSelect1();
 	dataSelect2();
@@ -11,8 +14,14 @@ $(function(){
 	//迭代左侧菜单栏
 	tasksTitle(); 
 	
+	/*$("#newTask").hide();
+	$("#listenter").show();*/
+	
+	$("#logTask").hide();
 	$("#newTask").hide();
 	$("#listenter").show();
+	taskRun();
+	init(1);
 })
 
 $("#selection").click(function(){
@@ -814,6 +823,7 @@ $("#start").click(function(){
         					data: {"agentAndServer":agentName,"taskId":arr[j]},
         					async: false,
         					success: function(data) {
+        						console.log(data);
         						if(data){
         							suc = suc + arr[j] + "~";
         							$("#tasksTitle li input[value="+arr[j]+"]").attr("value2","0");

@@ -455,7 +455,7 @@ function init(index) {
 										'<span>'+
 											'代理服务器'+
 										'</span>'+
-										'<span style="margin-left: 10px;"><font color="orange">'+arr[i].agentName+'</font></span>'+
+										'<span style="margin-left: 10px;"><font color="orange">【'+arr[i].agentName+'】</font></span>'+
 											'<span style="margin-left: 10px;">'+
 												'-'+
 											'</span>'+
@@ -494,7 +494,7 @@ function init(index) {
 										'<span>'+
 											'代理服务器'+
 										'</span>'+
-										'<span style="margin-left: 10px;"><font color="orange">'+arr[i].agentName+'</font></span>'+'<span style="margin-left: 10px;">'+
+										'<span style="margin-left: 10px;"><font color="orange">【'+arr[i].agentName+'】</font></span>'+'<span style="margin-left: 10px;">'+
 											'-'+
 										'</span>'+
 										'<span><font color="teal">'+arr[i].memo+'</font></span>'+
